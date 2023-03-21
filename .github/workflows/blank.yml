@@ -115,3 +115,10 @@ jobs:
     # Step: Execute the tests.
     - name: Run tests
       run: mix test
+    
+    - name: Create PLTs
+      if: steps.plt_cache.outputs.cache-hit != 'true'
+      run: mix dialyzer --plt
+
+    - name: Run dialyzer
+      run: mix dialyzer --format github
