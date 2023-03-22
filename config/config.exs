@@ -14,7 +14,11 @@ config :protectora,
 config :protectora, ProtectoraWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "gu3sEtXclDRNVbhXyalez5owbxAgwCbAb6sPJAVMV4IimKnKMz6QXj8ICS0LubwQ",
-  render_errors: [view: ProtectoraWeb.ErrorView, accepts: ~w(html json), layout: false],
+  render_errors: [
+    view: ProtectoraWeb.ErrorView,
+    accepts: ~w(html json),
+    layout: false
+  ],
   pubsub_server: Protectora.PubSub,
   live_view: [signing_salt: "ePM3bvx8"]
 

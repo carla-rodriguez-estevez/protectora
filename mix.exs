@@ -66,7 +66,6 @@ defmodule Protectora.MixProject do
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.deploy": ["esbuild default --minify", "phx.digest"],
       "test.ci": ["ecto.drop", "ecto.create --quiet", "ecto.migrate", "test"]
-
     ]
   end
 end
