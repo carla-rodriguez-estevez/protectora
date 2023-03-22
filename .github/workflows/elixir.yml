@@ -77,5 +77,9 @@ jobs:
         with:
           elixir-version: '1.13.1' # Define the elixir version [required]
           otp-version: '24' # Define the OTP version [required]
+        env:
+          # See:
+          # https://github.com/erlef/setup-beam/blob/master/src/setup-beam.js#L340
+          ImageOS: ubuntu20          
       - run: mix deps.get
       - run: mix test
