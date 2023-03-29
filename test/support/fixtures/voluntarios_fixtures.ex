@@ -12,7 +12,7 @@ defmodule Protectora.VoluntariosFixtures do
       attrs
       |> Enum.into(%{
         contrasinal: "some contrasinal",
-        email: "some email",
+        email: "some@email.com",
         nome: "some nome"
       })
       |> Protectora.Voluntarios.create_voluntario()

@@ -4,8 +4,12 @@ defmodule ProtectoraWeb.VoluntarioLiveTest do
   import Phoenix.LiveViewTest
   import Protectora.VoluntariosFixtures
 
-  @create_attrs %{contrasinal: "some contrasinal", email: "some email", nome: "some nome"}
-  @update_attrs %{contrasinal: "some updated contrasinal", email: "some updated email", nome: "some updated nome"}
+  @create_attrs %{contrasinal: "some contrasinal", email: "some@email.com", nome: "some nome"}
+  @update_attrs %{
+    contrasinal: "some updated contrasinal",
+    email: "someupdated@email.com",
+    nome: "some updated nome"
+  }
   @invalid_attrs %{contrasinal: nil, email: nil, nome: nil}
 
   defp create_voluntario(_) do

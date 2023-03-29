@@ -21,11 +21,11 @@ defmodule Protectora.VoluntariosTest do
     end
 
     test "create_voluntario/1 with valid data creates a voluntario" do
-      valid_attrs = %{contrasinal: "some contrasinal", email: "some email", nome: "some nome"}
+      valid_attrs = %{contrasinal: "some contrasinal", email: "some@email.com", nome: "some nome"}
 
       assert {:ok, %Voluntario{} = voluntario} = Voluntarios.create_voluntario(valid_attrs)
       assert voluntario.contrasinal == "some contrasinal"
-      assert voluntario.email == "some email"
+      assert voluntario.email == "some@email.com"
       assert voluntario.nome == "some nome"
     end
 
@@ -35,17 +35,27 @@ defmodule Protectora.VoluntariosTest do
 
     test "update_voluntario/2 with valid data updates the voluntario" do
       voluntario = voluntario_fixture()
-      update_attrs = %{contrasinal: "some updated contrasinal", email: "some updated email", nome: "some updated nome"}
 
-      assert {:ok, %Voluntario{} = voluntario} = Voluntarios.update_voluntario(voluntario, update_attrs)
+      update_attrs = %{
+        contrasinal: "some updated contrasinal",
+        email: "someupdated@email.com",
+        nome: "some updated nome"
+      }
+
+      assert {:ok, %Voluntario{} = voluntario} =
+               Voluntarios.update_voluntario(voluntario, update_attrs)
+
       assert voluntario.contrasinal == "some updated contrasinal"
-      assert voluntario.email == "some updated email"
+      assert voluntario.email == "someupdated@email.com"
       assert voluntario.nome == "some updated nome"
     end
 
     test "update_voluntario/2 with invalid data returns error changeset" do
       voluntario = voluntario_fixture()
-      assert {:error, %Ecto.Changeset{}} = Voluntarios.update_voluntario(voluntario, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Voluntarios.update_voluntario(voluntario, @invalid_attrs)
+
       assert voluntario == Voluntarios.get_voluntario!(voluntario.id)
     end
 
