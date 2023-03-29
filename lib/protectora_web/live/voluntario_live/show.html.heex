@@ -1,0 +1,36 @@
+<h1>Show Voluntario</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.voluntario_show_path(@socket, :show, @voluntario)}>
+    <.live_component
+      module={ProtectoraWeb.VoluntarioLive.FormComponent}
+      id={@voluntario.id}
+      title={@page_title}
+      action={@live_action}
+      voluntario={@voluntario}
+      return_to={Routes.voluntario_show_path(@socket, :show, @voluntario)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Nome:</strong>
+    <%= @voluntario.nome %>
+  </li>
+
+  <li>
+    <strong>Contrasinal:</strong>
+    <%= @voluntario.contrasinal %>
+  </li>
+
+  <li>
+    <strong>Email:</strong>
+    <%= @voluntario.email %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.voluntario_show_path(@socket, :edit, @voluntario), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.voluntario_index_path(@socket, :index) %></span>

@@ -1,0 +1,43 @@
+<h1>Listing Voluntario</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.voluntario_index_path(@socket, :index)}>
+    <.live_component
+      module={ProtectoraWeb.VoluntarioLive.FormComponent}
+      id={@voluntario.id || :new}
+      title={@page_title}
+      action={@live_action}
+      voluntario={@voluntario}
+      return_to={Routes.voluntario_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Contrasinal</th>
+      <th>Email</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="voluntario">
+    <%= for voluntario <- @voluntario_collection do %>
+      <tr id={"voluntario-#{voluntario.id}"}>
+        <td><%= voluntario.nome %></td>
+        <td><%= voluntario.contrasinal %></td>
+        <td><%= voluntario.email %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.voluntario_show_path(@socket, :show, voluntario) %></span>
+          <span><%= live_patch "Edit", to: Routes.voluntario_index_path(@socket, :edit, voluntario) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: voluntario.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Voluntario", to: Routes.voluntario_index_path(@socket, :new) %></span>

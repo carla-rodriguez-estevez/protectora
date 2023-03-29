@@ -18,6 +18,12 @@ defmodule ProtectoraWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    live "/voluntario", VoluntarioLive.Index, :index
+    live "/voluntario/new", VoluntarioLive.Index, :new
+    live "/voluntario/:id/edit", VoluntarioLive.Index, :edit
+
+    live "/voluntario/:id", VoluntarioLive.Show, :show
+    live "/voluntario/:id/show/edit", VoluntarioLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
