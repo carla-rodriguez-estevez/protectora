@@ -26,6 +26,14 @@ defmodule ProtectoraWeb.Router do
     live "/voluntario/:id/show/edit", VoluntarioLive.Show, :edit
   end
 
+  scope "/api", ProtectoraWeb do
+    pipe_through :api
+
+    get "/", DefaultController, :index
+
+    resources "/voluntario", VoluntarioController, except: [:new, :edit]
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", ProtectoraWeb do
   #   pipe_through :api
