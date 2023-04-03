@@ -24,6 +24,13 @@ defmodule ProtectoraWeb.Router do
 
     live "/voluntario/:id", VoluntarioLive.Show, :show
     live "/voluntario/:id/show/edit", VoluntarioLive.Show, :edit
+
+    live "/publicacion", PublicacionLive.Index, :index
+    live "/publicacion/new", PublicacionLive.Index, :new
+    live "/publicacion/:id/edit", PublicacionLive.Index, :edit
+
+    live "/publicacion/:id", PublicacionLive.Show, :show
+    live "/publicacion/:id/show/edit", PublicacionLive.Show, :edit
   end
 
   scope "/api", ProtectoraWeb do
@@ -32,6 +39,8 @@ defmodule ProtectoraWeb.Router do
     get "/", DefaultController, :index
 
     resources "/voluntario", VoluntarioController, except: [:new, :edit]
+
+    resources "/publicacion", PublicacionController, except: [:new, :edit]
   end
 
   # Other scopes may use custom stacks.
