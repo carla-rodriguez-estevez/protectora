@@ -1,0 +1,31 @@
+<h1>Show Publicacion</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.publicacion_show_path(@socket, :show, @publicacion)}>
+    <.live_component
+      module={ProtectoraWeb.PublicacionLive.FormComponent}
+      id={@publicacion.id}
+      title={@page_title}
+      action={@live_action}
+      publicacion={@publicacion}
+      return_to={Routes.publicacion_show_path(@socket, :show, @publicacion)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Titulo:</strong>
+    <%= @publicacion.titulo %>
+  </li>
+
+  <li>
+    <strong>Contido:</strong>
+    <%= @publicacion.contido %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.publicacion_show_path(@socket, :edit, @publicacion), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.publicacion_index_path(@socket, :index) %></span>
