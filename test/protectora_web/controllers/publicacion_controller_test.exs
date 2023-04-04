@@ -67,7 +67,8 @@ defmodule ProtectoraWeb.PublicacionControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, publicacion: publicacion} do
-      conn = put(conn, Routes.publicacion_path(conn, :update, publicacion), publicacion: %{})
+      conn =
+        put(conn, Routes.publicacion_path(conn, :update, publicacion), publicacion: @invalid_attrs)
 
       assert json_response(conn, 422)["errors"] != %{}
     end
