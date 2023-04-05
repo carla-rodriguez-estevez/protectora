@@ -6,7 +6,7 @@ defmodule ProtectoraWeb.ColaboradorLiveTest do
 
   @create_attrs %{
     apelidos: "Rodríguez",
-    codigoPostal: 36860,
+    codigoPostal: 36_860,
     dataNacemento: %{day: 14, month: 5, year: 2001},
     direccion: "Canedo 32",
     email: "carla@udc.es",
@@ -18,7 +18,7 @@ defmodule ProtectoraWeb.ColaboradorLiveTest do
 
   @update_attrs %{
     apelidos: "Estévez",
-    codigoPostal: 15001,
+    codigoPostal: 15_001,
     dataNacemento: %{day: 14, month: 5, year: 1997},
     direccion: "Poeta Trillo Figueroa",
     email: "lucia@udc.es",
@@ -30,15 +30,13 @@ defmodule ProtectoraWeb.ColaboradorLiveTest do
 
   @invalid_attrs %{
     apelidos: nil,
-    cantidadeAporte: nil,
     codigoPostal: nil,
     dataNacemento: %{day: 30, month: 2, year: 2023},
     direccion: nil,
     email: nil,
     localidade: nil,
     nome: nil,
-    numeroConta: nil,
-    perioricidade: nil
+    numeroConta: nil
   }
 
   defp create_colaborador(_) do
