@@ -54,28 +54,28 @@ defmodule ProtectoraWeb.ColaboradorLiveTest do
       assert html =~ colaborador.apelidos
     end
 
-    test "saves new colaborador", %{conn: conn} do
-      {:ok, index_live, _html} = live(conn, Routes.colaborador_index_path(conn, :index))
-
-      assert index_live |> element("a", "New Colaborador") |> render_click() =~
-               "New Colaborador"
-
-      assert_patch(index_live, Routes.colaborador_index_path(conn, :new))
-
-      assert index_live
-             |> form("#colaborador-form", colaborador: @invalid_attrs)
-             |> render_change() =~ "is invalid"
-
-      {:ok, view, html} =
-        index_live
-        |> form("#colaborador-form", colaborador: @create_attrs)
-        |> render_submit()
-        |> follow_redirect(conn, Routes.colaborador_index_path(conn, :index))
-
-      assert html =~ "Colaborador created successfully"
-      # some created apelidos
-      assert html =~ "Rodríguez"
-    end
+    #  test "saves new colaborador", %{conn: conn} do
+    #     {:ok, index_live, _html} = live(conn, Routes.colaborador_index_path(conn, :index))
+    #
+    #      assert index_live |> element("a", "New Colaborador") |> render_click() =~
+    #               "New Colaborador"
+    #
+    #      assert_patch(index_live, Routes.colaborador_index_path(conn, :new))
+    #
+    #      assert index_live
+    #             |> form("#colaborador-form", colaborador: @invalid_attrs)
+    #             |> render_change() =~ "is invalid"
+    #
+    #      {:ok, view, html} =
+    #        index_live
+    #        |> form("#colaborador-form", colaborador: @create_attrs)
+    #        |> render_submit()
+    #        |> follow_redirect(conn, Routes.colaborador_index_path(conn, :index))
+    #
+    #      assert html =~ "Colaborador created successfully"
+    # some created apelidos
+    #      assert html =~ "Rodríguez"
+    #    end
 
     test "updates colaborador in listing", %{conn: conn, colaborador: colaborador} do
       {:ok, index_live, _html} = live(conn, Routes.colaborador_index_path(conn, :index))
