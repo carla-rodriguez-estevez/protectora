@@ -1,0 +1,71 @@
+<h1>Show Colaborador</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.colaborador_show_path(@socket, :show, @colaborador)}>
+    <.live_component
+      module={ProtectoraWeb.ColaboradorLive.FormComponent}
+      id={@colaborador.id}
+      title={@page_title}
+      action={@live_action}
+      colaborador={@colaborador}
+      return_to={Routes.colaborador_show_path(@socket, :show, @colaborador)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Nome:</strong>
+    <%= @colaborador.nome %>
+  </li>
+
+  <li>
+    <strong>Apelidos:</strong>
+    <%= @colaborador.apelidos %>
+  </li>
+
+  <li>
+    <strong>Datanacemento:</strong>
+    <%= @colaborador.dataNacemento %>
+  </li>
+
+  <li>
+    <strong>Direccion:</strong>
+    <%= @colaborador.direccion %>
+  </li>
+
+  <li>
+    <strong>Codigopostal:</strong>
+    <%= @colaborador.codigoPostal %>
+  </li>
+
+  <li>
+    <strong>Localidade:</strong>
+    <%= @colaborador.localidade %>
+  </li>
+
+  <li>
+    <strong>Email:</strong>
+    <%= @colaborador.email %>
+  </li>
+
+  <li>
+    <strong>Numeroconta:</strong>
+    <%= @colaborador.numeroConta %>
+  </li>
+
+  <li>
+    <strong>Cantidadeaporte:</strong>
+    <%= @colaborador.cantidadeAporte %>
+  </li>
+
+  <li>
+    <strong>Perioricidade:</strong>
+    <%= @colaborador.perioricidade %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.colaborador_show_path(@socket, :edit, @colaborador), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.colaborador_index_path(@socket, :index) %></span>

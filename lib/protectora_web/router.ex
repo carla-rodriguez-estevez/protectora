@@ -31,6 +31,13 @@ defmodule ProtectoraWeb.Router do
 
     live "/publicacion/:id", PublicacionLive.Show, :show
     live "/publicacion/:id/show/edit", PublicacionLive.Show, :edit
+
+    live "/colaborador", ColaboradorLive.Index, :index
+    live "/colaborador/new", ColaboradorLive.Index, :new
+    live "/colaborador/:id/edit", ColaboradorLive.Index, :edit
+
+    live "/colaborador/:id", ColaboradorLive.Show, :show
+    live "/colaborador/:id/show/edit", ColaboradorLive.Show, :edit
   end
 
   scope "/api", ProtectoraWeb do
@@ -39,7 +46,7 @@ defmodule ProtectoraWeb.Router do
     get "/", DefaultController, :index
 
     resources "/voluntario", VoluntarioController, except: [:new, :edit]
-
+    resources "/colaborador", ColaboradorController, except: [:new, :edit]
     resources "/publicacion", PublicacionController, except: [:new, :edit]
   end
 

@@ -1,0 +1,57 @@
+<h1>Listing Colaborador</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.colaborador_index_path(@socket, :index)}>
+    <.live_component
+      module={ProtectoraWeb.ColaboradorLive.FormComponent}
+      id={@colaborador.id || :new}
+      title={@page_title}
+      action={@live_action}
+      colaborador={@colaborador}
+      return_to={Routes.colaborador_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Apelidos</th>
+      <th>Datanacemento</th>
+      <th>Direccion</th>
+      <th>Codigopostal</th>
+      <th>Localidade</th>
+      <th>Email</th>
+      <th>Numeroconta</th>
+      <th>Cantidadeaporte</th>
+      <th>Perioricidade</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="colaborador">
+    <%= for colaborador <- @colaborador_collection do %>
+      <tr id={"colaborador-#{colaborador.id}"}>
+        <td><%= colaborador.nome %></td>
+        <td><%= colaborador.apelidos %></td>
+        <td><%= colaborador.dataNacemento %></td>
+        <td><%= colaborador.direccion %></td>
+        <td><%= colaborador.codigoPostal %></td>
+        <td><%= colaborador.localidade %></td>
+        <td><%= colaborador.email %></td>
+        <td><%= colaborador.numeroConta %></td>
+        <td><%= colaborador.cantidadeAporte %></td>
+        <td><%= colaborador.perioricidade %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.colaborador_show_path(@socket, :show, colaborador) %></span>
+          <span><%= live_patch "Edit", to: Routes.colaborador_index_path(@socket, :edit, colaborador) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: colaborador.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Colaborador", to: Routes.colaborador_index_path(@socket, :new) %></span>
