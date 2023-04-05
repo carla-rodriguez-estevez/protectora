@@ -6,7 +6,13 @@ defmodule ProtectoraWeb.ColaboradorLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :colaborador_collection, list_colaborador())}
+    if connected?(socket), do: Colaboradores.subscribe()
+
+    assigns = [
+      colaboradores: list_colaborador()
+    ]
+
+    {:ok, assign(socket, assigns)}
   end
 
   @impl true
@@ -38,6 +44,35 @@ defmodule ProtectoraWeb.ColaboradorLive.Index do
     {:ok, _} = Colaboradores.delete_colaborador(colaborador)
 
     {:noreply, assign(socket, :colaborador_collection, list_colaborador())}
+  end
+
+  @impl true
+  def handle_info({:colaborador_created, colaborador}, socket) do
+    {:noreply,
+     update(socket, :colaboradores, fn colaboradores ->
+       [colaborador | colaboradores]
+     end)}
+  end
+
+  @impl true
+
+  def handle_info({:colaborador_updated, colaborador}, socket) do
+    list = Enum.filter(socket.assigns.colaboradores, fn el -> el.id != colaborador.id end)
+
+    {:noreply,
+     update(socket, :colaboradores, fn _colaboradores ->
+       [colaborador | list]
+     end)}
+  end
+
+  def handle_info({:colaborador_deleted, colaborador}, socket) do
+    list = Enum.filter(socket.assigns.colaboradores, fn el -> el.id != colaborador.id end)
+
+    assigns = [
+      colaboradores: list
+    ]
+
+    {:noreply, assign(socket, assigns)}
   end
 
   defp list_colaborador do

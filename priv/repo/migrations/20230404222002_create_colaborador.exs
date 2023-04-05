@@ -17,5 +17,7 @@ defmodule Protectora.Repo.Migrations.CreateColaborador do
 
       timestamps()
     end
+
+    create unique_index(:colaborador, [:email])
   end
 end

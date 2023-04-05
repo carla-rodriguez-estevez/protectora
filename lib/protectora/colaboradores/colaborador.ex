@@ -53,8 +53,10 @@ defmodule Protectora.Colaboradores.Colaborador do
     |> validate_format(:email, @mail_regex)
     |> validate_format(:numeroConta, @account_regex)
     |> validate_current_or_future_date(:dataNacemento)
-    |> validate_number(:cantidadeAporte, greater_than: 0, less_than: 99999)
-    |> validate_number(:codigoPostal, greater_than: 10000, less_than: 99999)
+    |> validate_number(:cantidadeAporte, greater_than: 0, less_than: 99_999)
+    |> validate_number(:codigoPostal, greater_than: 10_000, less_than: 99_999)
+    |> validate_length(:email, max: 160)
+    |> unique_constraint(:email)
   end
 
   def validate_current_or_future_date(%{changes: changes} = changeset, field) do

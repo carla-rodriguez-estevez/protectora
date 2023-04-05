@@ -53,6 +53,7 @@ defmodule Protectora.Colaboradores do
     %Colaborador{}
     |> Colaborador.changeset(attrs)
     |> Repo.insert()
+    |> broadcast(:colaborador_created)
   end
 
   @doc """
@@ -71,6 +72,7 @@ defmodule Protectora.Colaboradores do
     colaborador
     |> Colaborador.changeset(attrs)
     |> Repo.update()
+    |> broadcast(:colaborador_updated)
   end
 
   @doc """
@@ -86,7 +88,7 @@ defmodule Protectora.Colaboradores do
 
   """
   def delete_colaborador(%Colaborador{} = colaborador) do
-    Repo.delete(colaborador)
+    Repo.delete(colaborador) |> broadcast(:colaborador_deleted)
   end
 
   @doc """
@@ -100,5 +102,16 @@ defmodule Protectora.Colaboradores do
   """
   def change_colaborador(%Colaborador{} = colaborador, attrs \\ %{}) do
     Colaborador.changeset(colaborador, attrs)
+  end
+
+  def subscribe do
+    Phoenix.PubSub.subscribe(Protectora.PubSub, "colaboradores")
+  end
+
+  defp broadcast({:error, _reason} = error, _event), do: error
+
+  defp broadcast({:ok, post}, event) do
+    Phoenix.PubSub.broadcast(Protectora.PubSub, "colaboradores", {event, post})
+    {:ok, post}
   end
 end

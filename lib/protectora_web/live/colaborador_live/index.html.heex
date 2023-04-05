@@ -30,8 +30,8 @@
       <th></th>
     </tr>
   </thead>
-  <tbody id="colaborador">
-    <%= for colaborador <- @colaborador_collection do %>
+  <tbody id="colaboradores">
+    <%= for colaborador <- @colaboradores do %>
       <tr id={"colaborador-#{colaborador.id}"}>
         <td><%= colaborador.nome %></td>
         <td><%= colaborador.apelidos %></td>
