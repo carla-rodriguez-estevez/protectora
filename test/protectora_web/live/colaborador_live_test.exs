@@ -66,14 +66,14 @@ defmodule ProtectoraWeb.ColaboradorLiveTest do
              |> form("#colaborador-form", colaborador: @invalid_attrs)
              |> render_change() =~ "is invalid"
 
-      {:ok, _, html} =
+      {:ok, view, html} =
         index_live
         |> form("#colaborador-form", colaborador: @create_attrs)
         |> render_submit()
         |> follow_redirect(conn, Routes.colaborador_index_path(conn, :index))
 
       assert html =~ "Colaborador created successfully"
-      # some  apelidos
+      # some created apelidos
       assert html =~ "Rodríguez"
     end
 
