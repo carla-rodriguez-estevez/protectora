@@ -27,6 +27,7 @@
       <tr id={"publicacion-#{publicacion.id}"}>
         <td><%= publicacion.titulo %></td>
         <td><%= publicacion.contido %></td>
+        <td><%=  "#{ publicacion.inserted_at.day}/#{ publicacion.inserted_at.month}/#{ publicacion.inserted_at.year}" %></td>
 
         <td>
           <span><%= live_redirect "Show", to: Routes.publicacion_show_path(@socket, :show, publicacion) %></span>

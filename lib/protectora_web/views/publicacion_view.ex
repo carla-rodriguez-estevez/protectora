@@ -12,7 +12,10 @@ defmodule ProtectoraWeb.PublicacionView do
 
   def render("publicacion.json", %{publicacion: publicacion}) do
     %{
-      id: publicacion.id
+      id: publicacion.id,
+      titulo: publicacion.titulo,
+      contido: publicacion.contido,
+      publicacionDate: publicacion.inserted_at
     }
   end
 end
