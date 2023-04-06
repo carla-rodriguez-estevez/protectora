@@ -6,7 +6,13 @@ defmodule ProtectoraWeb.AnimalLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :animal_collection, list_animal())}
+    if connected?(socket), do: Animais.subscribe()
+
+    assigns = [
+      animais: list_animal()
+    ]
+
+    {:ok, assign(socket, assigns)}
   end
 
   @impl true
@@ -37,7 +43,36 @@ defmodule ProtectoraWeb.AnimalLive.Index do
     animal = Animais.get_animal!(id)
     {:ok, _} = Animais.delete_animal(animal)
 
-    {:noreply, assign(socket, :animal_collection, list_animal())}
+    {:noreply, assign(socket, :animais, list_animal())}
+  end
+
+  @impl true
+  def handle_info({:animal_created, animal}, socket) do
+    {:noreply,
+     update(socket, :animais, fn animais ->
+       [animal | animais]
+     end)}
+  end
+
+  @impl true
+
+  def handle_info({:animal_updated, animal}, socket) do
+    list = Enum.filter(socket.assigns.animais, fn el -> el.id != animal.id end)
+
+    {:noreply,
+     update(socket, :animais, fn _animais ->
+       [animal | list]
+     end)}
+  end
+
+  def handle_info({:animal_deleted, animal}, socket) do
+    list = Enum.filter(socket.assigns.animais, fn el -> el.id != animal.id end)
+
+    assigns = [
+      animais: list
+    ]
+
+    {:noreply, assign(socket, assigns)}
   end
 
   defp list_animal do

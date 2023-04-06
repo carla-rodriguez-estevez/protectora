@@ -31,7 +31,7 @@
     </tr>
   </thead>
   <tbody id="animal">
-    <%= for animal <- @animal_collection do %>
+    <%= for animal <- @animais do %>
       <tr id={"animal-#{animal.id}"}>
         <td><%= animal.nome %></td>
         <td><%= animal.tipo %></td>

@@ -53,6 +53,7 @@ defmodule Protectora.Animais do
     %Animal{}
     |> Animal.changeset(attrs)
     |> Repo.insert()
+    |> broadcast(:animal_created)
   end
 
   @doc """
@@ -71,6 +72,7 @@ defmodule Protectora.Animais do
     animal
     |> Animal.changeset(attrs)
     |> Repo.update()
+    |> broadcast(:animal_updated)
   end
 
   @doc """
@@ -87,6 +89,7 @@ defmodule Protectora.Animais do
   """
   def delete_animal(%Animal{} = animal) do
     Repo.delete(animal)
+    |> broadcast(:animal_deleted)
   end
 
   @doc """
@@ -100,5 +103,16 @@ defmodule Protectora.Animais do
   """
   def change_animal(%Animal{} = animal, attrs \\ %{}) do
     Animal.changeset(animal, attrs)
+  end
+
+  def subscribe do
+    Phoenix.PubSub.subscribe(Protectora.PubSub, "animais")
+  end
+
+  defp broadcast({:error, _reason} = error, _event), do: error
+
+  defp broadcast({:ok, post}, event) do
+    Phoenix.PubSub.broadcast(Protectora.PubSub, "animais", {event, post})
+    {:ok, post}
   end
 end
