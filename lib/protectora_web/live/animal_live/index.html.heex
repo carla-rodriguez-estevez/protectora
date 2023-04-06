@@ -1,0 +1,57 @@
+<h1>Listing Animal</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.animal_index_path(@socket, :index)}>
+    <.live_component
+      module={ProtectoraWeb.AnimalLive.FormComponent}
+      id={@animal.id || :new}
+      title={@page_title}
+      action={@live_action}
+      animal={@animal}
+      return_to={Routes.animal_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Tipo</th>
+      <th>Peso</th>
+      <th>Madurez</th>
+      <th>Tamano</th>
+      <th>Raza</th>
+      <th>Idade</th>
+      <th>Descricion</th>
+      <th>Eurxente</th>
+      <th>Eespecial</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="animal">
+    <%= for animal <- @animal_collection do %>
+      <tr id={"animal-#{animal.id}"}>
+        <td><%= animal.nome %></td>
+        <td><%= animal.tipo %></td>
+        <td><%= animal.peso %></td>
+        <td><%= animal.madurez %></td>
+        <td><%= animal.tamano %></td>
+        <td><%= animal.raza %></td>
+        <td><%= animal.idade %></td>
+        <td><%= animal.descricion %></td>
+        <td><%= animal.eUrxente %></td>
+        <td><%= animal.eEspecial %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.animal_show_path(@socket, :show, animal) %></span>
+          <span><%= live_patch "Edit", to: Routes.animal_index_path(@socket, :edit, animal) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: animal.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Animal", to: Routes.animal_index_path(@socket, :new) %></span>

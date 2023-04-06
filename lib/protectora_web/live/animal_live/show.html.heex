@@ -1,0 +1,71 @@
+<h1>Show Animal</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.animal_show_path(@socket, :show, @animal)}>
+    <.live_component
+      module={ProtectoraWeb.AnimalLive.FormComponent}
+      id={@animal.id}
+      title={@page_title}
+      action={@live_action}
+      animal={@animal}
+      return_to={Routes.animal_show_path(@socket, :show, @animal)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Nome:</strong>
+    <%= @animal.nome %>
+  </li>
+
+  <li>
+    <strong>Tipo:</strong>
+    <%= @animal.tipo %>
+  </li>
+
+  <li>
+    <strong>Peso:</strong>
+    <%= @animal.peso %>
+  </li>
+
+  <li>
+    <strong>Madurez:</strong>
+    <%= @animal.madurez %>
+  </li>
+
+  <li>
+    <strong>Tamano:</strong>
+    <%= @animal.tamano %>
+  </li>
+
+  <li>
+    <strong>Raza:</strong>
+    <%= @animal.raza %>
+  </li>
+
+  <li>
+    <strong>Idade:</strong>
+    <%= @animal.idade %>
+  </li>
+
+  <li>
+    <strong>Descricion:</strong>
+    <%= @animal.descricion %>
+  </li>
+
+  <li>
+    <strong>Eurxente:</strong>
+    <%= @animal.eUrxente %>
+  </li>
+
+  <li>
+    <strong>Eespecial:</strong>
+    <%= @animal.eEspecial %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.animal_show_path(@socket, :edit, @animal), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.animal_index_path(@socket, :index) %></span>
