@@ -43,7 +43,7 @@ defmodule ProtectoraWeb.ColaboradorLive.Index do
     colaborador = Colaboradores.get_colaborador!(id)
     {:ok, _} = Colaboradores.delete_colaborador(colaborador)
 
-    {:noreply, assign(socket, :colaborador_collection, list_colaborador())}
+    {:noreply, assign(socket, :colaboradores, list_colaborador())}
   end
 
   @impl true

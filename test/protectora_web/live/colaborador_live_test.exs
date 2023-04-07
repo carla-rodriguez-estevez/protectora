@@ -4,17 +4,17 @@ defmodule ProtectoraWeb.ColaboradorLiveTest do
   import Phoenix.LiveViewTest
   import Protectora.ColaboradoresFixtures
 
-  @create_attrs %{
-    apelidos: "Rodríguez",
-    codigoPostal: 36_860,
-    dataNacemento: %{day: 14, month: 5, year: 2001},
-    direccion: "Canedo 32",
-    email: "carla@udc.es",
-    localidade: "Ponteareas",
-    nome: "Carla",
-    numeroConta: "ES12123412341234123412",
-    perioricidade: "Mensual"
-  }
+  ##  @create_attrs %{
+  #    apelidos: "Rodríguez",
+  #    codigoPostal: 36_860,
+  #    dataNacemento: %{day: 14, month: 5, year: 2001},
+  #    direccion: "Canedo 32",
+  #    email: "carla@udc.es",
+  #    localidade: "Ponteareas",
+  #    nome: "Carla",
+  #    numeroConta: "ES12123412341234123412",
+  #    perioricidade: "Mensual"
+  #  }
 
   @update_attrs %{
     apelidos: "Estévez",

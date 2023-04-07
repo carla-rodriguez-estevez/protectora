@@ -5,6 +5,42 @@ defmodule ProtectoraWeb.LiveHelpers do
   alias Phoenix.LiveView.JS
 
   @doc """
+  Renders a datetime using the browser based toLocaleString methods.
+  You must include the datetime you want to use as value can optionally provide format
+  - datetime (the full datetime)
+  - date (just the date)
+  - timeshort (just the time without seconds)
+  - time (just the time with seconds)
+  ## Examples
+  <.datetime value="2022-04-14T22:00:00Z" format="datetime" />
+  14/4/2022 22:00
+  <.datetime value="2022-04-14T22:00:00Z" format="timeshort" />
+  22:00
+  """
+  def datetime(%{value: datetime} = assigns) do
+    format = Map.get(assigns, :format, "datetime")
+
+    locale_fn =
+      case format do
+        "datetime" -> "toLocaleString([],{dateStyle: 'short', timeStyle: 'short'})"
+        "date" -> "toLocaleDateString()"
+        "timeshort" -> "toLocaleTimeString([],{timeStyle: 'short'})"
+        "time" -> "toLocaleTimeString()"
+        _ -> "toLocaleString()"
+      end
+
+    ~H"""
+    <span class="datetime" id={assigns.id} phx-update="ignore" x-data={"{date: new Date('#{datetime}')}"} x-text={"date.#{locale_fn}"}>
+    </span>
+    """
+  end
+
+  def datetime(assigns) do
+    ~H"""
+    """
+  end
+
+  @doc """
   Renders a live component inside a modal.
 
   The rendered modal receives a `:return_to` option to properly update
