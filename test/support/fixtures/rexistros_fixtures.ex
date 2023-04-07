@@ -7,13 +7,18 @@ defmodule Protectora.RexistrosFixtures do
   @doc """
   Generate a rexistro.
   """
+  import Protectora.AnimaisFixtures
+
   def rexistro_fixture(attrs \\ %{}) do
+    animal = animal_fixture()
+
     {:ok, rexistro} =
       attrs
       |> Enum.into(%{
         descricion: "some descricion",
         prezo: 42,
-        titulo: "some titulo"
+        titulo: "some titulo",
+        animal_id: animal.id
       })
       |> Protectora.Rexistros.create_rexistro()
 

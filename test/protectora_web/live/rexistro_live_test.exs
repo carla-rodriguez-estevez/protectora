@@ -3,8 +3,13 @@ defmodule ProtectoraWeb.RexistroLiveTest do
 
   import Phoenix.LiveViewTest
   import Protectora.RexistrosFixtures
+  import Protectora.AnimaisFixtures
 
-  @create_attrs %{descricion: "some descricion", prezo: 42, titulo: "some titulo"}
+  @create_attrs %{
+    descricion: "some descricion",
+    prezo: 42,
+    titulo: "some titulo"
+  }
   @update_attrs %{descricion: "some updated descricion", prezo: 43, titulo: "some updated titulo"}
   @invalid_attrs %{descricion: nil, prezo: nil, titulo: nil}
 
@@ -35,9 +40,18 @@ defmodule ProtectoraWeb.RexistroLiveTest do
              |> form("#rexistro-form", rexistro: @invalid_attrs)
              |> render_change() =~ "can&#39;t be blank"
 
+      animal = animal_fixture()
+
       {:ok, _, html} =
         index_live
-        |> form("#rexistro-form", rexistro: @create_attrs)
+        |> form("#rexistro-form",
+          rexistro: %{
+            descricion: "some descricion",
+            prezo: 42,
+            titulo: "some titulo",
+            animal_id: animal.id
+          }
+        )
         |> render_submit()
         |> follow_redirect(conn, Routes.rexistro_index_path(conn, :index))
 

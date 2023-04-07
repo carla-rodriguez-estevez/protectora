@@ -7,6 +7,7 @@ defmodule Protectora.RexistrosTest do
     alias Protectora.Rexistros.Rexistro
 
     import Protectora.RexistrosFixtures
+    import Protectora.AnimaisFixtures
 
     @invalid_attrs %{descricion: nil, prezo: nil, titulo: nil}
 
@@ -21,7 +22,14 @@ defmodule Protectora.RexistrosTest do
     end
 
     test "create_rexistro/1 with valid data creates a rexistro" do
-      valid_attrs = %{descricion: "some descricion", prezo: 42, titulo: "some titulo"}
+      animal = animal_fixture()
+
+      valid_attrs = %{
+        descricion: "some descricion",
+        prezo: 42,
+        titulo: "some titulo",
+        animal_id: animal.id
+      }
 
       assert {:ok, %Rexistro{} = rexistro} = Rexistros.create_rexistro(valid_attrs)
       assert rexistro.descricion == "some descricion"
@@ -35,7 +43,12 @@ defmodule Protectora.RexistrosTest do
 
     test "update_rexistro/2 with valid data updates the rexistro" do
       rexistro = rexistro_fixture()
-      update_attrs = %{descricion: "some updated descricion", prezo: 43, titulo: "some updated titulo"}
+
+      update_attrs = %{
+        descricion: "some updated descricion",
+        prezo: 43,
+        titulo: "some updated titulo"
+      }
 
       assert {:ok, %Rexistro{} = rexistro} = Rexistros.update_rexistro(rexistro, update_attrs)
       assert rexistro.descricion == "some updated descricion"
