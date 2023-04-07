@@ -16,7 +16,7 @@ defmodule ProtectoraWeb.AnimalController do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.animal_path(conn, :show, animal))
-      |> render("show.json", animal: animal)
+      |> render("created.json", animal: animal)
     end
   end
 

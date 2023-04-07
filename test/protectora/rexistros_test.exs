@@ -26,15 +26,16 @@ defmodule Protectora.RexistrosTest do
 
       valid_attrs = %{
         descricion: "some descricion",
-        prezo: 42,
+        prezo: 120.5,
         titulo: "some titulo",
         animal_id: animal.id
       }
 
       assert {:ok, %Rexistro{} = rexistro} = Rexistros.create_rexistro(valid_attrs)
       assert rexistro.descricion == "some descricion"
-      assert rexistro.prezo == 42
+      assert rexistro.prezo == 120.5
       assert rexistro.titulo == "some titulo"
+      assert rexistro.animal_id == animal.id
     end
 
     test "create_rexistro/1 with invalid data returns error changeset" do
@@ -46,13 +47,13 @@ defmodule Protectora.RexistrosTest do
 
       update_attrs = %{
         descricion: "some updated descricion",
-        prezo: 43,
+        prezo: 456.7,
         titulo: "some updated titulo"
       }
 
       assert {:ok, %Rexistro{} = rexistro} = Rexistros.update_rexistro(rexistro, update_attrs)
       assert rexistro.descricion == "some updated descricion"
-      assert rexistro.prezo == 43
+      assert rexistro.prezo == 456.7
       assert rexistro.titulo == "some updated titulo"
     end
 

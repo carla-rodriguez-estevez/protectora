@@ -28,7 +28,19 @@ defmodule Protectora.AnimaisTest do
 
     test "get_animal!/1 returns the animal with given id" do
       animal = animal_fixture()
-      assert Animais.get_animal!(animal.id) == animal
+      animal_db = Animais.get_animal!(animal.id)
+
+      assert animal.id == animal_db.id
+      assert animal.descricion == animal_db.descricion
+      assert animal.eUrxente == animal_db.eUrxente
+      assert animal.eEspecial == animal_db.eEspecial
+      assert animal.idade == animal_db.idade
+      assert animal.madurez == animal_db.madurez
+      assert animal.nome == animal_db.nome
+      assert animal.peso == animal_db.peso
+      assert animal.raza == animal_db.raza
+      assert animal.tamano == animal_db.tamano
+      assert animal.tipo == animal_db.tipo
     end
 
     test "create_animal/1 with valid data creates a animal" do
@@ -94,13 +106,25 @@ defmodule Protectora.AnimaisTest do
     test "update_animal/2 with invalid data returns error changeset" do
       animal = animal_fixture()
       assert {:error, %Ecto.Changeset{}} = Animais.update_animal(animal, @invalid_attrs)
-      assert animal == Animais.get_animal!(animal.id)
+      animal_db = Animais.get_animal!(animal.id)
+
+      assert animal.id == animal_db.id
+      assert animal.descricion == animal_db.descricion
+      assert animal.eUrxente == animal_db.eUrxente
+      assert animal.eEspecial == animal_db.eEspecial
+      assert animal.idade == animal_db.idade
+      assert animal.madurez == animal_db.madurez
+      assert animal.nome == animal_db.nome
+      assert animal.peso == animal_db.peso
+      assert animal.raza == animal_db.raza
+      assert animal.tamano == animal_db.tamano
+      assert animal.tipo == animal_db.tipo
     end
 
     test "delete_animal/1 deletes the animal" do
       animal = animal_fixture()
       assert {:ok, %Animal{}} = Animais.delete_animal(animal)
-      assert_raise Ecto.NoResultsError, fn -> Animais.get_animal!(animal.id) end
+      assert nil == Animais.get_animal!(animal.id)
     end
 
     test "change_animal/1 returns a animal changeset" do

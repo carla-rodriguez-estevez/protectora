@@ -1,4 +1,6 @@
 defmodule Protectora.RexistrosFixtures do
+  import Protectora.AnimaisFixtures
+
   @moduledoc """
   This module defines test helpers for creating
   entities via the `Protectora.Rexistros` context.
@@ -7,8 +9,6 @@ defmodule Protectora.RexistrosFixtures do
   @doc """
   Generate a rexistro.
   """
-  import Protectora.AnimaisFixtures
-
   def rexistro_fixture(attrs \\ %{}) do
     animal = animal_fixture()
 
@@ -16,7 +16,7 @@ defmodule Protectora.RexistrosFixtures do
       attrs
       |> Enum.into(%{
         descricion: "some descricion",
-        prezo: 42,
+        prezo: 120.5,
         titulo: "some titulo",
         animal_id: animal.id
       })

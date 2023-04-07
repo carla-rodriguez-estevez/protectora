@@ -5,12 +5,12 @@ defmodule ProtectoraWeb.RexistroLiveTest do
   import Protectora.RexistrosFixtures
   import Protectora.AnimaisFixtures
 
-  @create_attrs %{
-    descricion: "some descricion",
-    prezo: 42,
-    titulo: "some titulo"
+  @create_attrs %{descricion: "some descricion", prezo: 120.5, titulo: "some titulo"}
+  @update_attrs %{
+    descricion: "some updated descricion",
+    prezo: 456.7,
+    titulo: "some updated titulo"
   }
-  @update_attrs %{descricion: "some updated descricion", prezo: 43, titulo: "some updated titulo"}
   @invalid_attrs %{descricion: nil, prezo: nil, titulo: nil}
 
   defp create_rexistro(_) do
@@ -47,7 +47,7 @@ defmodule ProtectoraWeb.RexistroLiveTest do
         |> form("#rexistro-form",
           rexistro: %{
             descricion: "some descricion",
-            prezo: 42,
+            prezo: 120.5,
             titulo: "some titulo",
             animal_id: animal.id
           }

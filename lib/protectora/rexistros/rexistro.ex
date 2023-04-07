@@ -6,7 +6,7 @@ defmodule Protectora.Rexistros.Rexistro do
   @foreign_key_type :binary_id
   schema "rexistro" do
     field :descricion, :string
-    field :prezo, :integer
+    field :prezo, :float
     field :titulo, :string
     belongs_to :animal, Protectora.Animais.Animal
 
@@ -18,6 +18,5 @@ defmodule Protectora.Rexistros.Rexistro do
     rexistro
     |> cast(attrs, [:titulo, :descricion, :prezo, :animal_id])
     |> validate_required([:titulo, :descricion, :prezo, :animal_id])
-    |> validate_number(:prezo, greater_than: 0, less_than: 999_999)
   end
 end

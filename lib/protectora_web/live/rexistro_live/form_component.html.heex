@@ -18,7 +18,7 @@
     <%= error_tag f, :descricion %>
 
     <%= label f, :prezo %>
-    <%= number_input f, :prezo %>
+    <%= number_input f, :prezo, step: "0.01" %>
     <%= error_tag f, :prezo %>
 
     <%= label f, :animal_id %>

@@ -6,8 +6,8 @@ defmodule Protectora.Repo.Migrations.CreateRexistro do
       add :id, :binary_id, primary_key: true
       add :titulo, :string
       add :descricion, :string
-      add :prezo, :integer
-      add :animal_id, references(:animal, on_delete: :delete_all, type: :binary_id, null: false)
+      add :prezo, :float
+      add :animal_id, references(:animal, on_delete: :delete_all, null: false, type: :binary_id)
 
       timestamps()
     end

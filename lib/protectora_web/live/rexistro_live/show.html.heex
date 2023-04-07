@@ -30,11 +30,6 @@
     <%= @rexistro.prezo %>
   </li>
 
-  <li>
-    <strong>Animal:</strong>
-    <%= @rexistro.animal_id %>
-  </li>
-
 </ul>
 
 <span><%= live_patch "Edit", to: Routes.rexistro_show_path(@socket, :edit, @rexistro), class: "button" %></span> |
