@@ -1,4 +1,5 @@
 defmodule Protectora.Animais.Animal do
+  alias Protectora.Rexistros
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -15,6 +16,7 @@ defmodule Protectora.Animais.Animal do
     field :raza, :string
     field :tamano, :string
     field :tipo, :string, default: "outro"
+    has_many :rexistro, Protectora.Rexistros.Rexistro
 
     timestamps()
   end
@@ -46,7 +48,7 @@ defmodule Protectora.Animais.Animal do
       :eUrxente,
       :eEspecial
     ])
-    |> validate_number(:idade, greater_than: 0, less_than: 50)
+    |> validate_number(:idade, greater_than: -1, less_than: 50)
     |> validate_number(:peso, greater_than: 0, less_than: 100)
     |> validate_inclusion(:madurez, ["cachorro", "adulto", "ancián"])
     |> validate_inclusion(:tamano, ["grande", "mediano", "pequeno"])

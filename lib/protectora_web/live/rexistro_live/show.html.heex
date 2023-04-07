@@ -1,0 +1,41 @@
+<h1>Show Rexistro</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.rexistro_show_path(@socket, :show, @rexistro)}>
+    <.live_component
+      module={ProtectoraWeb.RexistroLive.FormComponent}
+      id={@rexistro.id}
+      title={@page_title}
+      action={@live_action}
+      rexistro={@rexistro}
+      return_to={Routes.rexistro_show_path(@socket, :show, @rexistro)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Titulo:</strong>
+    <%= @rexistro.titulo %>
+  </li>
+
+  <li>
+    <strong>Descricion:</strong>
+    <%= @rexistro.descricion %>
+  </li>
+
+  <li>
+    <strong>Prezo:</strong>
+    <%= @rexistro.prezo %>
+  </li>
+
+  <li>
+    <strong>Animal:</strong>
+    <%= @rexistro.animal_id %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.rexistro_show_path(@socket, :edit, @rexistro), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.rexistro_index_path(@socket, :index) %></span>

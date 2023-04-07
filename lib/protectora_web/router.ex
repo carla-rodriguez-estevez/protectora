@@ -45,6 +45,13 @@ defmodule ProtectoraWeb.Router do
 
     live "/animal/:id", AnimalLive.Show, :show
     live "/animal/:id/show/edit", AnimalLive.Show, :edit
+
+    live "/rexistro", RexistroLive.Index, :index
+    live "/rexistro/new", RexistroLive.Index, :new
+    live "/rexistro/:id/edit", RexistroLive.Index, :edit
+
+    live "/rexistro/:id", RexistroLive.Show, :show
+    live "/rexistro/:id/show/edit", RexistroLive.Show, :edit
   end
 
   scope "/api", ProtectoraWeb do
