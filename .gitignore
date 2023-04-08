@@ -8,3 +8,9 @@ erl_crash.dump
 *.beam
 /config/*.secret.exs
 .elixir_ls/
+
+# Ignore generated js hook files for components
+assets/js/_hooks/
+
+# Ignore generated CSS file for components
+assets/css/_components.css

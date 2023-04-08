@@ -39,6 +39,8 @@ defmodule ProtectoraWeb do
 
       # Include shared imports and aliases for views
       unquote(view_helpers())
+      import Surface
+      use Surface.View, root: "lib/protectora_web/templates"
     end
   end
 

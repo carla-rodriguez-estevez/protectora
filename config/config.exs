@@ -7,6 +7,10 @@
 # General application configuration
 import Config
 
+config :surface, :components, [
+  {Surface.Components.Form.ErrorTag, default_translator: {ProtectoraWeb.ErrorHelpers, :translate_error}}
+]
+
 config :protectora,
   ecto_repos: [Protectora.Repo]
 
@@ -39,6 +43,11 @@ config :esbuild,
   version: "0.12.18",
   default: [
     args: ~w(js/app.js --bundle --target=es2016 --outdir=../priv/static/assets),
+    cd: Path.expand("../assets", __DIR__),
+    env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
+  ],
+  catalogue: [
+    args: ~w(../deps/surface_catalogue/assets/js/app.js --bundle --target=es2016 --minify --outdir=../priv/static/assets/catalogue),
     cd: Path.expand("../assets", __DIR__),
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
   ]

@@ -25,7 +25,8 @@ config :protectora, ProtectoraWeb.Endpoint,
   watchers: [
     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
     esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
-    tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
+    tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]},
+    esbuild: {Esbuild, :install_and_run, [:catalogue, ~w(--sourcemap=inline --watch)]}
   ]
 
 # ## SSL Support
@@ -54,12 +55,14 @@ config :protectora, ProtectoraWeb.Endpoint,
 
 # Watch static and templates for browser reloading.
 config :protectora, ProtectoraWeb.Endpoint,
+  reloadable_compilers: [:gettext, :elixir, :surface],
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/protectora_web/(live|views)/.*(ex)$",
-      ~r"lib/protectora_web/templates/.*(eex)$"
+      ~r"lib/protectora_web/(live|views|components)/.*(ex|sface|js)$",
+      ~r"lib/protectora_web/templates/.*(eex|sface)$",
+      ~r"priv/catalogue/.*(ex)$"
     ]
   ]
 

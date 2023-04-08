@@ -1,6 +1,8 @@
 defmodule ProtectoraWeb.Router do
   use ProtectoraWeb, :router
 
+  import Surface.Catalogue.Router
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -52,6 +54,7 @@ defmodule ProtectoraWeb.Router do
 
     live "/rexistro/:id", RexistroLive.Show, :show
     live "/rexistro/:id/show/edit", RexistroLive.Show, :edit
+    live "/demo", Demo
   end
 
   scope "/api", ProtectoraWeb do
@@ -96,6 +99,13 @@ defmodule ProtectoraWeb.Router do
       pipe_through :browser
 
       forward "/mailbox", Plug.Swoosh.MailboxPreview
+    end
+  end
+
+  if Mix.env() == :dev do
+    scope "/" do
+      pipe_through :browser
+      surface_catalogue "/catalogue"
     end
   end
 end
