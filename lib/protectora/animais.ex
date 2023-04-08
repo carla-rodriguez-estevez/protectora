@@ -35,7 +35,9 @@ defmodule Protectora.Animais do
       ** (Ecto.NoResultsError)
 
   """
-  def get_animal!(id), do: Repo.get!(Animal, id)
+  def get_animal!(id) do
+    Animal |> where(id: ^id) |> preload([:rexistro]) |> Repo.one()
+  end
 
   @doc """
   Creates a animal.
@@ -88,7 +90,9 @@ defmodule Protectora.Animais do
 
   """
   def delete_animal(%Animal{} = animal) do
-    Repo.delete(animal)
+    deleted_animal = Repo.get!(Animal, animal.id)
+
+    Repo.delete(deleted_animal)
     |> broadcast(:animal_deleted)
   end
 

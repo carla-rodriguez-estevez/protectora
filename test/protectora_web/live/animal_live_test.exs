@@ -42,7 +42,9 @@ defmodule ProtectoraWeb.AnimalLiveTest do
   }
 
   defp create_animal(_) do
-    animal = animal_fixture()
+    animal_fixture_var = animal_fixture()
+    animal = Protectora.Animais.get_animal!(animal_fixture_var.id)
+
     %{animal: animal}
   end
 
