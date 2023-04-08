@@ -1,21 +1,27 @@
-<div id="gastos-list">
+defmodule ProtectoraWeb.AnimalLive.RexistrosList do
+  use ProtectoraWeb, :live_component
 
-  <h1>Listing Rexistro</h1>
+  @impl true
+  def render(assigns) do
+    ~H"""
+    <div id="gastos-list">
 
-  <%= if @live_action in [:new, :edit] do %>
-    <.modal return_to={Routes.rexistro_index_path(@socket, :index)}>
+    <h1>Listing Rexistro</h1>
+
+    <%= if @live_action in [:new, :edit] and @rexistro != nil do %>
+    <.modal return_to={Routes.rexistro_show_path(@socket, :show, @animal)}>
       <.live_component
         module={ProtectoraWeb.RexistroLive.FormComponent}
-        id={@rexistro.id || :new}
+        id={:new}
         title={@page_title}
         action={@live_action}
         rexistro={@rexistro}
-        return_to={Routes.rexistro_index_path(@socket, :index)}
+        return_to={Routes.rexistro_show_path(@socket, :show, @animal)}
       />
     </.modal>
-  <% end %>
+    <% end %>
 
-  <table>
+    <table>
     <thead>
       <tr>
         <th>Titulo</th>
@@ -33,14 +39,16 @@
           <td><%= rexistro.prezo %></td>
 
           <td>
-            <span><%= live_redirect "Show", to: Routes.rexistro_show_path(@socket, :show, rexistro) %></span>
             <span><%= live_patch "Edit", to: Routes.rexistro_index_path(@socket, :edit, rexistro) %></span>
-            <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: rexistro.id, data: [confirm: "Are you sure?"] %></span>
+            <span><%= link "Delete", to: "#", phx_click: "delete-rexistro", phx_value_id: rexistro.id, data: [confirm: "Are you sure?"] %></span>
           </td>
         </tr>
       <% end %>
     </tbody>
-  </table>
+    </table>
 
-  <span><%= live_patch "New Rexistro", to: Routes.rexistro_index_path(@socket, :new) %></span>
-</div>
+    <span><%= live_patch "New Rexistro", to: Routes.rexistro_index_path(@socket, :new) %></span>
+    </div>
+    """
+  end
+end
