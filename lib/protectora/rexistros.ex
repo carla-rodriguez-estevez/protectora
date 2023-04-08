@@ -53,6 +53,7 @@ defmodule Protectora.Rexistros do
     %Rexistro{}
     |> Rexistro.changeset(attrs)
     |> Repo.insert()
+    |> broadcast(:rexistro_created)
   end
 
   @doc """
@@ -71,6 +72,7 @@ defmodule Protectora.Rexistros do
     rexistro
     |> Rexistro.changeset(attrs)
     |> Repo.update()
+    |> broadcast(:rexistro_updated)
   end
 
   @doc """
@@ -87,6 +89,7 @@ defmodule Protectora.Rexistros do
   """
   def delete_rexistro(%Rexistro{} = rexistro) do
     Repo.delete(rexistro)
+    |> broadcast(:rexistro_deleted)
   end
 
   @doc """
@@ -100,5 +103,16 @@ defmodule Protectora.Rexistros do
   """
   def change_rexistro(%Rexistro{} = rexistro, attrs \\ %{}) do
     Rexistro.changeset(rexistro, attrs)
+  end
+
+  def subscribe do
+    Phoenix.PubSub.subscribe(Protectora.PubSub, "rexistros")
+  end
+
+  defp broadcast({:error, _reason} = error, _event), do: error
+
+  defp broadcast({:ok, post}, event) do
+    Phoenix.PubSub.broadcast(Protectora.PubSub, "rexistros", {event, post})
+    {:ok, post}
   end
 end

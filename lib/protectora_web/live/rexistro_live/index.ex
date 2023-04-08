@@ -6,7 +6,13 @@ defmodule ProtectoraWeb.RexistroLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :rexistro_collection, list_rexistro())}
+    if connected?(socket), do: Rexistros.subscribe()
+
+    assigns = [
+      rexistro_collection: list_rexistro()
+    ]
+
+    {:ok, assign(socket, assigns)}
   end
 
   @impl true
@@ -38,6 +44,35 @@ defmodule ProtectoraWeb.RexistroLive.Index do
     {:ok, _} = Rexistros.delete_rexistro(rexistro)
 
     {:noreply, assign(socket, :rexistro_collection, list_rexistro())}
+  end
+
+  @impl true
+  def handle_info({:rexistro_created, rexistro}, socket) do
+    {:noreply,
+     update(socket, :rexistro_collection, fn rexistro_collection ->
+       [rexistro | rexistro_collection]
+     end)}
+  end
+
+  @impl true
+
+  def handle_info({:rexistro_updated, rexistro}, socket) do
+    list = Enum.filter(socket.assigns.rexistro_collection, fn el -> el.id != rexistro.id end)
+
+    {:noreply,
+     update(socket, :rexistro_collection, fn _rexistro_collection ->
+       [rexistro | list]
+     end)}
+  end
+
+  def handle_info({:rexistro_deleted, rexistro}, socket) do
+    list = Enum.filter(socket.assigns.rexistro_collection, fn el -> el.id != rexistro.id end)
+
+    assigns = [
+      rexistro_collection: list
+    ]
+
+    {:noreply, assign(socket, assigns)}
   end
 
   defp list_rexistro do
