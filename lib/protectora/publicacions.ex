@@ -72,10 +72,6 @@ defmodule Protectora.Publicacions do
   defp after_save({:ok, publicacion}, func) do
     photos = func.(publicacion)
 
-    Logger.info("Llegué")
-
-    IO.puts publicacion.id
-
     completed = Enum.each(photos, fn el ->
                                 %ImaxePublicacion{}
                                 |> ImaxePublicacion.changeset(%{path_imaxe: el, publicacion_id: publicacion.id})
@@ -99,12 +95,40 @@ defmodule Protectora.Publicacions do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_publicacion(%Publicacion{} = publicacion, attrs) do
-    publicacion
-    |> Publicacion.changeset(attrs)
-    |> Repo.update()
-    |> broadcast(:post_updated)
+  def update_publicacion(%Publicacion{} = publicacion, attrs,  after_update \\ &{:ok, &1}) do
+
+    Repo.transaction fn ->  update_full_publicacion(publicacion, attrs,after_update) end
+
   end
+
+  defp update_full_publicacion(%Publicacion{} = publicacion, attrs,  after_update \\ &{:ok, &1}) do
+
+        publicacion
+          |> Publicacion.changeset(attrs)
+          |> Repo.update()
+          |> after_update(after_update)
+          |> broadcast(:post_updated)
+  end
+
+  defp after_update({:ok, publicacion}, func) do
+    photos = func.(publicacion)
+
+    case photos do
+      [] -> {:ok, publicacion}
+      list -> Enum.each(publicacion.imaxe_publicacion, fn el -> el |> Repo.delete() end)
+              Enum.each(photos, fn el ->
+                                %ImaxePublicacion{}
+                                |> ImaxePublicacion.changeset(%{path_imaxe: el, publicacion_id: publicacion.id})
+                                |> Repo.insert()
+                          end)
+                  {:ok, %Publicacion{publicacion | imaxe_publicacion: photos}}
+
+
+    end
+
+  end
+
+  defp after_update(error, _func), do: error
 
   @doc """
   Deletes a publicacion.
