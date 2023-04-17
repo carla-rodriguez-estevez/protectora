@@ -96,7 +96,8 @@ defmodule ProtectoraWeb.PublicacionLive.FormComponent do
       dest =  local_path(entry.uuid, entry.client_name)
       File.cp!(meta.path, dest)
 
-      {:ok, dest}
+      path_name = String.replace(dest, "priv/static", "")
+      {:ok, path_name}
 
     end)
 

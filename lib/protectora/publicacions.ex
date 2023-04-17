@@ -38,7 +38,7 @@ defmodule Protectora.Publicacions do
       ** (Ecto.NoResultsError)
 
   """
-  def get_publicacion!(id), do: Repo.get!(Publicacion, id)
+  def get_publicacion!(id), do: Publicacion |> where(id: ^id) |> preload([:imaxe_publicacion]) |> Repo.one()
 
   @doc """
   Creates a publicacion.

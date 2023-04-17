@@ -25,6 +25,13 @@
     <%= @publicacion.contido %>
   </li>
 
+   <%= for entry <- @publicacion.imaxe_publicacion do %>
+      <div class="row">
+        <img src={entry.path_imaxe} height="150"/>
+      </div>
+    <% end %>
+
+
 </ul>
 
 <span><%= live_patch "Edit", to: Routes.publicacion_show_path(@socket, :edit, @publicacion), class: "button" %></span> |
