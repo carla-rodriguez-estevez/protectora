@@ -1,5 +1,8 @@
 import Config
 
+config :protectora,
+   publicacions_directory: "priv/static/publicacions"
+
 # Configure your database
 config :protectora, Protectora.Repo,
   username: "postgres",

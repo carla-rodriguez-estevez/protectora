@@ -9,6 +9,7 @@ defmodule Protectora.Publicacions do
   alias Protectora.Repo
 
   alias Protectora.Publicacions.Publicacion
+  alias Protectora.Publicacions.ImaxePublicacion
 
   @doc """
   Returns the list of publicacion.
@@ -51,12 +52,40 @@ defmodule Protectora.Publicacions do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_publicacion(attrs \\ %{}) do
+  def create_publicacion(attrs \\ %{}, after_save \\ &{:ok, &1}) do
+
+    Repo.transaction fn ->  create_full_publicacion(attrs, after_save) end
+  end
+
+  defp create_full_publicacion(attrs \\ %{}, after_save \\ &{:ok, &1}) do
+    #{res, resp} = after_save({:ok, %Publicacion{}}, after_save)
+
     %Publicacion{}
     |> Publicacion.changeset(attrs)
     |> Repo.insert()
+    |> after_save(after_save)
     |> broadcast(:post_created)
+
+
   end
+
+  defp after_save({:ok, publicacion}, func) do
+    photos = func.(publicacion)
+
+    Logger.info("Llegué")
+
+    IO.puts publicacion.id
+
+    completed = Enum.each(photos, fn el ->
+                                %ImaxePublicacion{}
+                                |> ImaxePublicacion.changeset(%{path_imaxe: el, publicacion_id: publicacion.id})
+                                |> Repo.insert()
+                          end)
+
+    {:ok, %Publicacion{publicacion | imaxe_publicacion: completed}}
+  end
+
+  defp after_save(error, _func), do: error
 
   @doc """
   Updates a publicacion.

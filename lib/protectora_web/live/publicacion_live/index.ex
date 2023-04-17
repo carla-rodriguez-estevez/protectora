@@ -68,7 +68,6 @@ defmodule ProtectoraWeb.PublicacionLive.Index do
 
   def handle_info({:post_deleted, post}, socket) do
     list = Enum.filter(socket.assigns.posts, fn el -> el.id != post.id end)
-    Logger.info("Llegué")
 
     assigns = [
       posts: list
