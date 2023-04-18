@@ -27,7 +27,7 @@ defmodule ProtectoraWeb.PublicacionView do
     }
   end
 
-    def render("publicacion_completa.json", %{publicacion: publicacion}) do
+  def render("publicacion_completa.json", %{publicacion: publicacion}) do
     %{
       id: publicacion.id,
       titulo: publicacion.titulo,
