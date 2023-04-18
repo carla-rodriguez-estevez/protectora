@@ -97,7 +97,7 @@ defmodule Protectora.Publicacions do
   """
   def update_publicacion(%Publicacion{} = publicacion, attrs,  after_update \\ &{:ok, &1}) do
 
-    Repo.transaction fn ->  update_full_publicacion(publicacion, attrs,after_update) end
+    Repo.transaction fn ->  update_full_publicacion(publicacion, attrs, after_update) end
 
   end
 
@@ -143,9 +143,17 @@ defmodule Protectora.Publicacions do
 
   """
   def delete_publicacion(%Publicacion{} = publicacion) do
+    Repo.transaction fn ->  delete_full_publication(publicacion) end
+
+  end
+
+  defp delete_full_publication(%Publicacion{} = publicacion) do
+
+    Enum.each(publicacion.imaxe_publicacion, fn el -> File.rm!(Path.join(["priv/static", el.path_imaxe])) end)
+
     publicacion
-    |> Repo.delete()
-    |> broadcast(:post_deleted)
+      |> Repo.delete()
+      |> broadcast(:post_deleted)
   end
 
   @doc """
