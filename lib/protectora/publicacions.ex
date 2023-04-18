@@ -122,7 +122,7 @@ defmodule Protectora.Publicacions do
                                 |> ImaxePublicacion.changeset(%{path_imaxe: el, publicacion_id: publicacion.id})
                                 |> Repo.insert()
                           end)
-                  {:ok, %Publicacion{publicacion | imaxe_publicacion: photos}}
+                  {:ok, publicacion}
 
 
     end

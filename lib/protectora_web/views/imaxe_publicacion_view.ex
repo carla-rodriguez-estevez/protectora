@@ -21,7 +21,7 @@ defmodule ProtectoraWeb.ImaxePublicacionView do
 
     %{
       id: imaxe_publicacion.id,
-      path_imaxe: file_base_64
+      imaxe64: file_base_64
     }
   end
 end

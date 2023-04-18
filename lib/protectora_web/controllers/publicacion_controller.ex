@@ -58,11 +58,29 @@ defmodule ProtectoraWeb.PublicacionController do
     render(conn, "publicacion_completa.json", publicacion: publicacion)
   end
 
-  def update(conn, %{"id" => id, "publicacion" => publicacion_params}) do
+  defp update_imaxes(publicacion, imaxes) do
+    case imaxes do
+      [] -> publicacion
+      list -> Enum.each(publicacion.imaxe_publicacion, fn el -> File.rm!(Path.join(["priv/static", el.path_imaxe])) end)
+          photos = process_images(list, publicacion.id, [], 0)
+          photos
+    end
+  end
+
+  defp update_completed({:ok, publicacion}, conn) do
+    render(conn, "publicacion_completa.json", publicacion: publicacion)
+  end
+
+  defp update_completed(publicacion, conn) do
+    render(conn, "publicacion_completa.json", publicacion: publicacion)
+  end
+
+  def update(conn, %{"id" => id, "publicacion" => publicacion_params, "imaxes" => imaxes}) do
     publicacion = Publicacions.get_publicacion!(id)
 
-    with {:ok, %Publicacion{} = publicacion} <- Publicacions.update_publicacion(publicacion, publicacion_params) do
-      render(conn, "show.json", publicacion: publicacion)
+    with {:ok, publicacion} <- Publicacions.update_publicacion(publicacion, publicacion_params,  fn publicacion_result -> update_imaxes(publicacion_result, imaxes) end) do
+     # Logger.warn(publicacion)
+      update_completed(publicacion, conn)
     end
   end
 
