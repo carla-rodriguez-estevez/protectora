@@ -15,6 +15,6 @@ defmodule Protectora.Publicacions.ImaxePublicacion do
   def changeset(imaxe_publicacion, attrs) do
     imaxe_publicacion
     |> cast(attrs, [:path_imaxe, :publicacion_id])
-    |> validate_required([:path_imaxe,:publicacion_id])
+    |> validate_required([:path_imaxe, :publicacion_id])
   end
 end

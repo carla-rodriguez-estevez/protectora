@@ -58,15 +58,14 @@ defmodule Protectora.Publicacions do
   end
 
   defp create_full_publicacion(attrs \\ %{}, after_save \\ &{:ok, &1}) do
-    #{res, resp} = after_save({:ok, %Publicacion{}}, after_save)
-
-    %Publicacion{}
+    resp = %Publicacion{}
     |> Publicacion.changeset(attrs)
     |> Repo.insert()
     |> after_save(after_save)
     |> broadcast(:post_created)
 
 
+    resp
   end
 
   defp after_save({:ok, publicacion}, func) do
@@ -78,7 +77,9 @@ defmodule Protectora.Publicacions do
                                 |> Repo.insert()
                           end)
 
-    {:ok, %Publicacion{publicacion | imaxe_publicacion: completed}}
+
+
+    {:ok, publicacion}
   end
 
   defp after_save(error, _func), do: error
