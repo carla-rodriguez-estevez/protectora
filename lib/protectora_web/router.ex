@@ -64,6 +64,8 @@ defmodule ProtectoraWeb.Router do
     resources "/publicacion", PublicacionController, except: [:new, :edit]
     resources "/animal", AnimalController, except: [:new, :edit]
     resources "/rexistro", RexistroController, except: [:new, :edit]
+
+    #resources "/imaxe_publicacion", ImaxePublicacionController, except: [:new, :edit]
   end
 
   # Other scopes may use custom stacks.

@@ -118,9 +118,9 @@ defmodule ProtectoraWeb.AnimalControllerTest do
       conn = delete(conn, Routes.animal_path(conn, :delete, animal))
       assert response(conn, 204)
 
-      conn2 = get(conn, Routes.animal_path(conn, :show, animal))
-
-      assert nil == json_response(conn2, 200)["data"]
+      assert_error_sent 404, fn ->
+        get(conn, Routes.animal_path(conn, :show, animal))
+      end
     end
   end
 

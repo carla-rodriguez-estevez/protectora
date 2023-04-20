@@ -1,5 +1,8 @@
 import Config
 
+config :protectora,
+   publicacions_directory: "priv/static/publicacions"
+
 # Configure your database
 config :protectora, Protectora.Repo,
   username: "postgres",
@@ -55,7 +58,7 @@ config :protectora, ProtectoraWeb.Endpoint,
 config :protectora, ProtectoraWeb.Endpoint,
   live_reload: [
     patterns: [
-      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
+      ~r"priv/static/[^publicacions].*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
       ~r"lib/protectora_web/(live|views)/.*(ex)$",
       ~r"lib/protectora_web/templates/.*(eex)$"
