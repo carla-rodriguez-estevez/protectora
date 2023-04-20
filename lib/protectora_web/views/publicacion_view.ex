@@ -14,8 +14,7 @@ defmodule ProtectoraWeb.PublicacionView do
 
 
   def render("show.json", %{publicacion: publicacion}) do
-    Logger.warn("A la view")
-    %{data: render_one(publicacion, PublicacionView, "publicacion.json")}
+    %{data: render_one(publicacion, PublicacionView, "publicacion_completa.json")}
   end
 
   def render("publicacion.json", %{publicacion: publicacion}) do
@@ -29,11 +28,11 @@ defmodule ProtectoraWeb.PublicacionView do
 
   def render("publicacion_completa.json", %{publicacion: publicacion}) do
     %{
-      id: publicacion.id,
-      titulo: publicacion.titulo,
-      contido: publicacion.contido,
-      publicacionDate: publicacion.inserted_at,
-      imaxes: render_many(publicacion.imaxe_publicacion, ImaxePublicacionView, "show.json")
+        id: publicacion.id,
+        titulo: publicacion.titulo,
+        contido: publicacion.contido,
+        publicacionDate: publicacion.inserted_at,
+        imaxes: render_many(publicacion.imaxe_publicacion, ImaxePublicacionView, "show.json")
     }
   end
 end

@@ -17,22 +17,6 @@ defmodule ProtectoraWeb.PublicacionController do
   end
 
 
-  defp create_completed({:ok, publicacion}, conn) do
-      conn
-      |> put_status(:created)
-      |> put_resp_header("location", Routes.publicacion_path(conn, :show, publicacion))
-      |> render("show.json", publicacion: publicacion)
-
-  end
-
-  defp create_completed(publicacion, conn) do
-      conn
-      |> put_status(:created)
-      |> put_resp_header("location", Routes.publicacion_path(conn, :show, publicacion))
-      |> render("show.json", publicacion: publicacion)
-
-  end
-
   defp process_images_inner(imaxes, id, nombres, n) do
     case imaxes do
         [] -> nombres
@@ -48,14 +32,25 @@ defmodule ProtectoraWeb.PublicacionController do
 
   def create(conn, %{"publicacion" => publicacion_params, "imaxes" => imaxes}) do
 
-    with {:ok,  publicacion } <- Publicacions.create_publicacion(publicacion_params, fn publicacion_result -> process_images(imaxes, publicacion_result.id, [], 0) end) do
-      create_completed(publicacion, conn)
+    with {:ok,  publicacion_created } <- Publicacions.create_publicacion(publicacion_params, fn publicacion_result -> process_images(imaxes, publicacion_result.id, [], 0) end) do
+
+      case publicacion_created do
+        {:error, changeset} -> conn
+                                |> put_status(:unprocessable_entity)
+                                |> put_view(ProtectoraWeb.ChangesetView)
+                                |> render("error.json", changeset: changeset)
+        {_, publicacion} -> conn
+                            |> put_status(:created)
+                            |> put_resp_header("location", Routes.publicacion_path(conn, :show, publicacion))
+                            |> render("created.json", publicacion: publicacion)
+
+      end
     end
   end
 
   def show(conn, %{"id" => id}) do
     publicacion = Publicacions.get_publicacion!(id)
-    render(conn, "publicacion_completa.json", publicacion: publicacion)
+    render(conn, "show.json", publicacion: publicacion)
   end
 
   defp update_imaxes(publicacion, imaxes) do
@@ -67,20 +62,19 @@ defmodule ProtectoraWeb.PublicacionController do
     end
   end
 
-  defp update_completed({:ok, publicacion}, conn) do
-    render(conn, "publicacion_completa.json", publicacion: publicacion)
-  end
-
-  defp update_completed(publicacion, conn) do
-    render(conn, "publicacion_completa.json", publicacion: publicacion)
-  end
 
   def update(conn, %{"id" => id, "publicacion" => publicacion_params, "imaxes" => imaxes}) do
     publicacion = Publicacions.get_publicacion!(id)
 
-    with {:ok, publicacion} <- Publicacions.update_publicacion(publicacion, publicacion_params,  fn publicacion_result -> update_imaxes(publicacion_result, imaxes) end) do
-     # Logger.warn(publicacion)
-      update_completed(publicacion, conn)
+    with {:ok, publicacion_updated} <- Publicacions.update_publicacion(publicacion, publicacion_params,  fn publicacion_result -> update_imaxes(publicacion_result, imaxes) end) do
+      case publicacion_updated do
+        {:error, changeset} -> conn
+                                |> put_status(:unprocessable_entity)
+                                |> put_view(ProtectoraWeb.ChangesetView)
+                                |> render("error.json", changeset: changeset)
+        {_, updated} -> render(conn, "show.json", publicacion: updated)
+
+      end
     end
   end
 

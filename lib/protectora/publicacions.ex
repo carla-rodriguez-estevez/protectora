@@ -38,7 +38,7 @@ defmodule Protectora.Publicacions do
       ** (Ecto.NoResultsError)
 
   """
-  def get_publicacion!(id), do: Publicacion |> where(id: ^id) |> preload([:imaxe_publicacion]) |> Repo.one()
+  def get_publicacion!(id), do: Publicacion |> where(id: ^id) |> preload([:imaxe_publicacion]) |> Repo.one!()
 
   @doc """
   Creates a publicacion.
@@ -104,25 +104,27 @@ defmodule Protectora.Publicacions do
 
   defp update_full_publicacion(%Publicacion{} = publicacion, attrs,  after_update \\ &{:ok, &1}) do
 
-        publicacion
+        resp = publicacion
           |> Publicacion.changeset(attrs)
           |> Repo.update()
           |> after_update(after_update)
           |> broadcast(:post_updated)
+        resp
   end
 
   defp after_update({:ok, publicacion}, func) do
     photos = func.(publicacion)
 
     case photos do
-      [] -> {:ok, publicacion}
-      list -> Enum.each(publicacion.imaxe_publicacion, fn el -> el |> Repo.delete() end)
-              Enum.each(photos, fn el ->
+     [] -> {:ok, publicacion}
+     [h | t] -> Enum.each(publicacion.imaxe_publicacion, fn el -> el |> Repo.delete() end)
+             Enum.each(photos, fn el ->
                                 %ImaxePublicacion{}
                                 |> ImaxePublicacion.changeset(%{path_imaxe: el, publicacion_id: publicacion.id})
                                 |> Repo.insert()
                           end)
                   {:ok, publicacion}
+     _ -> {:ok, publicacion}
 
 
     end

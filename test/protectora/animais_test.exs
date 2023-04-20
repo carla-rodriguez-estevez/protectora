@@ -124,7 +124,9 @@ defmodule Protectora.AnimaisTest do
     test "delete_animal/1 deletes the animal" do
       animal = animal_fixture()
       assert {:ok, %Animal{}} = Animais.delete_animal(animal)
-      assert nil == Animais.get_animal!(animal.id)
+
+      assert_raise Ecto.NoResultsError, fn  -> Animais.get_animal!(animal.id) end
+
     end
 
     test "change_animal/1 returns a animal changeset" do
