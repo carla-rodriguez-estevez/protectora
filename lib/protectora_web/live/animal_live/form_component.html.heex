@@ -49,6 +49,29 @@
     <%= checkbox f, :eEspecial %>
     <%= error_tag f, :eEspecial %>
 
+    <%= live_file_input @uploads.photo %>
+
+    <%= for {_ref, msg} <- @uploads.photo.errors do %>
+      <p class="alert alert-danger"><%= Phoenix.Naming.humanize(msg) %> </p>
+    <% end %>
+
+    <%= for entry <-  @uploads.photo.entries do %>
+      <div class="row">
+        <div class="colunm">
+          <%= live_img_preview entry, height: 80 %>
+        </div>
+
+        <div class="colunm">
+          <progress value={entry.progress} max="100"></progress>
+        </div>
+        <div class="colunm">
+          <a href="#" phx-click="cancel-entry" phx-value-ref={entry.ref} phx-target={@myself}>
+            cancel
+          </a>
+        </div>
+      </div>
+    <% end %>
+
     <div>
       <%= submit "Save", phx_disable_with: "Saving..." %>
     </div>

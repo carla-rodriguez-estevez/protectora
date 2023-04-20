@@ -7,6 +7,7 @@ defmodule Protectora.Animais do
   alias Protectora.Repo
 
   alias Protectora.Animais.Animal
+  alias Protectora.Animais.ImaxeAnimal
 
   @doc """
   Returns the list of animal.
@@ -51,12 +52,33 @@ defmodule Protectora.Animais do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_animal(attrs \\ %{}) do
+  def create_animal(attrs \\ %{}, after_save \\ &{:ok, &1}) do
+
+    Repo.transaction fn ->  create_full_animal(attrs, after_save) end
+  end
+
+  defp create_full_animal(attrs \\ %{}, after_save \\ &{:ok, &1}) do
     %Animal{}
     |> Animal.changeset(attrs)
     |> Repo.insert()
+    |> after_save(after_save)
     |> broadcast(:animal_created)
+
   end
+
+  defp after_save({:ok, animal}, func) do
+    photos = func.(animal)
+
+    completed = Enum.each(photos, fn el ->
+                                %ImaxeAnimal{}
+                                |> ImaxeAnimal.changeset(%{path_imaxe: el, animal_id: animal.id})
+                                |> Repo.insert()
+                          end)
+
+    {:ok, %Animal{animal | imaxe_animal: completed}}
+  end
+
+  defp after_save(error, _func), do: error
 
   @doc """
   Updates a animal.

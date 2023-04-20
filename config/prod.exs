@@ -1,7 +1,8 @@
 import Config
 
 config :protectora,
-  publicacions_directory: System.get_env("POETIC_UPLOADS_DIRECTORY") || "/publicacions"
+  publicacions_directory: System.get_env("PROTECTORA_PUBLICACIONS_DIRECTORY") || "/publicacions"
+  publicacions_directory: System.get_env("PROTECTORA_ANIMAIS_DIRECTORY") || "/animais"
 
 # For production, don't forget to configure the url host
 # to something meaningful, Phoenix uses this information

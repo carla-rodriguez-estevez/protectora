@@ -1,7 +1,8 @@
 import Config
 
 config :protectora,
-   publicacions_directory: "priv/static/publicacions"
+   publicacions_directory: "priv/static/publicacions",
+   animais_directory: "priv/static/animais"
 
 # Configure your database
 config :protectora, Protectora.Repo,

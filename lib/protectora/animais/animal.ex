@@ -17,6 +17,8 @@ defmodule Protectora.Animais.Animal do
     field :tamano, :string
     field :tipo, :string, default: "outro"
     has_many :rexistro, Protectora.Rexistros.Rexistro
+    has_many :imaxe_animal, Protectora.Animais.ImaxeAnimal
+
 
     timestamps()
   end
