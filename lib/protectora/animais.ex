@@ -120,7 +120,7 @@ defmodule Protectora.Animais do
                                 |> ImaxeAnimal.changeset(%{path_imaxe: el, animal_id: animal.id})
                                 |> Repo.insert()
                           end)
-              {:ok, %Animal{animal | imaxe_animal: photos}}
+              {:ok, animal}
 
 
     end

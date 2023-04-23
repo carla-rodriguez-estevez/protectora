@@ -13,7 +13,6 @@ defmodule ProtectoraWeb.AnimalLive.Show do
   def handle_params(%{"id" => id}, _, socket) do
 
     res = Animais.get_animal!(id)
-    Logger.warn(res)
 
     {:noreply,
      socket
