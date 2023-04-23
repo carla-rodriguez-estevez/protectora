@@ -2,6 +2,7 @@ defmodule Protectora.AnimaisTest do
   use Protectora.DataCase
 
   alias Protectora.Animais
+  require Logger
 
   describe "animal" do
     alias Protectora.Animais.Animal
@@ -22,7 +23,22 @@ defmodule Protectora.AnimaisTest do
     }
 
     test "list_animal/0 returns all animal" do
-      animal = animal_fixture()
+      {:ok, {:ok, animal}} =
+        %{}
+        |> Enum.into(%{
+          descricion: "some descricion",
+          eEspecial: true,
+          eUrxente: true,
+          idade: 2,
+          madurez: "cachorro",
+          nome: "some nome",
+          peso: 12,
+          raza: "some raza",
+          tamano: "pequeno",
+          tipo: "can"
+        })
+        |> Protectora.Animais.create_animal(fn _ -> [] end)
+
       assert Animais.list_animal() == [animal]
     end
 
@@ -57,7 +73,7 @@ defmodule Protectora.AnimaisTest do
         tipo: "can"
       }
 
-      assert {:ok, %Animal{} = animal} = Animais.create_animal(valid_attrs)
+      assert {:ok, {:ok, %Animal{} = animal}} = Animais.create_animal(valid_attrs, fn _ -> [] end)
       assert animal.descricion == "some descricion"
       assert animal.eEspecial == true
       assert animal.eUrxente == true
@@ -71,7 +87,8 @@ defmodule Protectora.AnimaisTest do
     end
 
     test "create_animal/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Animais.create_animal(@invalid_attrs)
+      assert {:ok, {:error, %Ecto.Changeset{}}} =
+               Animais.create_animal(@invalid_attrs, fn _ -> [] end)
     end
 
     test "update_animal/2 with valid data updates the animal" do
@@ -90,7 +107,9 @@ defmodule Protectora.AnimaisTest do
         tipo: "cadela"
       }
 
-      assert {:ok, %Animal{} = animal} = Animais.update_animal(animal, update_attrs)
+      assert {:ok, {:ok, %Animal{} = animal}} =
+               Animais.update_animal(animal, update_attrs, fn _ -> [] end)
+
       assert animal.descricion == "Pequena cadela moi querida e cariñosa"
       assert animal.eEspecial == false
       assert animal.eUrxente == false
@@ -105,7 +124,10 @@ defmodule Protectora.AnimaisTest do
 
     test "update_animal/2 with invalid data returns error changeset" do
       animal = animal_fixture()
-      assert {:error, %Ecto.Changeset{}} = Animais.update_animal(animal, @invalid_attrs)
+
+      assert {:ok, {:error, %Ecto.Changeset{}}} =
+               Animais.update_animal(animal, @invalid_attrs, fn _ -> [] end)
+
       animal_db = Animais.get_animal!(animal.id)
 
       assert animal.id == animal_db.id
@@ -123,10 +145,12 @@ defmodule Protectora.AnimaisTest do
 
     test "delete_animal/1 deletes the animal" do
       animal = animal_fixture()
-      assert {:ok, %Animal{}} = Animais.delete_animal(animal)
+      animal_deleted = Animais.get_animal!(animal.id)
+      {:ok, comparable} = Animais.delete_animal(animal_deleted)
 
-      assert_raise Ecto.NoResultsError, fn  -> Animais.get_animal!(animal.id) end
+      assert {:ok, %Animal{}} = comparable
 
+      assert_raise Ecto.NoResultsError, fn -> Animais.get_animal!(animal.id) end
     end
 
     test "change_animal/1 returns a animal changeset" do

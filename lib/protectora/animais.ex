@@ -55,16 +55,16 @@ defmodule Protectora.Animais do
 
   """
   def create_animal(attrs \\ %{}, after_save \\ &{:ok, &1}) do
-
-    Repo.transaction fn ->  create_full_animal(attrs, after_save) end
+    Repo.transaction(fn -> create_full_animal(attrs, after_save) end)
   end
 
   defp create_full_animal(attrs \\ %{}, after_save \\ &{:ok, &1}) do
-    resp = %Animal{}
-    |> Animal.changeset(attrs)
-    |> Repo.insert()
-    |> after_save(after_save)
-    |> broadcast(:animal_created)
+    resp =
+      %Animal{}
+      |> Animal.changeset(attrs)
+      |> Repo.insert()
+      |> after_save(after_save)
+      |> broadcast(:animal_created)
 
     resp
   end
@@ -72,11 +72,12 @@ defmodule Protectora.Animais do
   defp after_save({:ok, animal}, func) do
     photos = func.(animal)
 
-    completed = Enum.each(photos, fn el ->
-                                %ImaxeAnimal{}
-                                |> ImaxeAnimal.changeset(%{path_imaxe: el, animal_id: animal.id})
-                                |> Repo.insert()
-                          end)
+    completed =
+      Enum.each(photos, fn el ->
+        %ImaxeAnimal{}
+        |> ImaxeAnimal.changeset(%{path_imaxe: el, animal_id: animal.id})
+        |> Repo.insert()
+      end)
 
     {:ok, animal}
   end
@@ -95,36 +96,36 @@ defmodule Protectora.Animais do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_animal(%Animal{} = animal, attrs,  after_update \\ &{:ok, &1}) do
-
-    Repo.transaction fn ->  update_full_animal(animal, attrs, after_update) end
+  def update_animal(%Animal{} = animal, attrs, after_update \\ &{:ok, &1}) do
+    Repo.transaction(fn -> update_full_animal(animal, attrs, after_update) end)
   end
 
-  defp update_full_animal(%Animal{} = animal, attrs,  after_update \\ &{:ok, &1}) do
-
+  defp update_full_animal(%Animal{} = animal, attrs, after_update \\ &{:ok, &1}) do
     animal
-      |> Animal.changeset(attrs)
-      |> Repo.update()
-      |> after_update(after_update)
-      |> broadcast(:animal_updated)
+    |> Animal.changeset(attrs)
+    |> Repo.update()
+    |> after_update(after_update)
+    |> broadcast(:animal_updated)
   end
 
   defp after_update({:ok, animal}, func) do
     photos = func.(animal)
 
     case photos do
-      [] -> {:ok, animal}
-      list -> Enum.each(animal.imaxe_animal, fn el -> el |> Repo.delete() end)
-              Enum.each(photos, fn el ->
-                                %ImaxeAnimal{}
-                                |> ImaxeAnimal.changeset(%{path_imaxe: el, animal_id: animal.id})
-                                |> Repo.insert()
-                          end)
-              {:ok, animal}
+      [] ->
+        {:ok, animal}
 
+      _ ->
+        Enum.each(animal.imaxe_animal, fn el -> el |> Repo.delete() end)
 
+        Enum.each(photos, fn el ->
+          %ImaxeAnimal{}
+          |> ImaxeAnimal.changeset(%{path_imaxe: el, animal_id: animal.id})
+          |> Repo.insert()
+        end)
+
+        {:ok, animal}
     end
-
   end
 
   defp after_update(error, _func), do: error
@@ -142,13 +143,13 @@ defmodule Protectora.Animais do
 
   """
   def delete_animal(%Animal{} = animal) do
-
-    Repo.transaction fn ->  delete_full_animal(animal) end
-
+    Repo.transaction(fn -> delete_full_animal(animal) end)
   end
 
   defp delete_full_animal(%Animal{} = animal) do
-    Enum.each(animal.imaxe_animal, fn el -> File.rm!(Path.join(["priv/static", el.path_imaxe])) end)
+    Enum.each(animal.imaxe_animal, fn el ->
+      File.rm!(Path.join(["priv/static", el.path_imaxe]))
+    end)
 
     deleted_animal = Repo.get!(Animal, animal.id)
 
