@@ -1,7 +1,6 @@
 defmodule ProtectoraWeb.PublicacionView do
   use ProtectoraWeb, :view
 
-  require Logger
   alias ProtectoraWeb.{PublicacionView, ImaxePublicacionView}
 
   def render("index.json", %{publicacion: publicacion}) do

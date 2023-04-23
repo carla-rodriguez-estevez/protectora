@@ -8,7 +8,7 @@ defmodule Protectora.AnimaisFixtures do
   Generate a animal.
   """
   def animal_fixture(attrs \\ %{}) do
-    {:ok, animal} =
+    {:ok, {:ok, animal}} =
       attrs
       |> Enum.into(%{
         descricion: "some descricion",
@@ -22,8 +22,8 @@ defmodule Protectora.AnimaisFixtures do
         tamano: "pequeno",
         tipo: "can"
       })
-      |> Protectora.Animais.create_animal()
+      |> Protectora.Animais.create_animal(fn _ -> [] end)
 
-    animal
+    Protectora.Animais.get_animal!(animal.id)
   end
 end

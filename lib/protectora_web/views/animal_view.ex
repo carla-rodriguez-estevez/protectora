@@ -1,6 +1,6 @@
 defmodule ProtectoraWeb.AnimalView do
   use ProtectoraWeb, :view
-  alias ProtectoraWeb.{AnimalView, RexistroView}
+  alias ProtectoraWeb.{AnimalView, RexistroView, ImaxeAnimalView}
 
   def render("index.json", %{animal: animal}) do
     %{data: render_many(animal, AnimalView, "animal.json")}
@@ -43,7 +43,8 @@ defmodule ProtectoraWeb.AnimalView do
       descricion: animal.descricion,
       eUrxente: animal.eUrxente,
       eEspecial: animal.eEspecial,
-      rexistros: render_many(animal.rexistro, RexistroView, "rexistro.json")
+      rexistros: render_many(animal.rexistro, RexistroView, "rexistro.json"),
+      imaxes: render_many(animal.imaxe_animal, ImaxeAnimalView, "show.json")
     }
   end
 end
