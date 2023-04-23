@@ -14,7 +14,7 @@ defmodule Protectora.Animais.ImaxeAnimal do
   @doc false
   def changeset(imaxe_animal, attrs) do
     imaxe_animal
-    |> cast(attrs, [:path_imaxe])
-    |> validate_required([:path_imaxe])
+    |> cast(attrs, [:path_imaxe, :animal_id])
+    |> validate_required([:path_imaxe, :animal_id])
   end
 end

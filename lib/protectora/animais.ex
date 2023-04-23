@@ -9,6 +9,8 @@ defmodule Protectora.Animais do
   alias Protectora.Animais.Animal
   alias Protectora.Animais.ImaxeAnimal
 
+  require Logger
+
   @doc """
   Returns the list of animal.
 
@@ -37,7 +39,7 @@ defmodule Protectora.Animais do
 
   """
   def get_animal!(id) do
-    Animal |> where(id: ^id) |> preload([:rexistro]) |> Repo.one!()
+    Animal |> where(id: ^id) |> preload([:rexistro, :imaxe_animal]) |> Repo.one!()
   end
 
   @doc """
@@ -58,12 +60,13 @@ defmodule Protectora.Animais do
   end
 
   defp create_full_animal(attrs \\ %{}, after_save \\ &{:ok, &1}) do
-    %Animal{}
+    resp = %Animal{}
     |> Animal.changeset(attrs)
     |> Repo.insert()
     |> after_save(after_save)
     |> broadcast(:animal_created)
 
+    resp
   end
 
   defp after_save({:ok, animal}, func) do
@@ -75,7 +78,7 @@ defmodule Protectora.Animais do
                                 |> Repo.insert()
                           end)
 
-    {:ok, %Animal{animal | imaxe_animal: completed}}
+    {:ok, animal}
   end
 
   defp after_save(error, _func), do: error

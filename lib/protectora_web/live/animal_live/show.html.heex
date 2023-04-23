@@ -65,7 +65,14 @@
     <%= @animal.eEspecial %>
   </li>
 
+  <%= for entry <- @animal.imaxe_animal do %>
+    <div class="row">
+      <img src={entry.path_imaxe} height="150"/>
+    </div>
+  <% end %>
 </ul>
+
+
 
 <%= live_component ProtectoraWeb.AnimalLive.RexistrosList,id: "rexistros_list",  rexistro_collection: @animal.rexistro, live_action: @live_action, animal: @animal, page_title: @page_title, rexistro: nil %>
 

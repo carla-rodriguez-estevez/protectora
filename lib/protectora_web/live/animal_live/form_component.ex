@@ -4,6 +4,8 @@ defmodule ProtectoraWeb.AnimalLive.FormComponent do
   alias Protectora.Animais
   alias Protectora.Animais.{Animal, ImaxeAnimal}
 
+  require Logger
+
   def upload_directory do
     Application.get_env(:protectora, :animais_directory)
   end
@@ -61,7 +63,7 @@ defmodule ProtectoraWeb.AnimalLive.FormComponent do
 
   defp save_animal(socket, :new, animal_params) do
     case Animais.create_animal(animal_params, &consume_photos(socket, &1)) do
-      {:ok, _animal} ->
+      {:ok, animal} ->
         {:noreply,
          socket
          |> put_flash(:info, "Animal created successfully")
@@ -95,7 +97,8 @@ defmodule ProtectoraWeb.AnimalLive.FormComponent do
       dest =  local_path(entry.uuid, entry.client_name)
       File.cp!(meta.path, dest)
 
-      {:ok, dest}
+      path_name = String.replace(dest, "priv/static", "")
+      {:ok, path_name}
 
     end)
 
