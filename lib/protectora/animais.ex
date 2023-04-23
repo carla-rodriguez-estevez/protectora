@@ -142,6 +142,14 @@ defmodule Protectora.Animais do
 
   """
   def delete_animal(%Animal{} = animal) do
+
+    Repo.transaction fn ->  delete_full_animal(animal) end
+
+  end
+
+  defp delete_full_animal(%Animal{} = animal) do
+    Enum.each(animal.imaxe_animal, fn el -> File.rm!(Path.join(["priv/static", el.path_imaxe])) end)
+
     deleted_animal = Repo.get!(Animal, animal.id)
 
     Repo.delete(deleted_animal)
