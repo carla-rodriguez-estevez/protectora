@@ -95,12 +95,39 @@ defmodule Protectora.Animais do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_animal(%Animal{} = animal, attrs) do
-    animal
-    |> Animal.changeset(attrs)
-    |> Repo.update()
-    |> broadcast(:animal_updated)
+  def update_animal(%Animal{} = animal, attrs,  after_update \\ &{:ok, &1}) do
+
+    Repo.transaction fn ->  update_full_animal(animal, attrs, after_update) end
   end
+
+  defp update_full_animal(%Animal{} = animal, attrs,  after_update \\ &{:ok, &1}) do
+
+    animal
+      |> Animal.changeset(attrs)
+      |> Repo.update()
+      |> after_update(after_update)
+      |> broadcast(:animal_updated)
+  end
+
+  defp after_update({:ok, animal}, func) do
+    photos = func.(animal)
+
+    case photos do
+      [] -> {:ok, animal}
+      list -> Enum.each(animal.imaxe_animal, fn el -> el |> Repo.delete() end)
+              Enum.each(photos, fn el ->
+                                %ImaxeAnimal{}
+                                |> ImaxeAnimal.changeset(%{path_imaxe: el, animal_id: animal.id})
+                                |> Repo.insert()
+                          end)
+              {:ok, %Animal{animal | imaxe_animal: photos}}
+
+
+    end
+
+  end
+
+  defp after_update(error, _func), do: error
 
   @doc """
   Deletes a animal.
