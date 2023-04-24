@@ -1,0 +1,31 @@
+<div>
+  <h2><%= @title %></h2>
+
+  <.form
+    let={f}
+    for={@changeset}
+    id="padrinamento-form"
+    phx-target={@myself}
+    phx-change="validate"
+    phx-submit="save">
+
+    <%= label f, :perioricidade %>
+    <%= text_input f, :perioricidade %>
+    <%= error_tag f, :perioricidade %>
+
+    <%= label f, :catidade_aporte %>
+    <%= number_input f, :catidade_aporte, step: "0.1" %>
+    <%= error_tag f, :catidade_aporte %>
+
+    <%= label f, :animal_id %>
+    <%= text_input f, :animal_id %>
+    <%= error_tag f, :animal_id %>
+
+    <%= label f, :colaborador_id %>
+    <%= text_input f, :colaborador_id %>
+    <%= error_tag f, :colaborador_id %>
+    <div>
+      <%= submit "Save", phx_disable_with: "Saving..." %>
+    </div>
+  </.form>
+</div>

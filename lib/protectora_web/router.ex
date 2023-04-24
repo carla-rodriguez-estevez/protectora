@@ -52,6 +52,13 @@ defmodule ProtectoraWeb.Router do
 
     live "/rexistro/:id", RexistroLive.Show, :show
     live "/rexistro/:id/show/edit", RexistroLive.Show, :edit
+
+    live "/padrinamento", PadrinamentoLive.Index, :index
+    live "/padrinamento/new", PadrinamentoLive.Index, :new
+    live "/padrinamento/:id/edit", PadrinamentoLive.Index, :edit
+
+    live "/padrinamento/:id", PadrinamentoLive.Show, :show
+    live "/padrinamento/:id/show/edit", PadrinamentoLive.Show, :edit
   end
 
   scope "/api", ProtectoraWeb do
@@ -65,7 +72,7 @@ defmodule ProtectoraWeb.Router do
     resources "/animal", AnimalController, except: [:new, :edit]
     resources "/rexistro", RexistroController, except: [:new, :edit]
 
-    #resources "/imaxe_publicacion", ImaxePublicacionController, except: [:new, :edit]
+    # resources "/imaxe_publicacion", ImaxePublicacionController, except: [:new, :edit]
   end
 
   # Other scopes may use custom stacks.
