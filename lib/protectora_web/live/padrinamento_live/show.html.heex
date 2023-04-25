@@ -25,6 +25,11 @@
     <%= @padrinamento.cantidade_aporte %>
   </li>
 
+    <li>
+    <strong>Padriño:</strong>
+    <%= @padrinamento.colaborador.email %>
+  </li>
+
 </ul>
 
 <span><%= live_patch "Edit", to: Routes.padrinamento_show_path(@socket, :edit, @padrinamento), class: "button" %></span> |

@@ -6,6 +6,7 @@ defmodule Protectora.Padrinamentos do
   import Ecto.Query, warn: false
   alias Protectora.Colaboradores
   alias Protectora.Repo
+  import Ecto.Changeset
 
   require Logger
   alias Protectora.Padrinamentos.Padrinamento
@@ -37,7 +38,9 @@ defmodule Protectora.Padrinamentos do
       ** (Ecto.NoResultsError)
 
   """
-  def get_padrinamento!(id), do: Repo.get!(Padrinamento, id)
+  def get_padrinamento!(id) do
+    Padrinamento |> where(id: ^id) |> preload([:colaborador]) |> Repo.one!()
+  end
 
   defp existing_colaborador(colaborador, attr) do
     case(
@@ -121,10 +124,36 @@ defmodule Protectora.Padrinamentos do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_padrinamento(%Padrinamento{} = padrinamento, attrs) do
-    padrinamento
-    |> Padrinamento.changeset(attrs)
-    |> Repo.update()
+  def update_padrinamento(padrinamento, attrs) do
+    email_attr = attrs["email"]
+
+    email =
+      if is_nil(email_attr) do
+        ""
+      else
+        email_attr
+      end
+
+    case create_colaborador(email, attrs) do
+      {:ok, colaborador} ->
+        %Padrinamento{
+          id: padrinamento.id,
+          cantidade_aporte: padrinamento.cantidade_aporte,
+          perioricidade: padrinamento.perioricidade,
+          animal_id: padrinamento.animal_id,
+          colaborador_id: colaborador.id
+        }
+        |> Padrinamento.changeset(%{
+          cantidade_aporte: attrs["cantidade_aporte"],
+          perioricidade: attrs["perioricidade"],
+          animal_id: attrs["animal_id"],
+          colaborador_id: colaborador.id
+        })
+        |> Repo.update()
+
+      {:error, %Ecto.Changeset{} = error} ->
+        {:error, error}
+    end
   end
 
   @doc """
@@ -153,7 +182,34 @@ defmodule Protectora.Padrinamentos do
 
   """
   def change_padrinamento(padrinamento, attrs \\ %{}) do
-    Logger.warn(padrinamento)
-    Padrinamento.changeset(padrinamento, attrs)
+    #  Logger.warn(padrinamento)
+
+    padrinamento_result =
+      Padrinamento.changeset(
+        %Padrinamento{
+          id: padrinamento.id,
+          cantidade_aporte: padrinamento.cantidade_aporte,
+          animal_id: padrinamento.animal_id,
+          perioricidade: padrinamento.perioricidade
+        },
+        attrs
+      )
+
+    #   colaborador =
+    #     Protectora.Colaboradores.Colaborador.changeset(
+    #       %Protectora.Colaboradores.Colaborador{
+    #         apelidos: padrinamento.apelidos,
+    #         codigoPostal: padrinamento.codigoPostal,
+    #         dataNacemento: padrinamento.dataNacemento,
+    #         direccion: padrinamento.direccion,
+    #         email: padrinamento.email,
+    #         localidade: padrinamento.localidade,
+    #         nome: padrinamento.nome,
+    #         numeroConta: padrinamento.numeroConta
+    #       },
+    #       attrs
+    #     )
+
+    padrinamento_result
   end
 end

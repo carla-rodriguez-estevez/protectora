@@ -7,8 +7,8 @@ defmodule Protectora.Padrinamentos.Padrinamento do
   schema "padrinamento" do
     field(:cantidade_aporte, :decimal)
     field(:perioricidade, :string)
-    field(:animal_id, :binary_id)
-    field(:colaborador_id, :binary_id)
+    belongs_to :animal, Protectora.Animais.Animal
+    belongs_to :colaborador, Protectora.Colaboradores.Colaborador
 
     timestamps()
   end

@@ -3,6 +3,7 @@ defmodule ProtectoraWeb.PadrinamentoLive.FormComponent do
 
   alias Protectora.Padrinamentos
 
+  require Logger
   @impl true
   def update(%{padrinamento: padrinamento} = assigns, socket) do
     changeset = Padrinamentos.change_padrinamento(padrinamento)
@@ -23,7 +24,20 @@ defmodule ProtectoraWeb.PadrinamentoLive.FormComponent do
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
+  def handle_event("validate", %{"colaborador" => padrinamento_params}, socket) do
+    changeset =
+      socket.assigns.padrinamento
+      |> Padrinamentos.change_padrinamento(padrinamento_params)
+      |> Map.put(:action, :validate)
+
+    {:noreply, assign(socket, :changeset, changeset)}
+  end
+
   def handle_event("save", %{"padrinamento" => padrinamento_params}, socket) do
+    save_padrinamento(socket, socket.assigns.action, padrinamento_params)
+  end
+
+  def handle_event("save", %{"colaborador" => padrinamento_params}, socket) do
     save_padrinamento(socket, socket.assigns.action, padrinamento_params)
   end
 
