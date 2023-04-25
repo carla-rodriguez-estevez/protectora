@@ -42,6 +42,34 @@ defmodule Protectora.Padrinamentos do
     Padrinamento |> where(id: ^id) |> preload([:colaborador]) |> Repo.one!()
   end
 
+  @doc """
+  Creates a padrinamento.
+  ## Examples
+      iex> create_padrinamento(%{field: value})
+      {:ok, %Padrinamento{}}
+      iex> create_padrinamento(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+  """
+  def create_padrinamento_simple(attrs \\ %{}) do
+    %Padrinamento{}
+    |> Padrinamento.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a padrinamento.
+  ## Examples
+      iex> update_padrinamento(padrinamento, %{field: new_value})
+      {:ok, %Padrinamento{}}
+      iex> update_padrinamento(padrinamento, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+  """
+  def update_padrinamento_simple(%Padrinamento{} = padrinamento, attrs) do
+    padrinamento
+    |> Padrinamento.changeset(attrs)
+    |> Repo.update()
+  end
+
   defp existing_colaborador(colaborador, attr) do
     case(
       Colaboradores.update_colaborador(colaborador, %{
