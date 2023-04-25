@@ -5,7 +5,7 @@ defmodule Protectora.Repo.Migrations.CreatePadrinamento do
     create table(:padrinamento, primary_key: false) do
       add :id, :binary_id, primary_key: true
       add :perioricidade, :string
-      add :catidade_aporte, :decimal
+      add :cantidade_aporte, :decimal
       add :animal_id, references(:animal, on_delete: :delete_all, type: :binary_id, null: false)
 
       add :colaborador_id,

@@ -10,7 +10,7 @@ defmodule Protectora.PadrinamentosTest do
 
     import Protectora.PadrinamentosFixtures
 
-    @invalid_attrs %{catidade_aporte: nil, perioricidade: nil}
+    @invalid_attrs %{cantidade_aporte: nil, perioricidade: nil}
 
     test "list_padrinamento/0 returns all padrinamento" do
       padrinamento = padrinamento_fixture()
@@ -27,7 +27,7 @@ defmodule Protectora.PadrinamentosTest do
       colaborador = colaborador_fixture()
 
       valid_attrs = %{
-        catidade_aporte: "120.5",
+        cantidade_aporte: "120.5",
         perioricidade: "some perioricidade",
         animal_id: animal.id,
         colaborador_id: colaborador.id
@@ -36,7 +36,7 @@ defmodule Protectora.PadrinamentosTest do
       assert {:ok, %Padrinamento{} = padrinamento} =
                Padrinamentos.create_padrinamento(valid_attrs)
 
-      assert padrinamento.catidade_aporte == Decimal.new("120.5")
+      assert padrinamento.cantidade_aporte == Decimal.new("120.5")
       assert padrinamento.perioricidade == "some perioricidade"
       assert padrinamento.animal_id == animal.id
       assert padrinamento.colaborador_id == colaborador.id
@@ -48,12 +48,12 @@ defmodule Protectora.PadrinamentosTest do
 
     test "update_padrinamento/2 with valid data updates the padrinamento" do
       padrinamento = padrinamento_fixture()
-      update_attrs = %{catidade_aporte: "456.7", perioricidade: "some updated perioricidade"}
+      update_attrs = %{cantidade_aporte: "456.7", perioricidade: "some updated perioricidade"}
 
       assert {:ok, %Padrinamento{} = padrinamento} =
                Padrinamentos.update_padrinamento(padrinamento, update_attrs)
 
-      assert padrinamento.catidade_aporte == Decimal.new("456.7")
+      assert padrinamento.cantidade_aporte == Decimal.new("456.7")
       assert padrinamento.perioricidade == "some updated perioricidade"
     end
 

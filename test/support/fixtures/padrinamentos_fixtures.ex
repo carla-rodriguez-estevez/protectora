@@ -17,7 +17,7 @@ defmodule Protectora.PadrinamentosFixtures do
     {:ok, padrinamento} =
       attrs
       |> Enum.into(%{
-        catidade_aporte: "120.5",
+        cantidade_aporte: "120.5",
         perioricidade: "some perioricidade",
         animal_id: animal.id,
         colaborador_id: colaborador.id

@@ -24,7 +24,7 @@ defmodule ProtectoraWeb.AnimalLive.PadrinamentosList do
     <thead>
     <tr>
       <th>Perioricidade</th>
-      <th>Catidade aporte</th>
+      <th>Cantidade aporte</th>
 
       <th></th>
     </tr>
@@ -33,7 +33,7 @@ defmodule ProtectoraWeb.AnimalLive.PadrinamentosList do
     <%= for padrinamento <- @padrinamento_collection do %>
       <tr id={"padrinamento-#{padrinamento.id}"}>
         <td><%= padrinamento.perioricidade %></td>
-        <td><%= padrinamento.catidade_aporte %></td>
+        <td><%= padrinamento.cantidade_aporte %></td>
 
         <td>
           <span><%= live_redirect "Show", to: Routes.padrinamento_show_path(@socket, :show, padrinamento) %></span>
