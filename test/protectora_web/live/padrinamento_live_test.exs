@@ -6,9 +6,9 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
   import Protectora.AnimaisFixtures
   import Protectora.ColaboradoresFixtures
 
-  @create_attrs %{catidade_aporte: "120.5", perioricidade: "some perioricidade"}
-  @update_attrs %{catidade_aporte: "456.7", perioricidade: "some updated perioricidade"}
-  @invalid_attrs %{catidade_aporte: nil, perioricidade: nil}
+  @create_attrs %{cantidade_aporte: "120.5", perioricidade: "some perioricidade"}
+  @update_attrs %{cantidade_aporte: "456.7", perioricidade: "some updated perioricidade"}
+  @invalid_attrs %{cantidade_aporte: nil, perioricidade: nil}
 
   defp create_padrinamento(_) do
     padrinamento = padrinamento_fixture()
@@ -55,7 +55,7 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
         |> Protectora.Colaboradores.create_colaborador()
 
       valid_attrs = %{
-        catidade_aporte: "120.5",
+        cantidade_aporte: "120.5",
         perioricidade: "some perioricidade",
         animal_id: animal.id,
         colaborador_id: colaborador.id
