@@ -37,6 +37,8 @@ defmodule Protectora.Colaboradores do
   """
   def get_colaborador!(id), do: Repo.get!(Colaborador, id)
 
+  def get_colaborador_by_email!(email), do: Colaborador |> where(email: ^email) |> Repo.one()
+
   @doc """
   Creates a colaborador.
 
