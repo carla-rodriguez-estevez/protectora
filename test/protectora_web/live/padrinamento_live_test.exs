@@ -6,8 +6,8 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
   import Protectora.AnimaisFixtures
   import Protectora.ColaboradoresFixtures
 
-  @create_attrs %{cantidade_aporte: "120.5", perioricidade: "some perioricidade"}
-  @update_attrs %{cantidade_aporte: "456.7", perioricidade: "some updated perioricidade"}
+  @create_attrs %{cantidade_aporte: "120.5", perioricidade: "mensual"}
+  @update_attrs %{cantidade_aporte: "456.7", perioricidade: "anual"}
   @invalid_attrs %{cantidade_aporte: nil, perioricidade: nil}
 
   defp create_padrinamento(_) do
@@ -56,9 +56,9 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
 
       valid_attrs = %{
         cantidade_aporte: "120.5",
-        perioricidade: "some perioricidade",
+        perioricidade: "anual",
         animal_id: animal.id,
-        colaborador_id: colaborador.id
+        email: "carla1@udc.es"
       }
 
       {:ok, _, html} =
@@ -68,7 +68,7 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
         |> follow_redirect(conn, Routes.padrinamento_index_path(conn, :index))
 
       assert html =~ "Padrinamento created successfully"
-      assert html =~ "some perioricidade"
+      assert html =~ "anual"
     end
 
     test "updates padrinamento in listing", %{conn: conn, padrinamento: padrinamento} do
@@ -83,14 +83,38 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
              |> form("#padrinamento-form", padrinamento: @invalid_attrs)
              |> render_change() =~ "can&#39;t be blank"
 
+      animal = animal_fixture()
+
+      {:ok, colaborador} =
+        %{}
+        |> Enum.into(%{
+          apelidos: "Rodríguez",
+          codigoPostal: 36_860,
+          dataNacemento: ~D[2001-05-14],
+          direccion: "Canedo 32",
+          email: "carla1@udc.es",
+          localidade: "Ponteareas",
+          nome: "Carla",
+          numeroConta: "ES12123412341234123412",
+          perioricidade: "Mensual"
+        })
+        |> Protectora.Colaboradores.create_colaborador()
+
+      update_attrs = %{
+        cantidade_aporte: "120.5",
+        perioricidade: "trimestral",
+        animal_id: animal.id,
+        email: "carla1@udc.es"
+      }
+
       {:ok, _, html} =
         index_live
-        |> form("#padrinamento-form", padrinamento: @update_attrs)
+        |> form("#padrinamento-form", padrinamento: update_attrs)
         |> render_submit()
         |> follow_redirect(conn, Routes.padrinamento_index_path(conn, :index))
 
       assert html =~ "Padrinamento updated successfully"
-      assert html =~ "some updated perioricidade"
+      assert html =~ "trimestral"
     end
 
     test "deletes padrinamento in listing", %{conn: conn, padrinamento: padrinamento} do
@@ -128,14 +152,38 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
              |> form("#padrinamento-form", padrinamento: @invalid_attrs)
              |> render_change() =~ "can&#39;t be blank"
 
+      animal = animal_fixture()
+
+      {:ok, colaborador} =
+        %{}
+        |> Enum.into(%{
+          apelidos: "Rodríguez",
+          codigoPostal: 36_860,
+          dataNacemento: ~D[2001-05-14],
+          direccion: "Canedo 32",
+          email: "carla1@udc.es",
+          localidade: "Ponteareas",
+          nome: "Carla",
+          numeroConta: "ES12123412341234123412",
+          perioricidade: "Mensual"
+        })
+        |> Protectora.Colaboradores.create_colaborador()
+
+      update_attrs = %{
+        cantidade_aporte: "120.5",
+        perioricidade: "trimestral",
+        animal_id: animal.id,
+        email: "carla1@udc.es"
+      }
+
       {:ok, _, html} =
         show_live
-        |> form("#padrinamento-form", padrinamento: @update_attrs)
+        |> form("#padrinamento-form", padrinamento: update_attrs)
         |> render_submit()
         |> follow_redirect(conn, Routes.padrinamento_show_path(conn, :show, padrinamento))
 
       assert html =~ "Padrinamento updated successfully"
-      assert html =~ "some updated perioricidade"
+      assert html =~ "trimestral"
     end
   end
 end

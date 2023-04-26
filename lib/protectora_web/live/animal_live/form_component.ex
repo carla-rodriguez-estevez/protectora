@@ -29,8 +29,6 @@ defmodule ProtectoraWeb.AnimalLive.FormComponent do
   def update(%{animal: animal} = assigns, socket) do
     changeset = Animais.change_animal(animal)
 
-    Logger.warn(changeset)
-
     {:ok,
      socket
      |> assign(assigns)

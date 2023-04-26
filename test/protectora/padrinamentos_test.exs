@@ -19,7 +19,11 @@ defmodule Protectora.PadrinamentosTest do
 
     test "get_padrinamento!/1 returns the padrinamento with given id" do
       padrinamento = padrinamento_fixture()
-      assert Padrinamentos.get_padrinamento!(padrinamento.id) == padrinamento
+      result = Padrinamentos.get_padrinamento!(padrinamento.id)
+      assert result.animal_id == padrinamento.animal_id
+      assert result.cantidade_aporte == padrinamento.cantidade_aporte
+      assert result.colaborador_id == padrinamento.colaborador_id
+      assert result.perioricidade == padrinamento.perioricidade
     end
 
     test "create_padrinamento/1 with valid data creates a padrinamento" do
@@ -28,16 +32,16 @@ defmodule Protectora.PadrinamentosTest do
 
       valid_attrs = %{
         cantidade_aporte: "120.5",
-        perioricidade: "some perioricidade",
+        perioricidade: "anual",
         animal_id: animal.id,
         colaborador_id: colaborador.id
       }
 
       assert {:ok, %Padrinamento{} = padrinamento} =
-               Padrinamentos.create_padrinamento(valid_attrs)
+               Padrinamentos.create_padrinamento_simple(valid_attrs)
 
       assert padrinamento.cantidade_aporte == Decimal.new("120.5")
-      assert padrinamento.perioricidade == "some perioricidade"
+      assert padrinamento.perioricidade == "anual"
       assert padrinamento.animal_id == animal.id
       assert padrinamento.colaborador_id == colaborador.id
     end
@@ -48,22 +52,24 @@ defmodule Protectora.PadrinamentosTest do
 
     test "update_padrinamento/2 with valid data updates the padrinamento" do
       padrinamento = padrinamento_fixture()
-      update_attrs = %{cantidade_aporte: "456.7", perioricidade: "some updated perioricidade"}
+
+      update_attrs = %{cantidade_aporte: "456.7", perioricidade: "mensual"}
 
       assert {:ok, %Padrinamento{} = padrinamento} =
-               Padrinamentos.update_padrinamento(padrinamento, update_attrs)
+               Padrinamentos.update_padrinamento_simple(padrinamento, update_attrs)
 
       assert padrinamento.cantidade_aporte == Decimal.new("456.7")
-      assert padrinamento.perioricidade == "some updated perioricidade"
+      assert padrinamento.perioricidade == "mensual"
     end
 
     test "update_padrinamento/2 with invalid data returns error changeset" do
       padrinamento = padrinamento_fixture()
+      padriñamento_completed = Padrinamentos.get_padrinamento!(padrinamento.id)
 
       assert {:error, %Ecto.Changeset{}} =
-               Padrinamentos.update_padrinamento(padrinamento, @invalid_attrs)
+               Padrinamentos.update_padrinamento_simple(padrinamento, @invalid_attrs)
 
-      assert padrinamento == Padrinamentos.get_padrinamento!(padrinamento.id)
+      assert padriñamento_completed == Padrinamentos.get_padrinamento!(padrinamento.id)
     end
 
     test "delete_padrinamento/1 deletes the padrinamento" do

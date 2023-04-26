@@ -18,11 +18,11 @@ defmodule Protectora.PadrinamentosFixtures do
       attrs
       |> Enum.into(%{
         cantidade_aporte: "120.5",
-        perioricidade: "some perioricidade",
+        perioricidade: "anual",
         animal_id: animal.id,
         colaborador_id: colaborador.id
       })
-      |> Protectora.Padrinamentos.create_padrinamento()
+      |> Protectora.Padrinamentos.create_padrinamento_simple()
 
     padrinamento
   end
