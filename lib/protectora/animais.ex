@@ -39,7 +39,7 @@ defmodule Protectora.Animais do
 
   """
   def get_animal!(id) do
-    Animal |> where(id: ^id) |> preload([:rexistro, :imaxe_animal]) |> Repo.one!()
+    Animal |> where(id: ^id) |> preload([:rexistro, :imaxe_animal, :padrinamento]) |> Repo.one!()
   end
 
   @doc """

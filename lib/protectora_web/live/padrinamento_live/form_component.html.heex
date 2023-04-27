@@ -1,0 +1,62 @@
+<div>
+  <h2><%= @title %></h2>
+
+  <.form
+    let={f}
+    for={@changeset}
+    id="padrinamento-form"
+    phx-target={@myself}
+    phx-change="validate"
+    phx-submit="save">
+
+    <div>Se xa está colaborando coa protectora engada a súa información para ser actualizada ou recuperaremos a información a través do email que engada</div>
+
+
+    <%= label f, :email %>
+    <%= text_input f, :email %>
+    <%= error_tag f, :email %>
+
+    <%= label f, :perioricidade %>
+    <%= select f, :perioricidade, options: ["","mensual", "bimensual", "trimestral", "cada 6 meses", "anual"] %>
+    <%= error_tag f, :perioricidade %>
+
+    <%= label f, :cantidade_aporte %>
+    <%= number_input f, :cantidade_aporte, step: "0.1" %>
+    <%= error_tag f, :cantidade_aporte %>
+
+    <%= label f, :animal_id %>
+    <%= text_input f, :animal_id %>
+    <%= error_tag f, :animal_id %>
+
+    <%= label f, :nome %>
+    <%= text_input f, :nome %>
+    <%= error_tag f, :nome %>
+
+    <%= label f, :apelidos %>
+    <%= text_input f, :apelidos %>
+    <%= error_tag f, :apelidos %>
+
+    <%= label f, :dataNacemento %>
+    <%= date_select f, :dataNacemento, year: [options: DateTime.utc_now.year()..1940] %>
+    <%= error_tag f, :dataNacemento %>
+
+    <%= label f, :direccion %>
+    <%= text_input f, :direccion %>
+    <%= error_tag f, :direccion %>
+
+    <%= label f, :codigoPostal %>
+    <%= number_input f, :codigoPostal %>
+    <%= error_tag f, :codigoPostal %>
+
+    <%= label f, :localidade %>
+    <%= text_input f, :localidade %>
+    <%= error_tag f, :localidade %>
+
+    <%= label f, :numeroConta %>
+    <%= text_input f, :numeroConta %>
+    <%= error_tag f, :numeroConta %>
+    <div>
+      <%= submit "Save", phx_disable_with: "Saving..." %>
+    </div>
+  </.form>
+</div>

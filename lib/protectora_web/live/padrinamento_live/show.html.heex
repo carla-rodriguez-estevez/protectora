@@ -1,0 +1,36 @@
+<h1>Show Padrinamento</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.padrinamento_show_path(@socket, :show, @padrinamento)}>
+    <.live_component
+      module={ProtectoraWeb.PadrinamentoLive.FormComponent}
+      id={@padrinamento.id}
+      title={@page_title}
+      action={@live_action}
+      padrinamento={@padrinamento}
+      return_to={Routes.padrinamento_show_path(@socket, :show, @padrinamento)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Perioricidade:</strong>
+    <%= @padrinamento.perioricidade %>
+  </li>
+
+  <li>
+    <strong>Cantidade aporte:</strong>
+    <%= @padrinamento.cantidade_aporte %>
+  </li>
+
+    <li>
+    <strong>Padriño:</strong>
+    <%= @padrinamento.colaborador.email %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.padrinamento_show_path(@socket, :edit, @padrinamento), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.padrinamento_index_path(@socket, :index) %></span>
