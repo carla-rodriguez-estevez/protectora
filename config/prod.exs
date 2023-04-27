@@ -14,10 +14,10 @@ config :protectora,
 # which you should run after static files are built and
 # before starting your production server.
 config :protectora, ProtectoraWeb.Endpoint,
-  url: [host: "protectoratfg.gigalixirapp.com/", port: 443, scheme: "https"],
-  cache_static_manifest: "priv/static/cache_manifest.json"
+  url: [host: "example.com", port: 80],
+  cache_static_manifest: "priv/static/cache_manifest.json",
+  force_ssl: [rewrite_on: [:x_forwarded_proto], host: nil]
 
-#  force_ssl: [rewrite_on: [:x_forwarded_proto], host: nil]
 #  check_origin: ["https://example.com"]
 # Do not print debug messages in production
 config :logger, level: :info
@@ -51,6 +51,7 @@ config :logger, level: :info
 # We also recommend setting `force_ssl` in your endpoint, ensuring
 # no data is ever sent via http, always redirecting to https:
 #
-config :protectora, ProtectoraWeb.Endpoint, force_ssl: [hsts: true]
+#     config :protectora, ProtectoraWeb.Endpoint,
+#       force_ssl: [hsts: true]
 #
 # Check `Plug.SSL` for all available options in `force_ssl`.
