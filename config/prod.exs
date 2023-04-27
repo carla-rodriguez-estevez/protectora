@@ -16,6 +16,8 @@ config :protectora,
 config :protectora, ProtectoraWeb.Endpoint,
   url: [host: "example.com", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json"
+  force_ssl: [rewrite_on: [:x_forwarded_proto], host: nil]
+
 
 # Do not print debug messages in production
 config :logger, level: :info
