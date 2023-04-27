@@ -15,6 +15,7 @@ config :protectora,
 # before starting your production server.
 config :protectora, ProtectoraWeb.Endpoint,
   url: [host: "example.com", port: 80],
+  force_ssl: [rewrite_on: [:x_forwarded_host, :x_forwarded_port, :x_forwarded_proto]],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 #  force_ssl: [rewrite_on: [:x_forwarded_proto], host: nil]
