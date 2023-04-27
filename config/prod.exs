@@ -1,8 +1,8 @@
 import Config
 
 config :protectora,
-  publicacions_directory: System.get_env("PROTECTORA_PUBLICACIONS_DIRECTORY") || "/publicacions"
-  publicacions_directory: System.get_env("PROTECTORA_ANIMAIS_DIRECTORY") || "/animais"
+  publicacions_directory: System.get_env("PROTECTORA_PUBLICACIONS_DIRECTORY") || "/publicacions",
+  animais_directory: System.get_env("PROTECTORA_ANIMAIS_DIRECTORY") || "/animais"
 
 # For production, don't forget to configure the url host
 # to something meaningful, Phoenix uses this information
@@ -15,9 +15,8 @@ config :protectora,
 # before starting your production server.
 config :protectora, ProtectoraWeb.Endpoint,
   url: [host: "example.com", port: 80],
-  cache_static_manifest: "priv/static/cache_manifest.json"
+  cache_static_manifest: "priv/static/cache_manifest.json",
   force_ssl: [rewrite_on: [:x_forwarded_proto], host: nil]
-
 
 # Do not print debug messages in production
 config :logger, level: :info
