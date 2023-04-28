@@ -18,6 +18,12 @@ config :protectora, ProtectoraWeb.Endpoint,
   force_ssl: [rewrite_on: [:x_forwarded_host, :x_forwarded_port, :x_forwarded_proto]],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
+config :golf, Protectora.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  url: "${DATABASE_URL}",
+  database: "",
+  ssl: true,
+  pool_size: 4
 #  force_ssl: [rewrite_on: [:x_forwarded_proto], host: nil]
 
 #  check_origin: ["https://example.com"]
