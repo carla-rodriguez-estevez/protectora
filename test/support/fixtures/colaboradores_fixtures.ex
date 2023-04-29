@@ -12,7 +12,7 @@ defmodule Protectora.ColaboradoresFixtures do
       attrs
       |> Enum.into(%{
         apelidos: "Rodríguez",
-        codigoPostal: 36860,
+        codigoPostal: 36_860,
         dataNacemento: ~D[2001-05-14],
         direccion: "Canedo 32",
         email: "carla@udc.es",

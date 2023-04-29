@@ -8,14 +8,15 @@ defmodule Protectora.PublicacionsFixtures do
   Generate a publicacion.
   """
   def publicacion_fixture(attrs \\ %{}) do
-    {:ok, publicacion} =
+    {:ok, {:ok, publicacion}} =
       attrs
       |> Enum.into(%{
         contido: "some contido",
         titulo: "some titulo"
       })
-      |> Protectora.Publicacions.create_publicacion()
+      |> Protectora.Publicacions.create_publicacion(fn _ -> [] end)
 
-    publicacion
+    Protectora.Publicacions.get_publicacion!(publicacion.id)
+
   end
 end

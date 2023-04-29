@@ -1,5 +1,4 @@
 defmodule Protectora.Animais.Animal do
-  alias Protectora.Rexistros
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -17,6 +16,8 @@ defmodule Protectora.Animais.Animal do
     field :tamano, :string
     field :tipo, :string, default: "outro"
     has_many :rexistro, Protectora.Rexistros.Rexistro
+    has_many :imaxe_animal, Protectora.Animais.ImaxeAnimal
+    has_many :padrinamento, Protectora.Padrinamentos.Padrinamento
 
     timestamps()
   end

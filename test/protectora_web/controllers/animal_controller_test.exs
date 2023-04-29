@@ -55,7 +55,7 @@ defmodule ProtectoraWeb.AnimalControllerTest do
 
   describe "create animal" do
     test "renders animal when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.animal_path(conn, :create), animal: @create_attrs)
+      conn = post(conn, Routes.animal_path(conn, :create), %{animal: @create_attrs, imaxes: []})
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
       conn = get(conn, Routes.animal_path(conn, :show, id))
@@ -76,7 +76,7 @@ defmodule ProtectoraWeb.AnimalControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, Routes.animal_path(conn, :create), animal: @invalid_attrs)
+      conn = post(conn, Routes.animal_path(conn, :create), %{animal: @invalid_attrs, imaxes: []})
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
@@ -85,7 +85,9 @@ defmodule ProtectoraWeb.AnimalControllerTest do
     setup [:create_animal]
 
     test "renders animal when data is valid", %{conn: conn, animal: %Animal{id: id} = animal} do
-      conn = put(conn, Routes.animal_path(conn, :update, animal), animal: @update_attrs)
+      conn =
+        put(conn, Routes.animal_path(conn, :update, animal), %{animal: @update_attrs, imaxes: []})
+
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
       conn = get(conn, Routes.animal_path(conn, :show, id))
@@ -106,7 +108,9 @@ defmodule ProtectoraWeb.AnimalControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, animal: animal} do
-      conn = put(conn, Routes.animal_path(conn, :update, animal), animal: @invalid_attrs)
+      conn =
+        put(conn, Routes.animal_path(conn, :update, animal), %{animal: @invalid_attrs, imaxes: []})
+
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
@@ -118,9 +122,9 @@ defmodule ProtectoraWeb.AnimalControllerTest do
       conn = delete(conn, Routes.animal_path(conn, :delete, animal))
       assert response(conn, 204)
 
-      conn2 = get(conn, Routes.animal_path(conn, :show, animal))
-
-      assert nil == json_response(conn2, 200)["data"]
+      assert_error_sent 404, fn ->
+        get(conn, Routes.animal_path(conn, :show, animal))
+      end
     end
   end
 

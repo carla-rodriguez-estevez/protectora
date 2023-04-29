@@ -4,6 +4,6 @@ defmodule ProtectoraWeb.DefaultController do
   # Add router en router.ex
 
   def index(conn, _params) do
-    text(conn, "The real deal API is Live - #{Mix.env()}")
+    text(conn, "The real deal API is Live")
   end
 end

@@ -21,6 +21,7 @@ defmodule Protectora.Colaboradores.Colaborador do
     field(:nome, :string)
     field(:numeroConta, :string)
     field(:perioricidade, :string)
+    has_many :padrinamento, Protectora.Padrinamentos.Padrinamento
 
     timestamps()
   end

@@ -7,6 +7,8 @@ defmodule Protectora.Publicacions.Publicacion do
   schema "publicacion" do
     field :contido, :string
     field :titulo, :string
+    has_many :imaxe_publicacion, Protectora.Publicacions.ImaxePublicacion
+
 
     timestamps()
   end

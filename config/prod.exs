@@ -1,5 +1,9 @@
 import Config
 
+config :protectora,
+  publicacions_directory: System.get_env("PROTECTORA_PUBLICACIONS_DIRECTORY") || "/publicacions",
+  animais_directory: System.get_env("PROTECTORA_ANIMAIS_DIRECTORY") || "/animais"
+
 # For production, don't forget to configure the url host
 # to something meaningful, Phoenix uses this information
 # when generating URLs.
@@ -11,8 +15,19 @@ import Config
 # before starting your production server.
 config :protectora, ProtectoraWeb.Endpoint,
   url: [host: "example.com", port: 80],
+  force_ssl: [rewrite_on: [:x_forwarded_host, :x_forwarded_port, :x_forwarded_proto]],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
+config :protectora, Protectora.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  url: "${DATABASE_URL}",
+  database: "",
+  ssl: true,
+  pool_size: 4
+
+#  force_ssl: [rewrite_on: [:x_forwarded_proto], host: nil]
+
+#  check_origin: ["https://example.com"]
 # Do not print debug messages in production
 config :logger, level: :info
 

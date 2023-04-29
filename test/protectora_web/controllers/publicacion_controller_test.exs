@@ -31,7 +31,7 @@ defmodule ProtectoraWeb.PublicacionControllerTest do
 
   describe "create publicacion" do
     test "renders publicacion when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.publicacion_path(conn, :create), publicacion: @create_attrs)
+      conn = post(conn, Routes.publicacion_path(conn, :create), %{publicacion: @create_attrs, imaxes: []})
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
       conn = get(conn, Routes.publicacion_path(conn, :show, id))
@@ -42,7 +42,7 @@ defmodule ProtectoraWeb.PublicacionControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, Routes.publicacion_path(conn, :create), publicacion: @invalid_attrs)
+      conn = post(conn, Routes.publicacion_path(conn, :create), publicacion: @invalid_attrs, imaxes: [])
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
@@ -55,20 +55,18 @@ defmodule ProtectoraWeb.PublicacionControllerTest do
       publicacion: %Publicacion{id: id} = publicacion
     } do
       conn =
-        put(conn, Routes.publicacion_path(conn, :update, publicacion), publicacion: @update_attrs)
+        put(conn, Routes.publicacion_path(conn, :update, publicacion), %{publicacion: @update_attrs, imaxes: []})
 
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
       conn = get(conn, Routes.publicacion_path(conn, :show, id))
 
-      assert %{
-               "id" => ^id
-             } = json_response(conn, 200)["data"]
+      assert %{"id" => ^id } = json_response(conn, 200)["data"]
     end
 
     test "renders errors when data is invalid", %{conn: conn, publicacion: publicacion} do
       conn =
-        put(conn, Routes.publicacion_path(conn, :update, publicacion), publicacion: @invalid_attrs)
+        put(conn, Routes.publicacion_path(conn, :update, publicacion), %{publicacion: @invalid_attrs, imaxes: []})
 
       assert json_response(conn, 422)["errors"] != %{}
     end
