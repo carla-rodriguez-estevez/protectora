@@ -1,6 +1,8 @@
 defmodule ProtectoraWeb.Router do
   use ProtectoraWeb, :router
 
+  import Surface.Catalogue.Router
+
   pipeline :browser do
     plug(:accepts, ["html"])
     plug(:fetch_session)
@@ -49,7 +51,6 @@ defmodule ProtectoraWeb.Router do
     live("/rexistro", RexistroLive.Index, :index)
     live("/rexistro/new", RexistroLive.Index, :new)
     live("/rexistro/:id/edit", RexistroLive.Index, :edit)
-
     live("/rexistro/:id", RexistroLive.Show, :show)
     live("/rexistro/:id/show/edit", RexistroLive.Show, :edit)
 
@@ -88,14 +89,6 @@ defmodule ProtectoraWeb.Router do
   # If your application does not have an admins-only section yet,
   # you can use Plug.BasicAuth to set up some basic authentication
   # as long as you are also using SSL (which you should anyway).
-  if Mix.env() in [:dev, :test] do
-    import Phoenix.LiveDashboard.Router
-
-    scope "/" do
-      pipe_through(:browser)
-      live_dashboard("/dashboard", metrics: ProtectoraWeb.Telemetry)
-    end
-  end
 
   # Enables the Swoosh mailbox preview in development.
   #
@@ -106,6 +99,13 @@ defmodule ProtectoraWeb.Router do
       pipe_through(:browser)
 
       forward("/mailbox", Plug.Swoosh.MailboxPreview)
+    end
+  end
+
+  if Mix.env() == :dev do
+    scope "/" do
+      pipe_through :browser
+      surface_catalogue("/catalogue")
     end
   end
 end

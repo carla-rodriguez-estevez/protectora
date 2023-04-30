@@ -7,7 +7,7 @@ defmodule Protectora.MixProject do
       version: "0.1.0",
       elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:gettext] ++ Mix.compilers(),
+      compilers: Mix.compilers() ++ [:surface],
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps()
@@ -25,8 +25,9 @@ defmodule Protectora.MixProject do
   end
 
   # Specifies which paths to compile per environment.
-  defp elixirc_paths(:test), do: ["lib", "test/support"]
-  defp elixirc_paths(_), do: ["lib"]
+  defp elixirc_paths(:test), do: ["lib", "test/support"] ++ catalogues()
+  defp elixirc_paths(:dev), do: ["lib"] ++ catalogues()
+    defp elixirc_paths(_), do: ["lib"]
 
   # Specifies your project dependencies.
   #
@@ -53,7 +54,11 @@ defmodule Protectora.MixProject do
       {:timex, "~> 3.0"},
       # You can make use of it by running mix dialyzer
       {:dialyxir, "~> 1.0", only: [:dev], runtime: true},
-      {:credo, "~> 1.6", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
+      # styles library
+      {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
+      {:surface, "~> 0.8.0"},
+      {:surface_catalogue, "~> 0.5.0"}
     ]
   end
 
@@ -68,9 +73,15 @@ defmodule Protectora.MixProject do
       setup: ["deps.get", "ecto.setup"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
+      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"],
       test: ["ecto.drop", "ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      "assets.deploy": ["esbuild default --minify", "phx.digest"],
       "test.ci": ["ecto.drop", "ecto.create --quiet", "ecto.migrate", "test"]
+    ]
+  end
+
+  def catalogues do
+    [
+      "priv/catalogue"
     ]
   end
 end

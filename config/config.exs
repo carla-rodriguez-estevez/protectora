@@ -7,6 +7,10 @@
 # General application configuration
 import Config
 
+config :surface, :components, [
+  {Surface.Components.Form.ErrorTag, default_translator: {ProtectoraWeb.ErrorHelpers, :translate_error}}
+]
+
 config :protectora,
   ecto_repos: [Protectora.Repo]
 
@@ -41,6 +45,23 @@ config :esbuild,
     args: ~w(js/app.js --bundle --target=es2016 --outdir=../priv/static/assets),
     cd: Path.expand("../assets", __DIR__),
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
+  ],
+  catalogue: [
+    args: ~w(../deps/surface_catalogue/assets/js/app.js --bundle --target=es2016 --minify --outdir=../priv/static/assets/catalogue),
+    cd: Path.expand("../assets", __DIR__),
+    env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
+  ]
+
+# Configure tailwind
+config :tailwind,
+  version: "3.3.1",
+  default: [
+    args: ~w(
+    --config=tailwind.config.js
+    --input=css/app.css
+    --output=../priv/static/assets/app.css
+  ),
+    cd: Path.expand("../assets", __DIR__)
   ]
 
 # Configures Elixir's Logger
