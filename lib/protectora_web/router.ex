@@ -89,14 +89,6 @@ defmodule ProtectoraWeb.Router do
   # If your application does not have an admins-only section yet,
   # you can use Plug.BasicAuth to set up some basic authentication
   # as long as you are also using SSL (which you should anyway).
-  if Mix.env() in [:dev, :test] do
-    import Phoenix.LiveDashboard.Router
-
-    scope "/" do
-      pipe_through(:browser)
-      live_dashboard("/dashboard", metrics: ProtectoraWeb.Telemetry)
-    end
-  end
 
   # Enables the Swoosh mailbox preview in development.
   #
@@ -113,7 +105,7 @@ defmodule ProtectoraWeb.Router do
   if Mix.env() == :dev do
     scope "/" do
       pipe_through :browser
-      surface_catalogue "/catalogue"
+      surface_catalogue("/catalogue")
     end
   end
 end
