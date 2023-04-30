@@ -94,6 +94,15 @@ defmodule ProtectoraWeb.Router do
   #
   # Note that preview only shows emails that were sent by the same
   # node running the Phoenix server.
+  if Mix.env() in [:dev, :test] do
+    import Phoenix.LiveDashboard.Router
+
+    scope "/" do
+      pipe_through(:browser)
+      live_dashboard("/dashboard", metrics: ProtectoraWeb.Telemetry)
+    end
+  end
+
   if Mix.env() == :dev do
     scope "/dev" do
       pipe_through(:browser)
@@ -104,7 +113,7 @@ defmodule ProtectoraWeb.Router do
 
   if Mix.env() == :dev do
     scope "/" do
-      pipe_through :browser
+      pipe_through(:browser)
       surface_catalogue("/catalogue")
     end
   end
