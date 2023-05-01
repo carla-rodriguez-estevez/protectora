@@ -4,51 +4,82 @@ defmodule ProtectoraWeb.Components.Card do
   """
   use Surface.Component
 
-  @doc "The header slot"
-  slot header
-
   @doc "The footer slot"
-  slot footer
+  slot(footer)
 
   @doc "The main content slot"
-  slot default
+  slot(default)
 
   @doc "The background color"
-  prop rounded, :boolean, default: false
+  prop(rounded, :boolean, default: false)
+
+  @doc "Name of the animal"
+  slot(name)
+
+  @doc "Type of the animal displayed"
+  slot(tipo)
+
+  @doc "Size of the animal displayed"
+  slot(tamano)
+
+  @doc "Image of the animal displayed"
+  slot(imaxe)
+
+  @doc "Link of the animal displayed"
+  slot(link)
 
   @doc """
   The max width.
 
   sm: `max-w-sm`, md: `max-w-md`, lg: `max-w-lg`
   """
-  prop max_width, :string, values: ["sm", "md", "lg"]
+  prop(max_width, :string, values: ["sm", "md", "lg"])
 
   def render(assigns) do
     ~F"""
     <style>
       .card {
-        @apply overflow-hidden shadow-lg;
+      @apply overflow-hidden shadow-lg mb-2;
       }
       .content {
-        @apply px-6 py-4 text-gray-700 text-base;
+      @apply px-6 py-4 text-gray-700 text-base;
       }
       .header {
-        @apply p-6 font-semibold text-2xl text-teal-600 w-full bg-gray-200;
+      @apply p-3 font-semibold text-xl text-teal-600 w-full bg-gray-200;
       }
       .footer {
-        @apply px-6 py-4;
+      @apply px-6 py-4;
       }
     </style>
 
     <div class={"card", "max-w-#{@max_width}", "rounded-2xl": @rounded}>
       <div class="header">
-        <#slot {@header}/>
       </div>
       <div class="content">
-        <#slot/>
+        <div class="name space-x-4">
+          <strong>Nome:
+          </strong>
+          <#slot {@name} />
+        </div>
+        <div class="tipo space-x-1">
+          <strong>Tipo:
+          </strong>
+          <#slot {@tipo} />
+        </div>
+        <div class="tamano space-x-4">
+          <strong>Tamaño:
+          </strong>
+          <#slot {@tamano} />
+        </div>
+        <div class="imaxe mb-1 mt-4">
+          <#slot {@imaxe} />
+        </div>
+        <div class="link text-blue-600">
+          <#slot {@link} />
+        </div>
       </div>
       <div class="footer">
-        <#slot {@footer}/>
+        <#slot {@footer} />
       </div>
     </div>
     """

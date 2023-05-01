@@ -18,10 +18,6 @@ defmodule ProtectoraWeb.Components.CardExamples do
   def rounded_card_example(assigns) do
     ~F"""
     <Card rounded>
-      <:header>
-        The header
-      </:header>
-
       Start building rich interactive user-interfaces,
       writing minimal custom Javascript. Built on top
       of Phoenix LiveView, Surface leverages the amazing
@@ -47,10 +43,6 @@ defmodule ProtectoraWeb.Components.CardExamples do
     </style>
 
     <Card>
-      <:header>
-        The header
-      </:header>
-
       Start building rich interactive user-interfaces,
       writing minimal custom Javascript. Built on top
       of Phoenix LiveView, Surface leverages the amazing

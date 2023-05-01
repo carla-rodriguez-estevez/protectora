@@ -12,20 +12,36 @@
   <body>
     <header class="bg-neutral-900">
       <section class="container mx-auto">
-        <nav class="flex items-center justify-between flex-wrap p-6">
+        <nav class="flex items-center p-6">
           <div class="flex items-center flex-shrink-0 text-white mr-6">
             <a href="/" class="font-semibold text-xl tracking-tight">Protectora</a>
           </div>
-          <div class="w-full block flex-grow md:flex md:items-center md:w-auto">
-            <div class="text-sm md:flex-grow">
+          <div class="mr-4 ">
+            <div class="text-sm ">
               {#if function_exported?(Routes, :live_dashboard_path, 2)}
-                {link "Live Dashboard", to: Routes.live_dashboard_path(@conn, :home), class: "block mt-4 md:inline-block md:mt-0 text-teal-200 hover:text-white mr-4"}
+                {link "Live Dashboard", to: Routes.live_dashboard_path(@conn, :home), class: " text-teal-200 hover:text-white"}
               {/if}
+            </div>
+          </div>
+          <div class="mr-4 ">
+            <div class="text-sm ">
+                {link "Instagram", to: "https://www.instagram.com/protectorabiosbardos/", class: " text-teal-200 hover:text-white"}
+            </div>
+          </div>
+          <div class="mr-4 ">
+            <div class="text-sm ">
+                {link "Source", to: "https://protectoraosbiosbardos.org/", class: " text-teal-200 hover:text-white"}
+            </div>
+          </div>
+          <div class="mr-4 ">
+            <div class="text-sm ">
+                {link "Facebook", to: "https://www.facebook.com/PROTECTORAOSBIOSBARDOS/?ref=bookmarks", class: " text-teal-200 hover:text-white"}
             </div>
           </div>
         </nav>
       </section>
     </header>
     {@inner_content}
+
   </body>
 </html>

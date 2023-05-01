@@ -10,7 +10,6 @@ defmodule ProtectoraWeb.Components.CardPlayground do
     ]
 
     @slots [
-      header: "The header",
       default: """
               Start building rich interactive user-interfaces, writing minimal custom Javascript.
               Built on top of Phoenix LiveView, Surface leverages the amazing Phoenix Framework
