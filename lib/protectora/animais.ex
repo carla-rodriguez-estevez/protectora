@@ -24,6 +24,10 @@ defmodule Protectora.Animais do
     Repo.all(Animal)
   end
 
+  def list_animal_paginated do
+    Repo.all(Animal |> preload([:imaxe_animal]))
+  end
+
   @doc """
   Gets a single animal.
 

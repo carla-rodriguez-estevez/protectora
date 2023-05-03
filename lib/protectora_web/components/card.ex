@@ -40,19 +40,29 @@ defmodule ProtectoraWeb.Components.Card do
     <style>
       .card {
       @apply overflow-hidden shadow-lg mb-2;
+      min-height: 340px;
+      width: 340px;
       }
       .content {
       @apply px-6 py-4 text-gray-700 text-base;
+
       }
       .header {
       @apply p-3 font-semibold text-xl text-teal-600 w-full bg-gray-200;
       }
+
+      .imaxe {
+      object-fit: contain;
+      display: flex;
+      justify-content: center;
+      }
+
       .footer {
       @apply px-6 py-4;
       }
     </style>
 
-    <div class={"card", "max-w-#{@max_width}", "rounded-2xl": @rounded}>
+    <div class={"card", "max-h-#{@max_width}", "max-w-#{@max_width}", "rounded-2xl": @rounded}>
       <div class="header">
       </div>
       <div class="content">
