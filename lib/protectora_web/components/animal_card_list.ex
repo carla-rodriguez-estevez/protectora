@@ -17,7 +17,7 @@ defmodule ProtectoraWeb.Components.AnimalCardList do
 
     <div class="content" id="animals list">
       <div class="container mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mx-12 my-12">
           {#for animal <- animais}
             <div class="flex justify-center">
               <ProtectoraWeb.Components.Card max_width="md" rounded>
