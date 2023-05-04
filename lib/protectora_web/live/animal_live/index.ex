@@ -76,6 +76,6 @@ defmodule ProtectoraWeb.AnimalLive.Index do
   end
 
   defp list_animal do
-    Animais.list_animal()
+    Animais.list_animal_paginated()
   end
 end
