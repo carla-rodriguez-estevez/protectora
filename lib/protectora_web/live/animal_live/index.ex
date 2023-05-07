@@ -4,8 +4,6 @@ defmodule ProtectoraWeb.AnimalLive.Index do
   alias Protectora.Animais
   alias Protectora.Animais.Animal
 
-  require Logger
-
   defp list_animal(params) do
     Animais.list_animal_paginated(params)
   end
@@ -52,22 +50,17 @@ defmodule ProtectoraWeb.AnimalLive.Index do
 
   def handle_params(params, _url, socket) do
     assigns = get_and_assign_page(0)
-    Logger.warn(assigns)
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
     {:noreply, assign(socket, assigns)}
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
-    Logger.warn("Editar ó animal animal")
-
     socket
     |> assign(:page_title, "Edit Animal")
     |> assign(:animal, Animais.get_animal!(id))
   end
 
   defp apply_action(socket, :new, _params) do
-    Logger.warn("New animal")
-
     socket
     |> assign(:page_title, "New Animal")
     |> assign(:animal, %Animal{})
