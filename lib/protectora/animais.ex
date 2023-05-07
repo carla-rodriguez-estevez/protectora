@@ -24,8 +24,8 @@ defmodule Protectora.Animais do
     Repo.all(Animal)
   end
 
-  def list_animal_paginated do
-    Repo.all(Animal |> preload([:imaxe_animal]))
+  def list_animal_paginated(params \\ []) do
+    Repo.paginate(Animal |> preload([:imaxe_animal]), params)
   end
 
   @doc """

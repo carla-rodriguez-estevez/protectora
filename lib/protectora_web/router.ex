@@ -110,11 +110,4 @@ defmodule ProtectoraWeb.Router do
       forward("/mailbox", Plug.Swoosh.MailboxPreview)
     end
   end
-
-  if Mix.env() == :dev do
-    scope "/" do
-      pipe_through(:browser)
-      surface_catalogue("/catalogue")
-    end
-  end
 end

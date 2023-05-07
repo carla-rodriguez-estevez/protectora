@@ -35,15 +35,12 @@ defmodule ProtectoraWeb.Components.Card do
         <div class="imaxe mb-1 mt-4">
           <%= if length(@animal.imaxe_animal) > 0 do %>
               <img src={Enum.at(@animal.imaxe_animal, 0).path_imaxe}>
-          <% else %>
+          <%= else %>
             <div class="" />
           <% end %>
         </div>
         <div class="link text-blue-600">
           <%= live_redirect "Ensinar", to: ProtectoraWeb.Router.Helpers.animal_show_path(@socket, :show, @animal) %>
-        </div>
-        <div class="link text-blue-600">
-          <%= live_patch "Editar", to: ProtectoraWeb.Router.Helpers.animal_index_path(@socket, :edit, @animal) %>
         </div>
         <div class="link text-blue-600">
           <%= link "Borrar", to: "#", phx_click: "delete", phx_value_id: @animal.id, data: [confirm: "Are you sure?"] %>
