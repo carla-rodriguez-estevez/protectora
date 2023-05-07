@@ -27,7 +27,7 @@ defmodule Protectora.MixProject do
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/support"] ++ catalogues()
   defp elixirc_paths(:dev), do: ["lib"] ++ catalogues()
-    defp elixirc_paths(_), do: ["lib"]
+  defp elixirc_paths(_), do: ["lib"]
 
   # Specifies your project dependencies.
   #
@@ -58,7 +58,8 @@ defmodule Protectora.MixProject do
       # styles library
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
       {:surface, "~> 0.8.0"},
-      {:surface_catalogue, "~> 0.5.0"}
+      {:surface_catalogue, "~> 0.5.0"},
+      {:scrivener_ecto, "~> 2.0"}
     ]
   end
 

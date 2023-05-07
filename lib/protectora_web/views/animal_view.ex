@@ -3,7 +3,11 @@ defmodule ProtectoraWeb.AnimalView do
   alias ProtectoraWeb.{AnimalView, RexistroView, ImaxeAnimalView}
 
   def render("index.json", %{animal: animal}) do
-    %{data: render_many(animal, AnimalView, "animal.json")}
+    %{
+      data: render_many(animal, AnimalView, "animal.json"),
+      total_pages: animal.total_pages,
+      page_number: animal.page_number
+    }
   end
 
   def render("show.json", %{animal: animal}) do

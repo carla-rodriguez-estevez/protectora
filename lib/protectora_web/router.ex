@@ -96,7 +96,6 @@ defmodule ProtectoraWeb.Router do
   # node running the Phoenix server.
   if Mix.env() in [:dev, :test] do
     import Phoenix.LiveDashboard.Router
-
     scope "/" do
       pipe_through(:browser)
       live_dashboard("/dashboard", metrics: ProtectoraWeb.Telemetry)
@@ -108,13 +107,6 @@ defmodule ProtectoraWeb.Router do
       pipe_through(:browser)
 
       forward("/mailbox", Plug.Swoosh.MailboxPreview)
-    end
-  end
-
-  if Mix.env() == :dev do
-    scope "/" do
-      pipe_through(:browser)
-      surface_catalogue("/catalogue")
     end
   end
 end

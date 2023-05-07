@@ -55,7 +55,7 @@ defmodule ProtectoraWeb.AnimalLiveTest do
       {:ok, _index_live, html} = live(conn, Routes.animal_index_path(conn, :index))
 
       assert html =~ "Listing Animal"
-      assert html =~ animal.descricion
+      assert html =~ animal.nome
     end
 
     test "saves new animal", %{conn: conn} do
@@ -77,35 +77,13 @@ defmodule ProtectoraWeb.AnimalLiveTest do
         |> follow_redirect(conn, Routes.animal_index_path(conn, :index))
 
       assert html =~ "Animal created successfully"
-      assert html =~ "some descricion"
-    end
-
-    test "updates animal in listing", %{conn: conn, animal: animal} do
-      {:ok, index_live, _html} = live(conn, Routes.animal_index_path(conn, :index))
-
-      assert index_live |> element("#animal-#{animal.id} a", "Edit") |> render_click() =~
-               "Edit Animal"
-
-      assert_patch(index_live, Routes.animal_index_path(conn, :edit, animal))
-
-      assert index_live
-             |> form("#animal-form", animal: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
-
-      {:ok, _, html} =
-        index_live
-        |> form("#animal-form", animal: @update_attrs)
-        |> render_submit()
-        |> follow_redirect(conn, Routes.animal_index_path(conn, :index))
-
-      assert html =~ "Animal updated successfully"
-      assert html =~ "Pequena cadela moi querida e cariñosa"
+      assert html =~ "some nome"
     end
 
     test "deletes animal in listing", %{conn: conn, animal: animal} do
       {:ok, index_live, _html} = live(conn, Routes.animal_index_path(conn, :index))
 
-      assert index_live |> element("#animal-#{animal.id} a", "Delete") |> render_click()
+      assert index_live |> element("a", "Borrar") |> render_click()
       refute has_element?(index_live, "#animal-#{animal.id}")
     end
   end

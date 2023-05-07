@@ -12,46 +12,46 @@
     />
   </.modal>
 <% end %>
+    <div class="content" id="animals list">
+      <div class="container mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mx-12 my-12">
+            <%= for animal <- @animais do %>
+            <div class="flex justify-center">
+              <.live_component module={ProtectoraWeb.Components.Card} id={animal.id} animal={animal} rounded/>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <nav class="border-t border-gray-200">
+      <ul class="flex my-2 items-center justify-center">
+        <li class="">
+        <%= if  @page_number <= 1 do %>
+          <a class="px-2 py-2 pointer-events-none text-gray-600" href="#" phx-click="nav" phx-value-page={@page_number - 1}>Previous</a>
+        <% else %>
+          <a class="px-2 py-2" href="#" phx-click="nav" phx-value-page={@page_number - 1}>Previous</a>
+        <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Nome</th>
-      <th>Tipo</th>
-      <th>Peso</th>
-      <th>Madurez</th>
-      <th>Tamano</th>
-      <th>Raza</th>
-      <th>Idade</th>
-      <th>Descricion</th>
-      <th>Eurxente</th>
-      <th>Eespecial</th>
+        </li>
+    <%= for idx <-  Enum.to_list(1..@total_pages) do %>
+        <li class="">
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="animal">
-    <%= for animal <- @animais do %>
-      <tr id={"animal-#{animal.id}"}>
-        <td><%= animal.nome %></td>
-        <td><%= animal.tipo %></td>
-        <td><%= animal.peso %></td>
-        <td><%= animal.madurez %></td>
-        <td><%= animal.tamano %></td>
-        <td><%= animal.raza %></td>
-        <td><%= animal.idade %></td>
-        <td><%= animal.descricion %></td>
-        <td><%= animal.eUrxente %></td>
-        <td><%= animal.eEspecial %></td>
+        <%= if @page_number == idx do %>
+          <a class="px-2 py-2 pointer-events-none text-gray-600" href="#" phx-click="nav" phx-value-page={idx}><%= idx %></a>
+        <% else %>
+          <a class="px-2 py-2" href="#" phx-click="nav" phx-value-page={idx}><%= idx %></a>
+        <% end %>
 
-        <td>
-          <span><%= live_redirect "Show", to: Routes.animal_show_path(@socket, :show, animal) %></span>
-          <span><%= live_patch "Edit", to: Routes.animal_index_path(@socket, :edit, animal) %></span>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: animal.id, data: [confirm: "Are you sure?"] %></span>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+        </li>
+     <% end %>
+        <li class="">
 
+        <%= if @page_number >= @total_pages do %>
+          <a class="px-2 py-2 pointer-events-none text-gray-600" href="#" phx-click="nav" phx-value-page={@page_number + 1}>Next</a>
+        <% else %>
+          <a class="px-2 py-2" href="#" phx-click="nav" phx-value-page={@page_number + 1}>Next</a>
+        <% end %>
+        </li>
+      </ul>
+    </nav>
 <span><%= live_patch "New Animal", to: Routes.animal_index_path(@socket, :new) %></span>

@@ -37,8 +37,13 @@ defmodule ProtectoraWeb.AnimalController do
     process_images_inner(imaxes, id, nombres, n)
   end
 
-  def index(conn, _params) do
-    animal = Animais.list_animal()
+  def index(conn, %{"animais" => page}) do
+    animal = Animais.list_animal_paginated(page: page)
+    render(conn, "index.json", animal: animal)
+  end
+
+  def index(conn, %{}) do
+    animal = Animais.list_animal_paginated(page: 1)
     render(conn, "index.json", animal: animal)
   end
 
