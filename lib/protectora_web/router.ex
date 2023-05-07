@@ -96,7 +96,6 @@ defmodule ProtectoraWeb.Router do
   # node running the Phoenix server.
   if Mix.env() in [:dev, :test] do
     import Phoenix.LiveDashboard.Router
-
     scope "/" do
       pipe_through(:browser)
       live_dashboard("/dashboard", metrics: ProtectoraWeb.Telemetry)
