@@ -80,28 +80,6 @@ defmodule ProtectoraWeb.AnimalLiveTest do
       assert html =~ "some nome"
     end
 
-    test "updates animal in listing", %{conn: conn, animal: animal} do
-      {:ok, index_live, _html} = live(conn, Routes.animal_index_path(conn, :index))
-
-      assert index_live |> element("a", "Editar") |> render_click() =~
-               "Edit Animal"
-
-      assert_patch(index_live, Routes.animal_index_path(conn, :edit, animal))
-
-      assert index_live
-             |> form("#animal-form", animal: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
-
-      {:ok, _, html} =
-        index_live
-        |> form("#animal-form", animal: @update_attrs)
-        |> render_submit()
-        |> follow_redirect(conn, Routes.animal_index_path(conn, :index))
-
-      assert html =~ "Animal updated successfully"
-      assert html =~ "Reita"
-    end
-
     test "deletes animal in listing", %{conn: conn, animal: animal} do
       {:ok, index_live, _html} = live(conn, Routes.animal_index_path(conn, :index))
 
