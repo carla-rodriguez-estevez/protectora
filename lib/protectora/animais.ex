@@ -151,11 +151,13 @@ defmodule Protectora.Animais do
   end
 
   defp delete_full_animal(%Animal{} = animal) do
-    Enum.each(animal.imaxe_animal, fn el ->
-      File.rm!(Path.join(["priv/static", el.path_imaxe]))
-    end)
+    imaxes = animal.imaxe_animal
 
     deleted_animal = Repo.get!(Animal, animal.id)
+
+    Enum.each(imaxes, fn el ->
+      File.rm(Path.join(["priv/static", el.path_imaxe]))
+    end)
 
     Repo.delete(deleted_animal)
     |> broadcast(:animal_deleted)
