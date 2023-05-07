@@ -116,7 +116,7 @@ defmodule ProtectoraWeb.AnimalLive.FormComponent do
     case completed do
       [h | _] ->
         Enum.each(animal.imaxe_animal, fn el ->
-          File.rm!(Path.join(["priv/static", el.path_imaxe]))
+          File.rm(Path.join(["priv/static", el.path_imaxe]))
         end)
 
       [] ->

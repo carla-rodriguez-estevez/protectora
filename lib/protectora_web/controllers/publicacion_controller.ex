@@ -75,7 +75,7 @@ defmodule ProtectoraWeb.PublicacionController do
 
       list ->
         Enum.each(publicacion.imaxe_publicacion, fn el ->
-          File.rm!(Path.join(["priv/static", el.path_imaxe]))
+          File.rm(Path.join(["priv/static", el.path_imaxe]))
         end)
 
         photos = process_images(list, publicacion.id, [], 0)

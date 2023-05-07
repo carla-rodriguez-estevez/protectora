@@ -80,7 +80,7 @@ defmodule ProtectoraWeb.AnimalController do
 
       list ->
         Enum.each(animal.imaxe_animal, fn el ->
-          File.rm!(Path.join(["priv/static", el.path_imaxe]))
+          File.rm(Path.join(["priv/static", el.path_imaxe]))
         end)
 
         photos = process_images(list, animal.id, [], 0)

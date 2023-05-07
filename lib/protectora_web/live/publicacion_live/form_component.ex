@@ -15,10 +15,14 @@ defmodule ProtectoraWeb.PublicacionLive.FormComponent do
     |> Path.join()
   end
 
-
   @impl true
   def mount(socket) do
-    {:ok, allow_upload(socket, :photo, accept: ~w(.png .jpeg .jpg), max_entries: 8,  max_file_size: 2_000_000)}
+    {:ok,
+     allow_upload(socket, :photo,
+       accept: ~w(.png .jpeg .jpg),
+       max_entries: 8,
+       max_file_size: 2_000_000
+     )}
   end
 
   @impl true
@@ -50,7 +54,11 @@ defmodule ProtectoraWeb.PublicacionLive.FormComponent do
   end
 
   defp save_publicacion(socket, :edit, publicacion_params) do
-    case Publicacions.update_publicacion(socket.assigns.publicacion, publicacion_params, &consume_upload_photos(socket, &1)) do
+    case Publicacions.update_publicacion(
+           socket.assigns.publicacion,
+           publicacion_params,
+           &consume_upload_photos(socket, &1)
+         ) do
       {:ok, _publicacion} ->
         {:noreply,
          socket
@@ -85,44 +93,42 @@ defmodule ProtectoraWeb.PublicacionLive.FormComponent do
 
     urls =
       for entry <- completed do
-       # IO.inspect entry
+        # IO.inspect entry
         Routes.static_path(socket, "/publicacions/#{entry.uuid}.#{ext(entry)}")
       end
 
     %Publicacion{post | imaxe_publicacion: urls}
   end
 
-  def consume_photos(socket,  %Publicacion{} = post) do
-    consume_uploaded_entries(socket, :photo,  fn meta, entry ->
-
-      dest =  local_path(entry.uuid, entry.client_name)
+  def consume_photos(socket, %Publicacion{} = post) do
+    consume_uploaded_entries(socket, :photo, fn meta, entry ->
+      dest = local_path(entry.uuid, entry.client_name)
       File.cp!(meta.path, dest)
 
       path_name = String.replace(dest, "priv/static", "")
       {:ok, path_name}
-
     end)
-
   end
 
-  def consume_upload_photos(socket,  %Publicacion{} = post) do
+  def consume_upload_photos(socket, %Publicacion{} = post) do
     {completed, []} = uploaded_entries(socket, :photo)
 
     case completed do
-      [h | _] -> Enum.each(post.imaxe_publicacion, fn el -> File.rm!(Path.join(["priv/static", el.path_imaxe])) end)
-      [] -> {:ok, []}
+      [h | _] ->
+        Enum.each(post.imaxe_publicacion, fn el ->
+          File.rm(Path.join(["priv/static", el.path_imaxe]))
+        end)
+
+      [] ->
+        {:ok, []}
     end
 
-    consume_uploaded_entries(socket, :photo,  fn meta, entry ->
-
-      dest =  local_path(entry.uuid, entry.client_name)
+    consume_uploaded_entries(socket, :photo, fn meta, entry ->
+      dest = local_path(entry.uuid, entry.client_name)
       File.cp!(meta.path, dest)
 
       path_name = String.replace(dest, "priv/static", "")
       {:ok, path_name}
-
     end)
-
   end
-
 end
