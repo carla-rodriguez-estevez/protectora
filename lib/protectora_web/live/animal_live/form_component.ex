@@ -59,26 +59,26 @@ defmodule ProtectoraWeb.AnimalLive.FormComponent do
            animal_params,
            &consume_upload_photos(socket, &1)
          ) do
-      {:ok, _animal} ->
+      {:ok, {:ok, _animal}} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Animal updated successfully")
+         |> put_flash(:info, "Animal actualizado correctamente")
          |> push_redirect(to: socket.assigns.return_to)}
 
-      {:error, %Ecto.Changeset{} = changeset} ->
+      {:ok, {:error, %Ecto.Changeset{} = changeset}} ->
         {:noreply, assign(socket, :changeset, changeset)}
     end
   end
 
   defp save_animal(socket, :new, animal_params) do
     case Animais.create_animal(animal_params, &consume_photos(socket, &1)) do
-      {:ok, animal} ->
+      {:ok, {:ok, _animal}} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Animal created successfully")
+         |> put_flash(:info, "Animal creado correctamente")
          |> push_redirect(to: socket.assigns.return_to)}
 
-      {:error, %Ecto.Changeset{} = changeset} ->
+      {:ok, {:error, %Ecto.Changeset{} = changeset}} ->
         {:noreply, assign(socket, changeset: changeset)}
     end
   end

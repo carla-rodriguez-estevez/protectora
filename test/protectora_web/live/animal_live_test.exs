@@ -76,7 +76,7 @@ defmodule ProtectoraWeb.AnimalLiveTest do
         |> render_submit()
         |> follow_redirect(conn, Routes.animal_index_path(conn, :index))
 
-      assert html =~ "Animal created successfully"
+      assert html =~ "Animal creado correctamente"
       assert html =~ "some nome"
     end
 
@@ -116,7 +116,7 @@ defmodule ProtectoraWeb.AnimalLiveTest do
         |> render_submit()
         |> follow_redirect(conn, Routes.animal_show_path(conn, :show, animal))
 
-      assert html =~ "Animal updated successfully"
+      assert html =~ "Animal actualizado correctamente"
       assert html =~ "Pequena cadela moi querida e cariñosa"
     end
   end
