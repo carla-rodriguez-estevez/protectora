@@ -41,7 +41,7 @@ defmodule ProtectoraWeb.PublicacionLiveTest do
         |> render_submit()
         |> follow_redirect(conn, Routes.publicacion_index_path(conn, :index))
 
-      assert html =~ "Publicacion created successfully"
+      assert html =~ "Publicación creada correctamente"
       assert html =~ "some contido"
     end
 
@@ -63,7 +63,7 @@ defmodule ProtectoraWeb.PublicacionLiveTest do
         |> render_submit()
         |> follow_redirect(conn, Routes.publicacion_index_path(conn, :index))
 
-      assert html =~ "Publicacion updated successfully"
+      assert html =~ "Publicación actualizada correctamente"
       assert html =~ "some updated contido"
     end
 
@@ -103,7 +103,7 @@ defmodule ProtectoraWeb.PublicacionLiveTest do
         |> render_submit()
         |> follow_redirect(conn, Routes.publicacion_show_path(conn, :show, publicacion))
 
-      assert html =~ "Publicacion updated successfully"
+      assert html =~ "Publicación actualizada correctamente"
       assert html =~ "some updated contido"
     end
   end

@@ -35,7 +35,6 @@ defmodule ProtectoraWeb.PublicacionLive.FormComponent do
      |> assign(:changeset, changeset)}
   end
 
-  @impl true
   def handle_event("validate", %{"publicacion" => publicacion_params}, socket) do
     changeset =
       socket.assigns.publicacion
@@ -59,26 +58,26 @@ defmodule ProtectoraWeb.PublicacionLive.FormComponent do
            publicacion_params,
            &consume_upload_photos(socket, &1)
          ) do
-      {:ok, _publicacion} ->
+      {:ok, {:ok, _publicacion}} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Publicacion updated successfully")
+         |> put_flash(:info, "Publicación actualizada correctamente")
          |> push_redirect(to: socket.assigns.return_to)}
 
-      {:error, %Ecto.Changeset{} = changeset} ->
+      {:ok, {:error, %Ecto.Changeset{} = changeset}} ->
         {:noreply, assign(socket, :changeset, changeset)}
     end
   end
 
   defp save_publicacion(socket, :new, publicacion_params) do
     case Publicacions.create_publicacion(publicacion_params, &consume_photos(socket, &1)) do
-      {:ok, _publicacion} ->
+      {:ok, {:ok, _publicacion}} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Publicacion created successfully")
+         |> put_flash(:info, "Publicación creada correctamente")
          |> push_redirect(to: socket.assigns.return_to)}
 
-      {:error, %Ecto.Changeset{} = changeset} ->
+      {:ok, {:error, %Ecto.Changeset{} = changeset}} ->
         {:noreply, assign(socket, changeset: changeset)}
     end
   end
