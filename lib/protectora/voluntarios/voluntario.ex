@@ -21,7 +21,7 @@ defmodule Protectora.Voluntarios.Voluntario do
     |> validate_required([:nome, :contrasinal, :email])
     |> validate_format(:email, @mail_regex, message: "must have the @ sign and no spaces")
     |> validate_length(:email, max: 160)
-    |> unique_constraint(:email)
+    |> unique_constraint([:email])
     |> put_password_hash()
   end
 

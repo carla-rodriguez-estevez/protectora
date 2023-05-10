@@ -3,8 +3,9 @@ defmodule ProtectoraWeb.VoluntarioLiveTest do
 
   import Phoenix.LiveViewTest
   import Protectora.VoluntariosFixtures
+  require Logger
 
-  @create_attrs %{contrasinal: "some contrasinal", email: "some@email.com", nome: "some nome"}
+  @create_attrs %{contrasinal: "some", email: "some@email.com", nome: "some nome"}
   @update_attrs %{
     contrasinal: "some updated contrasinal",
     email: "someupdated@email.com",
@@ -41,7 +42,9 @@ defmodule ProtectoraWeb.VoluntarioLiveTest do
 
       {:ok, _, html} =
         index_live
-        |> form("#voluntario-form", voluntario: @create_attrs)
+        |> form("#voluntario-form",
+          voluntario: %{contrasinal: "some", email: "some@email1.com", nome: "some nome"}
+        )
         |> render_submit()
         |> follow_redirect(conn, Routes.voluntario_index_path(conn, :index))
 

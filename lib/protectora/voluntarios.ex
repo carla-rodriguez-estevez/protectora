@@ -7,6 +7,7 @@ defmodule Protectora.Voluntarios do
   alias Protectora.Repo
 
   alias Protectora.Voluntarios.Voluntario
+  alias Protectora.Accounts.{User, UserToken, UserNotifier}
 
   @doc """
   Returns the list of voluntario.
@@ -49,10 +50,17 @@ defmodule Protectora.Voluntarios do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_voluntario(attrs \\ %{}) do
-    %Voluntario{}
-    |> Voluntario.changeset(attrs)
-    |> Repo.insert()
+  def create_voluntario(attrs \\ %{}), do: create_full_voluntario(attrs)
+
+  defp create_full_voluntario(attrs \\ %{}) do
+    Protectora.Accounts.register_user(%{email: attrs["email"], password: attrs["contrasinal"]})
+
+    vol =
+      %Voluntario{}
+      |> Voluntario.changeset(attrs)
+      |> Repo.insert()
+
+    vol
   end
 
   @doc """
