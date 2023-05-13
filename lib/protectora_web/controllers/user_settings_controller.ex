@@ -10,29 +10,29 @@ defmodule ProtectoraWeb.UserSettingsController do
     render(conn, "edit.html")
   end
 
-  def update(conn, %{"action" => "update_email"} = params) do
-    %{"current_password" => password, "user" => user_params} = params
-    user = conn.assigns.current_user
+  # def update(conn, %{"action" => "update_email"} = params) do
+  #   %{"current_password" => password, "user" => user_params} = params
+  #   user = conn.assigns.current_user
 
-    case Accounts.apply_user_email(user, password, user_params) do
-      {:ok, applied_user} ->
-        Accounts.deliver_update_email_instructions(
-          applied_user,
-          user.email,
-          &Routes.user_settings_url(conn, :confirm_email, &1)
-        )
+  #   case Accounts.apply_user_email(user, password, user_params) do
+  #     {:ok, applied_user} ->
+  #       Accounts.deliver_update_email_instructions(
+  #         applied_user,
+  #         user.email,
+  #         &Routes.user_settings_url(conn, :confirm_email, &1)
+  #       )
 
-        conn
-        |> put_flash(
-          :info,
-          "A link to confirm your email change has been sent to the new address."
-        )
-        |> redirect(to: Routes.user_settings_path(conn, :edit))
+  #       conn
+  #       |> put_flash(
+  #         :info,
+  #         "A link to confirm your email change has been sent to the new address."
+  #       )
+  #       |> redirect(to: Routes.user_settings_path(conn, :edit))
 
-      {:error, changeset} ->
-        render(conn, "edit.html", email_changeset: changeset)
-    end
-  end
+  #     {:error, changeset} ->
+  #       render(conn, "edit.html", email_changeset: changeset)
+  #   end
+  # end
 
   def update(conn, %{"action" => "update_password"} = params) do
     %{"current_password" => password, "user" => user_params} = params

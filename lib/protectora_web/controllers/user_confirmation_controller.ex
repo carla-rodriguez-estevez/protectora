@@ -7,22 +7,22 @@ defmodule ProtectoraWeb.UserConfirmationController do
     render(conn, "new.html")
   end
 
-  def create(conn, %{"user" => %{"email" => email}}) do
-    if user = Accounts.get_user_by_email(email) do
-      Accounts.deliver_user_confirmation_instructions(
-        user,
-        &Routes.user_confirmation_url(conn, :edit, &1)
-      )
-    end
+  # def create(conn, %{"user" => %{"email" => email}}) do
+  #   if user = Accounts.get_user_by_email(email) do
+  #     Accounts.deliver_user_confirmation_instructions(
+  #       user,
+  #       &Routes.user_confirmation_url(conn, :edit, &1)
+  #     )
+  #   end
 
-    conn
-    |> put_flash(
-      :info,
-      "If your email is in our system and it has not been confirmed yet, " <>
-        "you will receive an email with instructions shortly."
-    )
-    |> redirect(to: "/")
-  end
+  #   conn
+  #   |> put_flash(
+  #     :info,
+  #     "If your email is in our system and it has not been confirmed yet, " <>
+  #       "you will receive an email with instructions shortly."
+  #   )
+  #   |> redirect(to: "/")
+  # end
 
   def edit(conn, %{"token" => token}) do
     render(conn, "edit.html", token: token)
