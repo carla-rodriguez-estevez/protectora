@@ -4,6 +4,8 @@ defmodule Protectora.AccountsFixtures do
   entities via the `Protectora.Accounts` context.
   """
 
+  require Logger
+
   def unique_user_email, do: "user#{System.unique_integer()}@example.com"
   def valid_user_password, do: "hello world!"
 
@@ -19,6 +21,15 @@ defmodule Protectora.AccountsFixtures do
       attrs
       |> valid_user_attributes()
       |> Protectora.Accounts.register_user()
+
+    {:ok, _} =
+      %{}
+      |> Enum.into(%{
+        contrasinal: "hello world!",
+        email: user.email,
+        nome: "some nome"
+      })
+      |> Protectora.Voluntarios.create_voluntario()
 
     user
   end

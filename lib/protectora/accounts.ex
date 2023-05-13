@@ -5,7 +5,7 @@ defmodule Protectora.Accounts do
 
   import Ecto.Query, warn: false
   alias Protectora.Repo
-
+  require Logger
   alias Protectora.Accounts.{User, UserToken, UserNotifier}
 
   ## Database getters
@@ -143,11 +143,21 @@ defmodule Protectora.Accounts do
 
     with {:ok, query} <- UserToken.verify_change_email_token_query(token, context),
          %UserToken{sent_to: email} <- Repo.one(query),
-         {:ok, _} <- Repo.transaction(user_email_multi(user, email, context)) do
+         {:ok, _} <-
+           Repo.transaction(fn -> update_user_email_full(user, token, email, context) end) do
       :ok
     else
       _ -> :error
     end
+  end
+
+  defp update_user_email_full(user, token, email, context) do
+    voluntario = Protectora.Voluntarios.get_voluntario_by_email(user.email)
+    Protectora.Voluntarios.update_voluntario(voluntario, %{email: email})
+
+    {:ok, resp} = Repo.transaction(user_email_multi(user, email, context))
+
+    resp
   end
 
   defp user_email_multi(user, email, context) do
@@ -202,26 +212,30 @@ defmodule Protectora.Accounts do
       iex> update_user_password(user, "invalid password", %{password: ...})
       {:error, %Ecto.Changeset{}}
 
-  """
-  def update_user_password(user, password, attrs) do
-    changeset =
-      user
-      |> User.password_changeset(attrs)
-      |> User.validate_current_password(password)
+  #\"""
+  # def update_user_password(user, password, attrs) do
+  #   changeset =
+  #     user
+  #     |> User.password_changeset(attrs)
+  #     |> User.validate_current_password(password)
 
-    Ecto.Multi.new()
-    |> Ecto.Multi.update(:user, changeset)
-    |> Ecto.Multi.delete_all(:tokens, UserToken.user_and_contexts_query(user, :all))
-    |> Repo.transaction()
-    |> case do
-      {:ok, %{user: user}} -> {:ok, user}
-      {:error, :user, changeset, _} -> {:error, changeset}
-    end
-  end
+  #   voluntario = Protectora.Voluntarios.get_voluntario_by_email(user.email)
+
+  #   Protectora.Voluntarios.update_voluntario(voluntario, %{contrasinal: password})
+
+  #   Ecto.Multi.new()
+  #   |> Ecto.Multi.update(:user, changeset)
+  #   |> Ecto.Multi.delete_all(:tokens, UserToken.user_and_contexts_query(user, :all))
+  #   |> Repo.transaction()
+  #   |> case do
+  #     {:ok, %{user: user}} -> {:ok, user}
+  #     {:error, :user, changeset, _} -> {:error, changeset}
+  #   end
+  # end
 
   ## Session
 
-  @doc """
+  @doc \"""
   Generates a session token.
   """
   def generate_user_session_token(user) do

@@ -5,7 +5,7 @@ defmodule Protectora.Voluntarios do
 
   import Ecto.Query, warn: false
   alias Protectora.Repo
-
+  require Logger
   alias Protectora.Voluntarios.Voluntario
   alias Protectora.Accounts.{User, UserToken, UserNotifier}
 
@@ -37,6 +37,8 @@ defmodule Protectora.Voluntarios do
 
   """
   def get_voluntario!(id), do: Repo.get!(Voluntario, id)
+
+  def get_voluntario_by_email(email), do: Voluntario |> where(email: ^email) |> Repo.one()
 
   @doc """
   Creates a voluntario.
@@ -76,6 +78,16 @@ defmodule Protectora.Voluntarios do
 
   """
   def update_voluntario(%Voluntario{} = voluntario, attrs) do
+    {:ok, resp} = Repo.transaction(fn -> update_voluntario_full(voluntario, attrs) end)
+    resp
+  end
+
+  defp update_voluntario_full(voluntario, attrs) do
+    user = User |> where(email: ^voluntario.email) |> Repo.one()
+
+    Protectora.Accounts.delete_user(user)
+    Protectora.Accounts.register_user(%{password: attrs["contrasinal"], email: attrs["email"]})
+
     voluntario
     |> Voluntario.changeset(attrs)
     |> Repo.update()
