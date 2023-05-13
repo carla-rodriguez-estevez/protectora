@@ -94,7 +94,15 @@ defmodule Protectora.Voluntarios do
 
   """
   def delete_voluntario(%Voluntario{} = voluntario) do
-    Repo.delete(voluntario)
+    {:ok, resp} = Repo.transaction(fn -> delete_voluntario_enteiro(voluntario) end)
+    resp
+  end
+
+  defp delete_voluntario_enteiro(params) do
+    user = Protectora.Accounts.get_user_by_email(params.email)
+
+    Protectora.Accounts.delete_user(user)
+    Repo.delete(params)
   end
 
   @doc """

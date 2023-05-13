@@ -26,6 +26,10 @@ defmodule Protectora.Accounts do
     Repo.get_by(User, email: email)
   end
 
+  def delete_user(user) do
+    Repo.delete(user)
+  end
+
   @doc """
   Gets a user by email and password.
 
