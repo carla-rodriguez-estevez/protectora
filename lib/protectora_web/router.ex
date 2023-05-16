@@ -1,5 +1,6 @@
 defmodule ProtectoraWeb.Router do
   use ProtectoraWeb, :router
+  use Plug.ErrorHandler
 
   import ProtectoraWeb.UserAuth
 
@@ -15,6 +16,12 @@ defmodule ProtectoraWeb.Router do
 
   pipeline :api do
     plug(:accepts, ["json"])
+    plug :fetch_session
+  end
+
+  pipeline :auth do
+    plug ProtectoraWeb.Auth.Pipeline
+    plug ProtectoraWeb.Auth.SetAccount
   end
 
   scope "/", ProtectoraWeb do
@@ -68,6 +75,8 @@ defmodule ProtectoraWeb.Router do
 
     get("/", DefaultController, :index)
 
+    post "/voluntario/sign_in", VoluntarioController, :sign_in
+
     resources("/voluntario", VoluntarioController, except: [:new, :edit])
     resources("/colaborador", ColaboradorController, except: [:new, :edit])
     resources("/publicacion", PublicacionController, except: [:new, :edit])
@@ -76,6 +85,12 @@ defmodule ProtectoraWeb.Router do
     resources("/padrinamento", PadrinamentoController, except: [:new, :edit])
 
     # resources "/imaxe_publicacion", ImaxePublicacionController, except: [:new, :edit]
+  end
+
+  scope "/api", ProtectoraWeb do
+    pipe_through [:api, :auth]
+
+    get "/voluntario/get/:id", VoluntarioController, :show
   end
 
   # Other scopes may use custom stacks.
@@ -126,8 +141,8 @@ defmodule ProtectoraWeb.Router do
   scope "/", ProtectoraWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    get "/users/settings", UserSettingsController, :edit
-    put "/users/settings", UserSettingsController, :update
+    # get "/users/settings", UserSettingsController, :edit
+    # put "/users/settings", UserSettingsController, :update
   end
 
   scope "/", ProtectoraWeb do

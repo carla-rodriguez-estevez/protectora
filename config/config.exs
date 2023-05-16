@@ -66,8 +66,17 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+config :protectora, ProtectoraWeb.Auth.Guardian,
+  issuer: "protectora",
+  secret_key: "69RZzj1zqLfOUNulDQILDR7yfBxFJIw1tQG8XKIPSIr12+D8SMQ9TdCpD8FVZTNg"
+
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+
+config :guardian, Guardian.DB,
+  repo: Protectora.Repo,
+  schema_name: "guardian_tokens",
+  sweep_interval: 60
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

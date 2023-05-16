@@ -49,7 +49,6 @@ defmodule ProtectoraWeb.VoluntarioLiveTest do
         |> follow_redirect(conn, Routes.voluntario_index_path(conn, :index))
 
       assert html =~ "Voluntario created successfully"
-      assert html =~ "some contrasinal"
     end
 
     test "updates voluntario in listing", %{conn: conn, voluntario: voluntario} do
@@ -71,7 +70,6 @@ defmodule ProtectoraWeb.VoluntarioLiveTest do
         |> follow_redirect(conn, Routes.voluntario_index_path(conn, :index))
 
       assert html =~ "Voluntario updated successfully"
-      assert html =~ "some updated contrasinal"
     end
 
     test "deletes voluntario in listing", %{conn: conn, voluntario: voluntario} do
@@ -111,7 +109,6 @@ defmodule ProtectoraWeb.VoluntarioLiveTest do
         |> follow_redirect(conn, Routes.voluntario_show_path(conn, :show, voluntario))
 
       assert html =~ "Voluntario updated successfully"
-      assert html =~ "some updated contrasinal"
     end
   end
 end

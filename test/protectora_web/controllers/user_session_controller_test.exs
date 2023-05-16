@@ -34,7 +34,6 @@ defmodule ProtectoraWeb.UserSessionControllerTest do
       conn = get(conn, "/")
       response = html_response(conn, 200)
       assert response =~ user.email
-      assert response =~ "Axustes</a>"
       assert response =~ "Pechar sesión</a>"
     end
 
