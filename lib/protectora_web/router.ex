@@ -1,7 +1,8 @@
 defmodule ProtectoraWeb.Router do
   use ProtectoraWeb, :router
+  use Plug.ErrorHandler
 
-  import Surface.Catalogue.Router
+  import ProtectoraWeb.UserAuth
 
   pipeline :browser do
     plug(:accepts, ["html"])
@@ -10,10 +11,20 @@ defmodule ProtectoraWeb.Router do
     plug(:put_root_layout, {ProtectoraWeb.LayoutView, :root})
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
+    plug(:fetch_current_user)
   end
 
   pipeline :api do
+    plug(:fetch_session)
+
     plug(:accepts, ["json"])
+  end
+
+  pipeline :auth do
+    plug :fetch_session
+
+    plug(ProtectoraWeb.Auth.Pipeline)
+    plug(ProtectoraWeb.Auth.SetAccount)
   end
 
   scope "/", ProtectoraWeb do
@@ -62,19 +73,42 @@ defmodule ProtectoraWeb.Router do
     live("/padrinamento/:id/show/edit", PadrinamentoLive.Show, :edit)
   end
 
+  defp handle_errors(conn, %{reason: %Phoenix.Router.NoRouteError{message: message}}) do
+    conn |> json(%{errors: message}) |> halt()
+  end
+
+  defp handle_errors(conn, %{reason: %{message: message}}) do
+    conn |> json(%{errors: message}) |> halt()
+  end
+
   scope "/api", ProtectoraWeb do
     pipe_through(:api)
 
     get("/", DefaultController, :index)
 
-    resources("/voluntario", VoluntarioController, except: [:new, :edit])
+    post("/voluntario/sign_in", VoluntarioController, :sign_in)
+    post "/voluntario", VoluntarioController, :create
+
     resources("/colaborador", ColaboradorController, except: [:new, :edit])
     resources("/publicacion", PublicacionController, except: [:new, :edit])
     resources("/animal", AnimalController, except: [:new, :edit])
     resources("/rexistro", RexistroController, except: [:new, :edit])
     resources("/padrinamento", PadrinamentoController, except: [:new, :edit])
 
-    # resources "/imaxe_publicacion", ImaxePublicacionController, except: [:new, :edit]
+    # resources "/imaxe_pVoluntarioControllerublicacion", ImaxePublicacionController, except: [:new, :edit]
+  end
+
+  scope "/api", ProtectoraWeb do
+    pipe_through([:api, :auth])
+
+    get "/voluntario", VoluntarioController, :index
+    get "/voluntario/:id", VoluntarioController, :show
+    get "/voluntario/:id/edit", VoluntarioController, :edit
+    put "/voluntario/:id", VoluntarioController, :update
+    patch "/voluntario/:id", VoluntarioController, :update
+    delete "/voluntario/:id", VoluntarioController, :delete
+
+    get("/voluntario/get/:id", VoluntarioController, :show)
   end
 
   # Other scopes may use custom stacks.
@@ -96,6 +130,7 @@ defmodule ProtectoraWeb.Router do
   # node running the Phoenix server.
   if Mix.env() in [:dev, :test] do
     import Phoenix.LiveDashboard.Router
+
     scope "/" do
       pipe_through(:browser)
       live_dashboard("/dashboard", metrics: ProtectoraWeb.Telemetry)
@@ -108,5 +143,29 @@ defmodule ProtectoraWeb.Router do
 
       forward("/mailbox", Plug.Swoosh.MailboxPreview)
     end
+  end
+
+  ## Authentication routes
+
+  scope "/", ProtectoraWeb do
+    pipe_through([:browser, :redirect_if_user_is_authenticated])
+
+    get("/users/log_in", UserSessionController, :new)
+    post("/users/log_in", UserSessionController, :create)
+    get("/users/reset_password/:token", UserResetPasswordController, :edit)
+    put("/users/reset_password/:token", UserResetPasswordController, :update)
+  end
+
+  scope "/", ProtectoraWeb do
+    pipe_through([:browser, :require_authenticated_user])
+
+    # get "/users/settings", UserSettingsController, :edit
+    # put "/users/settings", UserSettingsController, :update
+  end
+
+  scope "/", ProtectoraWeb do
+    pipe_through([:browser])
+
+    delete("/users/log_out", UserSessionController, :delete)
   end
 end

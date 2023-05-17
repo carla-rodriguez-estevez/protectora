@@ -5,8 +5,9 @@ defmodule Protectora.Voluntarios do
 
   import Ecto.Query, warn: false
   alias Protectora.Repo
-
+  require Logger
   alias Protectora.Voluntarios.Voluntario
+  alias Protectora.Accounts.{User, UserToken, UserNotifier}
 
   @doc """
   Returns the list of voluntario.
@@ -37,6 +38,8 @@ defmodule Protectora.Voluntarios do
   """
   def get_voluntario!(id), do: Repo.get!(Voluntario, id)
 
+  def get_voluntario_by_email(email), do: Voluntario |> where(email: ^email) |> Repo.one()
+
   @doc """
   Creates a voluntario.
 
@@ -49,10 +52,17 @@ defmodule Protectora.Voluntarios do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_voluntario(attrs \\ %{}) do
-    %Voluntario{}
-    |> Voluntario.changeset(attrs)
-    |> Repo.insert()
+  def create_voluntario(attrs \\ %{}), do: create_full_voluntario(attrs)
+
+  defp create_full_voluntario(attrs \\ %{}) do
+    Protectora.Accounts.register_user(%{email: attrs["email"], password: attrs["contrasinal"]})
+
+    vol =
+      %Voluntario{}
+      |> Voluntario.changeset(attrs)
+      |> Repo.insert()
+
+    vol
   end
 
   @doc """
@@ -68,6 +78,16 @@ defmodule Protectora.Voluntarios do
 
   """
   def update_voluntario(%Voluntario{} = voluntario, attrs) do
+    {:ok, resp} = Repo.transaction(fn -> update_voluntario_full(voluntario, attrs) end)
+    resp
+  end
+
+  defp update_voluntario_full(voluntario, attrs) do
+    user = User |> where(email: ^voluntario.email) |> Repo.one()
+
+    Protectora.Accounts.delete_user(user)
+    Protectora.Accounts.register_user(%{password: attrs["contrasinal"], email: attrs["email"]})
+
     voluntario
     |> Voluntario.changeset(attrs)
     |> Repo.update()
@@ -86,7 +106,15 @@ defmodule Protectora.Voluntarios do
 
   """
   def delete_voluntario(%Voluntario{} = voluntario) do
-    Repo.delete(voluntario)
+    {:ok, resp} = Repo.transaction(fn -> delete_voluntario_enteiro(voluntario) end)
+    resp
+  end
+
+  defp delete_voluntario_enteiro(params) do
+    user = Protectora.Accounts.get_user_by_email(params.email)
+
+    Protectora.Accounts.delete_user(user)
+    Repo.delete(params)
   end
 
   @doc """

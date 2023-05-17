@@ -10,5 +10,7 @@ defmodule Protectora.Repo.Migrations.CreateVoluntario do
 
       timestamps()
     end
+
+    create unique_index(:voluntario, [:email])
   end
 end

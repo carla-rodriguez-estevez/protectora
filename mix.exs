@@ -59,7 +59,10 @@ defmodule Protectora.MixProject do
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
       {:surface, "~> 0.8.0"},
       {:surface_catalogue, "~> 0.5.0"},
-      {:scrivener_ecto, "~> 2.0"}
+      {:scrivener_ecto, "~> 2.0"},
+      # authentication dependencies
+      {:guardian, "~> 2.0"},
+      {:guardian_db, "~> 2.0"}
     ]
   end
 

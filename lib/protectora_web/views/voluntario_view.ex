@@ -18,4 +18,16 @@ defmodule ProtectoraWeb.VoluntarioView do
       email: voluntario.email
     }
   end
+
+  def render("voluntario_token.json", %{voluntario: voluntario, token: token}) do
+    %{
+      data:
+        render_one(
+          voluntario,
+          VoluntarioView,
+          "voluntario.json"
+        ),
+      token: token
+    }
+  end
 end

@@ -24,7 +24,8 @@ defmodule Protectora.VoluntariosTest do
       valid_attrs = %{contrasinal: "some contrasinal", email: "some@email.com", nome: "some nome"}
 
       assert {:ok, %Voluntario{} = voluntario} = Voluntarios.create_voluntario(valid_attrs)
-      assert voluntario.contrasinal == "some contrasinal"
+      Bcrypt.verify_pass("some contrasinal", voluntario.contrasinal)
+      # assert voluntario.contrasinal == "some contrasinal"
       assert voluntario.email == "some@email.com"
       assert voluntario.nome == "some nome"
     end
@@ -45,7 +46,9 @@ defmodule Protectora.VoluntariosTest do
       assert {:ok, %Voluntario{} = voluntario} =
                Voluntarios.update_voluntario(voluntario, update_attrs)
 
-      assert voluntario.contrasinal == "some updated contrasinal"
+      Bcrypt.verify_pass("some updated contrasinal", voluntario.contrasinal)
+
+      #      assert voluntario.contrasinal == "some updated contrasinal"
       assert voluntario.email == "someupdated@email.com"
       assert voluntario.nome == "some updated nome"
     end

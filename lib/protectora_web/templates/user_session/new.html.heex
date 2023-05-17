@@ -1,0 +1,26 @@
+<div class="form-component">
+  <h1 class="font-semibold text-xl">Iniciar sesión</h1>
+
+  <.form class="form-content" novalidate let={f} for={@conn} action={Routes.user_session_path(@conn, :create)} as={:user}>
+    <%= if @error_message do %>
+      <div class="alert alert-danger">
+        <p><%= @error_message %></p>
+      </div>
+    <% end %>
+
+    <%= label f, :email %>
+    <%= email_input f, :email, required: true %>
+
+    <%= label f, :contrasinal %>
+    <%= password_input f, :password, required: true %>
+
+    <div class="inline-form-component">
+    <%= label f, :remember_me, "Manter o meu contrainal 60 días" %>
+    <%= checkbox f, :remember_me %>
+    </div>
+
+    <div class="inline-flex text-white mb-4 bg-teal-500 border-0 py-2 px-6 focus:outline-none hover:bg-teal-600 rounded text-lg max-w-fit">
+      <%= submit "Iniciar" %>
+    </div>
+  </.form>
+</div>

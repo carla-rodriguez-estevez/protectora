@@ -17,6 +17,12 @@ defmodule Protectora.VoluntariosFixtures do
       })
       |> Protectora.Voluntarios.create_voluntario()
 
+    Enum.into(attrs, %{
+      password: "some contrasinal",
+      email: "some@email.com"
+    })
+    |> Protectora.Accounts.register_user()
+
     voluntario
   end
 end
