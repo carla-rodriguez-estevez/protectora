@@ -7,7 +7,7 @@ defmodule ProtectoraWeb.Auth.SetAccount do
   end
 
   def call(conn, _options) do
-    if conn.assigns[:account] do
+    if conn.assigns[:voluntario] do
       conn
     else
       account_id = get_session(conn, :account_id)

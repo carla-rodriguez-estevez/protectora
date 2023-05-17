@@ -5,16 +5,12 @@ defmodule ProtectoraWeb.VoluntarioController do
   alias Protectora.Voluntarios.Voluntario
   alias ProtectoraWeb.{Auth.Guardian, Auth.ErrorResponse}
 
-  action_fallback ProtectoraWeb.FallbackController
+  action_fallback(ProtectoraWeb.FallbackController)
 
-  plug :is_authorized_account when action in [:update, :delete]
+  plug(:is_authorized_account when action in [:update, :delete])
 
   defp is_authorized_account(conn, _opts) do
-    %{params: %{"voluntario" => params}} = conn
-
-    account = Voluntarios.get_voluntario!(params["id"])
-
-    if conn.assigns.voluntario.id == account.id do
+    if conn.assigns.voluntario.id do
       conn
     else
       raise ErrorResponse.Forbidden
@@ -55,7 +51,7 @@ defmodule ProtectoraWeb.VoluntarioController do
   end
 
   def update(conn, %{"id" => id, "voluntario" => voluntario_params}) do
-    voluntario = Voluntarios.get_voluntario!(voluntario_params["id"])
+    voluntario = Voluntarios.get_voluntario!(id)
 
     with {:ok, %Voluntario{} = voluntario} <-
            Voluntarios.update_voluntario(voluntario, voluntario_params) do
