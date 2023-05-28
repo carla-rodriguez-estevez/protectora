@@ -4,6 +4,9 @@ defmodule ProtectoraWeb.RexistroLiveTest do
   import Phoenix.LiveViewTest
   import Protectora.RexistrosFixtures
   import Protectora.AnimaisFixtures
+  alias Protectora.Accounts
+  alias ProtectoraWeb.UserAuth
+  import Protectora.AccountsFixtures
 
   @create_attrs %{descricion: "some descricion", prezo: 120.5, titulo: "some titulo"}
   @update_attrs %{
@@ -22,6 +25,17 @@ defmodule ProtectoraWeb.RexistroLiveTest do
     setup [:create_rexistro]
 
     test "lists all rexistro", %{conn: conn, rexistro: rexistro} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, _index_live, html} = live(conn, Routes.rexistro_index_path(conn, :index))
 
       assert html =~ "Listing Rexistro"
@@ -29,6 +43,17 @@ defmodule ProtectoraWeb.RexistroLiveTest do
     end
 
     test "saves new rexistro", %{conn: conn} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, index_live, _html} = live(conn, Routes.rexistro_index_path(conn, :index))
 
       assert index_live |> element("a", "New Rexistro") |> render_click() =~
@@ -60,6 +85,17 @@ defmodule ProtectoraWeb.RexistroLiveTest do
     end
 
     test "updates rexistro in listing", %{conn: conn, rexistro: rexistro} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, index_live, _html} = live(conn, Routes.rexistro_index_path(conn, :index))
 
       assert index_live |> element("#rexistro-#{rexistro.id} a", "Edit") |> render_click() =~
@@ -82,6 +118,17 @@ defmodule ProtectoraWeb.RexistroLiveTest do
     end
 
     test "deletes rexistro in listing", %{conn: conn, rexistro: rexistro} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, index_live, _html} = live(conn, Routes.rexistro_index_path(conn, :index))
 
       assert index_live |> element("#rexistro-#{rexistro.id} a", "Delete") |> render_click()
@@ -93,6 +140,17 @@ defmodule ProtectoraWeb.RexistroLiveTest do
     setup [:create_rexistro]
 
     test "displays rexistro", %{conn: conn, rexistro: rexistro} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, _show_live, html} = live(conn, Routes.rexistro_show_path(conn, :show, rexistro))
 
       assert html =~ "Show Rexistro"
@@ -100,6 +158,17 @@ defmodule ProtectoraWeb.RexistroLiveTest do
     end
 
     test "updates rexistro within modal", %{conn: conn, rexistro: rexistro} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, show_live, _html} = live(conn, Routes.rexistro_show_path(conn, :show, rexistro))
 
       assert show_live |> element("a", "Edit") |> render_click() =~

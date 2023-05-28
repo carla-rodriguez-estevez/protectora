@@ -2,8 +2,10 @@ defmodule ProtectoraWeb.ColaboradorControllerTest do
   use ProtectoraWeb.ConnCase
 
   import Protectora.ColaboradoresFixtures
+  import Protectora.VoluntariosFixtures
 
   alias Protectora.Colaboradores.Colaborador
+  alias Protectora.Voluntarios.Voluntario
 
   @create_attrs %{
     apelidos: "Rodríguez",
@@ -45,14 +47,44 @@ defmodule ProtectoraWeb.ColaboradorControllerTest do
   end
 
   describe "index" do
+    setup [:create_voluntario]
+
     test "lists all colaborador", %{conn: conn} do
+      {:ok, account, jwt} =
+        ProtectoraWeb.Auth.Guardian.authenticate("some@email.com", "some contrasinal")
+
+      conn =
+        conn
+        |> Plug.Test.init_test_session(%{})
+        |> put_session(:account_id, account.id)
+
+      conn =
+        conn
+        |> put_req_header("accept", "application/json")
+        |> put_req_header("authorization", "Bearer #{jwt}")
+
       conn = get(conn, Routes.colaborador_path(conn, :index))
       assert json_response(conn, 200)["data"] == []
     end
   end
 
   describe "create colaborador" do
+    setup [:create_voluntario]
+
     test "renders colaborador when data is valid", %{conn: conn} do
+      {:ok, account, jwt} =
+        ProtectoraWeb.Auth.Guardian.authenticate("some@email.com", "some contrasinal")
+
+      conn =
+        conn
+        |> Plug.Test.init_test_session(%{})
+        |> put_session(:account_id, account.id)
+
+      conn =
+        conn
+        |> put_req_header("accept", "application/json")
+        |> put_req_header("authorization", "Bearer #{jwt}")
+
       conn = post(conn, Routes.colaborador_path(conn, :create), colaborador: @create_attrs)
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
@@ -73,18 +105,45 @@ defmodule ProtectoraWeb.ColaboradorControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
+      {:ok, account, jwt} =
+        ProtectoraWeb.Auth.Guardian.authenticate("some@email.com", "some contrasinal")
+
+      conn =
+        conn
+        |> Plug.Test.init_test_session(%{})
+        |> put_session(:account_id, account.id)
+
+      conn =
+        conn
+        |> put_req_header("accept", "application/json")
+        |> put_req_header("authorization", "Bearer #{jwt}")
+
       conn = post(conn, Routes.colaborador_path(conn, :create), colaborador: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
 
   describe "update colaborador" do
+    setup [:create_voluntario]
     setup [:create_colaborador]
 
     test "renders colaborador when data is valid", %{
       conn: conn,
       colaborador: %Colaborador{id: id} = colaborador
     } do
+      {:ok, account, jwt} =
+        ProtectoraWeb.Auth.Guardian.authenticate("some@email.com", "some contrasinal")
+
+      conn =
+        conn
+        |> Plug.Test.init_test_session(%{})
+        |> put_session(:account_id, account.id)
+
+      conn =
+        conn
+        |> put_req_header("accept", "application/json")
+        |> put_req_header("authorization", "Bearer #{jwt}")
+
       conn =
         put(conn, Routes.colaborador_path(conn, :update, colaborador), colaborador: @update_attrs)
 
@@ -107,6 +166,19 @@ defmodule ProtectoraWeb.ColaboradorControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, colaborador: colaborador} do
+      {:ok, account, jwt} =
+        ProtectoraWeb.Auth.Guardian.authenticate("some@email.com", "some contrasinal")
+
+      conn =
+        conn
+        |> Plug.Test.init_test_session(%{})
+        |> put_session(:account_id, account.id)
+
+      conn =
+        conn
+        |> put_req_header("accept", "application/json")
+        |> put_req_header("authorization", "Bearer #{jwt}")
+
       conn =
         put(conn, Routes.colaborador_path(conn, :update, colaborador), colaborador: @invalid_attrs)
 
@@ -115,9 +187,23 @@ defmodule ProtectoraWeb.ColaboradorControllerTest do
   end
 
   describe "delete colaborador" do
+    setup [:create_voluntario]
     setup [:create_colaborador]
 
     test "deletes chosen colaborador", %{conn: conn, colaborador: colaborador} do
+      {:ok, account, jwt} =
+        ProtectoraWeb.Auth.Guardian.authenticate("some@email.com", "some contrasinal")
+
+      conn =
+        conn
+        |> Plug.Test.init_test_session(%{})
+        |> put_session(:account_id, account.id)
+
+      conn =
+        conn
+        |> put_req_header("accept", "application/json")
+        |> put_req_header("authorization", "Bearer #{jwt}")
+
       conn = delete(conn, Routes.colaborador_path(conn, :delete, colaborador))
       assert response(conn, 204)
 
@@ -125,6 +211,11 @@ defmodule ProtectoraWeb.ColaboradorControllerTest do
         get(conn, Routes.colaborador_path(conn, :show, colaborador))
       end
     end
+  end
+
+  defp create_voluntario(_) do
+    voluntario = voluntario_fixture()
+    %{voluntario: voluntario}
   end
 
   defp create_colaborador(_) do

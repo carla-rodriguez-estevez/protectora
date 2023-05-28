@@ -3,6 +3,9 @@ defmodule ProtectoraWeb.ColaboradorLiveTest do
 
   import Phoenix.LiveViewTest
   import Protectora.ColaboradoresFixtures
+  alias Protectora.Accounts
+  alias ProtectoraWeb.UserAuth
+  import Protectora.AccountsFixtures
 
   ##  @create_attrs %{
   #    apelidos: "Rodríguez",
@@ -48,36 +51,35 @@ defmodule ProtectoraWeb.ColaboradorLiveTest do
     setup [:create_colaborador]
 
     test "lists all colaborador", %{conn: conn, colaborador: colaborador} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, _index_live, html} = live(conn, Routes.colaborador_index_path(conn, :index))
 
       assert html =~ "Listing Colaborador"
       assert html =~ colaborador.apelidos
     end
 
-    #  test "saves new colaborador", %{conn: conn} do
-    #     {:ok, index_live, _html} = live(conn, Routes.colaborador_index_path(conn, :index))
-    #
-    #      assert index_live |> element("a", "New Colaborador") |> render_click() =~
-    #               "New Colaborador"
-    #
-    #      assert_patch(index_live, Routes.colaborador_index_path(conn, :new))
-    #
-    #      assert index_live
-    #             |> form("#colaborador-form", colaborador: @invalid_attrs)
-    #             |> render_change() =~ "is invalid"
-    #
-    #      {:ok, view, html} =
-    #        index_live
-    #        |> form("#colaborador-form", colaborador: @create_attrs)
-    #        |> render_submit()
-    #        |> follow_redirect(conn, Routes.colaborador_index_path(conn, :index))
-    #
-    #      assert html =~ "Colaborador created successfully"
-    # some created apelidos
-    #      assert html =~ "Rodríguez"
-    #    end
-
     test "updates colaborador in listing", %{conn: conn, colaborador: colaborador} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, index_live, _html} = live(conn, Routes.colaborador_index_path(conn, :index))
 
       assert index_live |> element("#colaborador-#{colaborador.id} a", "Edit") |> render_click() =~
@@ -101,6 +103,17 @@ defmodule ProtectoraWeb.ColaboradorLiveTest do
     end
 
     test "deletes colaborador in listing", %{conn: conn, colaborador: colaborador} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, index_live, _html} = live(conn, Routes.colaborador_index_path(conn, :index))
 
       assert index_live |> element("#colaborador-#{colaborador.id} a", "Delete") |> render_click()
@@ -112,6 +125,17 @@ defmodule ProtectoraWeb.ColaboradorLiveTest do
     setup [:create_colaborador]
 
     test "displays colaborador", %{conn: conn, colaborador: colaborador} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, _show_live, html} = live(conn, Routes.colaborador_show_path(conn, :show, colaborador))
 
       assert html =~ "Show Colaborador"
@@ -119,6 +143,17 @@ defmodule ProtectoraWeb.ColaboradorLiveTest do
     end
 
     test "updates colaborador within modal", %{conn: conn, colaborador: colaborador} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, show_live, _html} = live(conn, Routes.colaborador_show_path(conn, :show, colaborador))
 
       assert show_live |> element("a", "Edit") |> render_click() =~

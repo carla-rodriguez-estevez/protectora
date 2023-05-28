@@ -31,12 +31,6 @@ defmodule ProtectoraWeb.Router do
     pipe_through(:browser)
 
     get("/", PageController, :index)
-    live("/voluntario", VoluntarioLive.Index, :index)
-    live("/voluntario/new", VoluntarioLive.Index, :new)
-    live("/voluntario/:id/edit", VoluntarioLive.Index, :edit)
-
-    live("/voluntario/:id", VoluntarioLive.Show, :show)
-    live("/voluntario/:id/show/edit", VoluntarioLive.Show, :edit)
 
     live("/publicacion", PublicacionLive.Index, :index)
     live("/publicacion/new", PublicacionLive.Index, :new)
@@ -45,32 +39,12 @@ defmodule ProtectoraWeb.Router do
     live("/publicacion/:id", PublicacionLive.Show, :show)
     live("/publicacion/:id/show/edit", PublicacionLive.Show, :edit)
 
-    live("/colaborador", ColaboradorLive.Index, :index)
-    live("/colaborador/new", ColaboradorLive.Index, :new)
-    live("/colaborador/:id/edit", ColaboradorLive.Index, :edit)
-
-    live("/colaborador/:id", ColaboradorLive.Show, :show)
-    live("/colaborador/:id/show/edit", ColaboradorLive.Show, :edit)
-
     live("/animal", AnimalLive.Index, :index)
     live("/animal/new", AnimalLive.Index, :new)
     live("/animal/:id/edit", AnimalLive.Index, :edit)
 
     live("/animal/:id", AnimalLive.Show, :show)
     live("/animal/:id/show/edit", AnimalLive.Show, :edit)
-
-    live("/rexistro", RexistroLive.Index, :index)
-    live("/rexistro/new", RexistroLive.Index, :new)
-    live("/rexistro/:id/edit", RexistroLive.Index, :edit)
-    live("/rexistro/:id", RexistroLive.Show, :show)
-    live("/rexistro/:id/show/edit", RexistroLive.Show, :edit)
-
-    live("/padrinamento", PadrinamentoLive.Index, :index)
-    live("/padrinamento/new", PadrinamentoLive.Index, :new)
-    live("/padrinamento/:id/edit", PadrinamentoLive.Index, :edit)
-
-    live("/padrinamento/:id", PadrinamentoLive.Show, :show)
-    live("/padrinamento/:id/show/edit", PadrinamentoLive.Show, :edit)
   end
 
   defp handle_errors(conn, %{reason: %Phoenix.Router.NoRouteError{message: message}}) do
@@ -89,11 +63,8 @@ defmodule ProtectoraWeb.Router do
     post("/voluntario/sign_in", VoluntarioController, :sign_in)
     post "/voluntario", VoluntarioController, :create
 
-    resources("/colaborador", ColaboradorController, except: [:new, :edit])
     resources("/publicacion", PublicacionController, except: [:new, :edit])
     resources("/animal", AnimalController, except: [:new, :edit])
-    resources("/rexistro", RexistroController, except: [:new, :edit])
-    resources("/padrinamento", PadrinamentoController, except: [:new, :edit])
 
     # resources "/imaxe_pVoluntarioControllerublicacion", ImaxePublicacionController, except: [:new, :edit]
   end
@@ -109,6 +80,11 @@ defmodule ProtectoraWeb.Router do
     delete "/voluntario/:id", VoluntarioController, :delete
 
     get("/voluntario/get/:id", VoluntarioController, :show)
+
+    # Authorizated routes in HTTP
+    resources("/rexistro", RexistroController, except: [:new, :edit])
+    resources("/padrinamento", PadrinamentoController, except: [:new, :edit])
+    resources("/colaborador", ColaboradorController, except: [:new, :edit])
   end
 
   # Other scopes may use custom stacks.
@@ -159,8 +135,32 @@ defmodule ProtectoraWeb.Router do
   scope "/", ProtectoraWeb do
     pipe_through([:browser, :require_authenticated_user])
 
-    # get "/users/settings", UserSettingsController, :edit
-    # put "/users/settings", UserSettingsController, :update
+    live("/colaborador", ColaboradorLive.Index, :index)
+    live("/colaborador/new", ColaboradorLive.Index, :new)
+    live("/colaborador/:id/edit", ColaboradorLive.Index, :edit)
+
+    live("/colaborador/:id", ColaboradorLive.Show, :show)
+    live("/colaborador/:id/show/edit", ColaboradorLive.Show, :edit)
+
+    live("/voluntario", VoluntarioLive.Index, :index)
+    live("/voluntario/new", VoluntarioLive.Index, :new)
+    live("/voluntario/:id/edit", VoluntarioLive.Index, :edit)
+
+    live("/voluntario/:id", VoluntarioLive.Show, :show)
+    live("/voluntario/:id/show/edit", VoluntarioLive.Show, :edit)
+
+    live("/padrinamento", PadrinamentoLive.Index, :index)
+    live("/padrinamento/new", PadrinamentoLive.Index, :new)
+    live("/padrinamento/:id/edit", PadrinamentoLive.Index, :edit)
+
+    live("/padrinamento/:id", PadrinamentoLive.Show, :show)
+    live("/padrinamento/:id/show/edit", PadrinamentoLive.Show, :edit)
+
+    live("/rexistro", RexistroLive.Index, :index)
+    live("/rexistro/new", RexistroLive.Index, :new)
+    live("/rexistro/:id/edit", RexistroLive.Index, :edit)
+    live("/rexistro/:id", RexistroLive.Show, :show)
+    live("/rexistro/:id/show/edit", RexistroLive.Show, :edit)
   end
 
   scope "/", ProtectoraWeb do

@@ -3,7 +3,9 @@ defmodule ProtectoraWeb.VoluntarioLiveTest do
 
   import Phoenix.LiveViewTest
   import Protectora.VoluntariosFixtures
-  require Logger
+  alias Protectora.Accounts
+  alias ProtectoraWeb.UserAuth
+  import Protectora.AccountsFixtures
 
   @create_attrs %{contrasinal: "some", email: "some@email.com", nome: "some nome"}
   @update_attrs %{
@@ -22,6 +24,17 @@ defmodule ProtectoraWeb.VoluntarioLiveTest do
     setup [:create_voluntario]
 
     test "lists all voluntario", %{conn: conn, voluntario: voluntario} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, _index_live, html} = live(conn, Routes.voluntario_index_path(conn, :index))
 
       assert html =~ "Listing Voluntario"
@@ -29,6 +42,17 @@ defmodule ProtectoraWeb.VoluntarioLiveTest do
     end
 
     test "saves new voluntario", %{conn: conn} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, index_live, _html} = live(conn, Routes.voluntario_index_path(conn, :index))
 
       assert index_live |> element("a", "New Voluntario") |> render_click() =~
@@ -52,6 +76,17 @@ defmodule ProtectoraWeb.VoluntarioLiveTest do
     end
 
     test "updates voluntario in listing", %{conn: conn, voluntario: voluntario} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, index_live, _html} = live(conn, Routes.voluntario_index_path(conn, :index))
 
       assert index_live |> element("#voluntario-#{voluntario.id} a", "Edit") |> render_click() =~
@@ -73,6 +108,17 @@ defmodule ProtectoraWeb.VoluntarioLiveTest do
     end
 
     test "deletes voluntario in listing", %{conn: conn, voluntario: voluntario} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, index_live, _html} = live(conn, Routes.voluntario_index_path(conn, :index))
 
       assert index_live |> element("#voluntario-#{voluntario.id} a", "Delete") |> render_click()
@@ -84,6 +130,17 @@ defmodule ProtectoraWeb.VoluntarioLiveTest do
     setup [:create_voluntario]
 
     test "displays voluntario", %{conn: conn, voluntario: voluntario} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, _show_live, html} = live(conn, Routes.voluntario_show_path(conn, :show, voluntario))
 
       assert html =~ "Show Voluntario"
@@ -91,6 +148,17 @@ defmodule ProtectoraWeb.VoluntarioLiveTest do
     end
 
     test "updates voluntario within modal", %{conn: conn, voluntario: voluntario} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, show_live, _html} = live(conn, Routes.voluntario_show_path(conn, :show, voluntario))
 
       assert show_live |> element("a", "Edit") |> render_click() =~
