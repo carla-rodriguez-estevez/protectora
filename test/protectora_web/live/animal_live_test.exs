@@ -98,26 +98,27 @@ defmodule ProtectoraWeb.AnimalLiveTest do
       assert html =~ animal.descricion
     end
 
-    test "updates animal within modal", %{conn: conn, animal: animal} do
-      {:ok, show_live, _html} = live(conn, Routes.animal_show_path(conn, :show, animal))
+    # No longer available
+    # test "updates animal within modal", %{conn: conn, animal: animal} do
+    #   {:ok, show_live, _html} = live(conn, Routes.animal_show_path(conn, :show, animal))
 
-      assert show_live |> element("a", "Edit") |> render_click() =~
-               "Edit Animal"
+    #   assert show_live |> element("a", "Edit") |> render_click() =~
+    #            "Edit Animal"
 
-      assert_patch(show_live, Routes.animal_show_path(conn, :edit, animal))
+    #   assert_patch(show_live, Routes.animal_show_path(conn, :edit, animal))
 
-      assert show_live
-             |> form("#animal-form", animal: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+    #   assert show_live
+    #          |> form("#animal-form", animal: @invalid_attrs)
+    #          |> render_change() =~ "can&#39;t be blank"
 
-      {:ok, _, html} =
-        show_live
-        |> form("#animal-form", animal: @update_attrs)
-        |> render_submit()
-        |> follow_redirect(conn, Routes.animal_show_path(conn, :show, animal))
+    #   {:ok, _, html} =
+    #     show_live
+    #     |> form("#animal-form", animal: @update_attrs)
+    #     |> render_submit()
+    #     |> follow_redirect(conn, Routes.animal_show_path(conn, :show, animal))
 
-      assert html =~ "Animal actualizado correctamente"
-      assert html =~ "Pequena cadela moi querida e cariñosa"
-    end
+    #   assert html =~ "Animal actualizado correctamente"
+    #   assert html =~ "Pequena cadela moi querida e cariñosa"
+    # end
   end
 end

@@ -5,6 +5,9 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
   import Protectora.PadrinamentosFixtures
   import Protectora.AnimaisFixtures
   import Protectora.ColaboradoresFixtures
+  alias Protectora.Accounts
+  alias ProtectoraWeb.UserAuth
+  import Protectora.AccountsFixtures
 
   @create_attrs %{cantidade_aporte: "120.5", perioricidade: "mensual"}
   @update_attrs %{cantidade_aporte: "456.7", perioricidade: "anual"}
@@ -19,6 +22,17 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
     setup [:create_padrinamento]
 
     test "lists all padrinamento", %{conn: conn, padrinamento: padrinamento} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, _index_live, html} = live(conn, Routes.padrinamento_index_path(conn, :index))
 
       assert html =~ "Listing Padrinamento"
@@ -26,6 +40,17 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
     end
 
     test "saves new padrinamento", %{conn: conn} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, index_live, _html} = live(conn, Routes.padrinamento_index_path(conn, :index))
 
       assert index_live |> element("a", "New Padrinamento") |> render_click() =~
@@ -72,6 +97,17 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
     end
 
     test "updates padrinamento in listing", %{conn: conn, padrinamento: padrinamento} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, index_live, _html} = live(conn, Routes.padrinamento_index_path(conn, :index))
 
       assert index_live |> element("#padrinamento-#{padrinamento.id} a", "Edit") |> render_click() =~
@@ -118,6 +154,17 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
     end
 
     test "deletes padrinamento in listing", %{conn: conn, padrinamento: padrinamento} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, index_live, _html} = live(conn, Routes.padrinamento_index_path(conn, :index))
 
       assert index_live
@@ -132,6 +179,17 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
     setup [:create_padrinamento]
 
     test "displays padrinamento", %{conn: conn, padrinamento: padrinamento} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, _show_live, html} =
         live(conn, Routes.padrinamento_show_path(conn, :show, padrinamento))
 
@@ -140,6 +198,17 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
     end
 
     test "updates padrinamento within modal", %{conn: conn, padrinamento: padrinamento} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, show_live, _html} =
         live(conn, Routes.padrinamento_show_path(conn, :show, padrinamento))
 
