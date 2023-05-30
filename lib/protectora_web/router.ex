@@ -27,17 +27,21 @@ defmodule ProtectoraWeb.Router do
     plug(ProtectoraWeb.Auth.SetAccount)
   end
 
+  # We put this pipe first to be redirected to this routes first. we can duplicate the scopes because this is lineal
+
+  scope "/", ProtectoraWeb do
+    pipe_through([:browser, :require_authenticated_user])
+
+    live("/publicacion/new", PublicacionLive.Index, :new)
+  end
+
   scope "/", ProtectoraWeb do
     pipe_through(:browser)
 
     get("/", PageController, :index)
 
     live("/publicacion", PublicacionLive.Index, :index)
-    live("/publicacion/new", PublicacionLive.Index, :new)
-    live("/publicacion/:id/edit", PublicacionLive.Index, :edit)
-
     live("/publicacion/:id", PublicacionLive.Show, :show)
-    live("/publicacion/:id/show/edit", PublicacionLive.Show, :edit)
 
     live("/animal", AnimalLive.Index, :index)
     live("/animal/new", AnimalLive.Index, :new)
@@ -63,14 +67,21 @@ defmodule ProtectoraWeb.Router do
     post("/voluntario/sign_in", VoluntarioController, :sign_in)
     post "/voluntario", VoluntarioController, :create
 
-    resources("/publicacion", PublicacionController, except: [:new, :edit])
     resources("/animal", AnimalController, except: [:new, :edit])
+    get "/publicacion", PublicacionController, :index
+    get "/publicacion/:id", PublicacionController, :show
 
     # resources "/imaxe_pVoluntarioControllerublicacion", ImaxePublicacionController, except: [:new, :edit]
   end
 
   scope "/api", ProtectoraWeb do
     pipe_through([:api, :auth])
+
+    get "/publicacion/:id/edit", PublicacionController, :edit
+    put "/publicacion/:id", PublicacionController, :update
+    patch "/publicacion/:id", PublicacionController, :update
+    delete "/publicacion/:id", PublicacionController, :delete
+    post "/publicacion", PublicacionController, :create
 
     get "/voluntario", VoluntarioController, :index
     get "/voluntario/:id", VoluntarioController, :show
@@ -134,6 +145,10 @@ defmodule ProtectoraWeb.Router do
 
   scope "/", ProtectoraWeb do
     pipe_through([:browser, :require_authenticated_user])
+
+    live("/publicacion/new", PublicacionLive.Index, :new)
+    live("/publicacion/:id/edit", PublicacionLive.Index, :edit)
+    live("/publicacion/:id/show/edit", PublicacionLive.Show, :edit)
 
     live("/colaborador", ColaboradorLive.Index, :index)
     live("/colaborador/new", ColaboradorLive.Index, :new)
