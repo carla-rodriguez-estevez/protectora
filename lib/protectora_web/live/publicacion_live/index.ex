@@ -1,16 +1,36 @@
 defmodule ProtectoraWeb.PublicacionLive.Index do
   use ProtectoraWeb, :live_view
-  require Logger
 
   alias Protectora.Publicacions
   alias Protectora.Publicacions.Publicacion
 
   @impl true
-  def mount(_params, session, socket) do
+  def mount(params, session, socket) do
     if connected?(socket), do: Publicacions.subscribe()
 
+    %{
+      entries: entries,
+      page_number: page_number,
+      page_size: page_size,
+      total_entries: total_entries,
+      total_pages: total_pages
+    } =
+      if connected?(socket) do
+        Publicacions.list_publicacion_paginated(params)
+      else
+        %Scrivener.Page{}
+      end
+
     assigns = [
-      posts: list_publicacion(),
+      conn: socket,
+      posts: entries,
+      page_number: page_number || 0,
+      page_size: page_size || 0,
+      total_entries: total_entries || 0,
+      total_pages: total_pages || 0,
+      publicacion: %Publicacion{},
+      live_action: :index,
+      page_title: "Nova Publicación",
       user_token: Map.get(session, "user_token")
     ]
 
@@ -18,19 +38,31 @@ defmodule ProtectoraWeb.PublicacionLive.Index do
   end
 
   @impl true
-  def handle_params(params, _url, socket) do
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  def handle_params(%{"posts" => page}, _url, socket) do
+    assigns = get_and_assign_page(page)
+    {:noreply, apply_action(socket, socket.assigns.live_action, %{"page" => page})}
+
+    {:noreply, assign(socket, assigns)}
   end
 
-  defp apply_action(socket, :edit, %{"id" => id}) do
-    socket
-    |> assign(:page_title, "Edit Publicacion")
-    |> assign(:publicacion, Publicacions.get_publicacion!(id))
+  def handle_params(params, _url, socket) do
+    assigns = get_and_assign_page(0)
+    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+    {:noreply, assign(socket, assigns)}
   end
+
+  # defp apply_action(socket, :edit, %{"id" => id}) do
+  #   Logger.warn("Edito")
+  #   Logger.warn(id)
+
+  #   socket
+  #   |> assign(:page_title, "Edit Publicacion")
+  #   |> assign(:publicacion, Publicacions.get_publicacion!(id))
+  # end
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Publicacion")
+    |> assign(:page_title, "Nova Publicación")
     |> assign(:publicacion, %Publicacion{})
   end
 
@@ -46,6 +78,13 @@ defmodule ProtectoraWeb.PublicacionLive.Index do
     {:ok, _} = Publicacions.delete_publicacion(publicacion)
 
     {:noreply, assign(socket, [])}
+  end
+
+  def handle_event("nav", %{"page" => page}, socket) do
+    {:noreply,
+     push_redirect(socket,
+       to: "/publicacion?posts=" <> page
+     )}
   end
 
   @impl true
@@ -71,13 +110,28 @@ defmodule ProtectoraWeb.PublicacionLive.Index do
     list = Enum.filter(socket.assigns.posts, fn el -> el.id != post.id end)
 
     assigns = [
-      posts: list
+      posts: list,
+      publicacion: %Publicacion{}
     ]
 
     {:noreply, assign(socket, assigns)}
   end
 
-  defp list_publicacion do
-    Publicacions.list_publicacion()
+  def get_and_assign_page(page_number) do
+    %{
+      entries: entries,
+      page_number: page_number,
+      page_size: page_size,
+      total_entries: total_entries,
+      total_pages: total_pages
+    } = Publicacions.list_publicacion_paginated(page: page_number)
+
+    [
+      posts: entries,
+      page_number: page_number,
+      page_size: page_size,
+      total_entries: total_entries,
+      total_pages: total_pages
+    ]
   end
 end

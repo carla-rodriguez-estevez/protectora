@@ -24,6 +24,10 @@ defmodule Protectora.Publicacions do
     Repo.all(Publicacion)
   end
 
+  def list_publicacion_paginated(params \\ []) do
+    Repo.paginate(Publicacion |> order_by(desc: :inserted_at), params)
+  end
+
   @doc """
   Gets a single publicacion.
 
@@ -38,7 +42,8 @@ defmodule Protectora.Publicacions do
       ** (Ecto.NoResultsError)
 
   """
-  def get_publicacion!(id), do: Publicacion |> where(id: ^id) |> preload([:imaxe_publicacion]) |> Repo.one!()
+  def get_publicacion!(id),
+    do: Publicacion |> where(id: ^id) |> preload([:imaxe_publicacion]) |> Repo.one!()
 
   @doc """
   Creates a publicacion.
@@ -53,17 +58,16 @@ defmodule Protectora.Publicacions do
 
   """
   def create_publicacion(attrs \\ %{}, after_save \\ &{:ok, &1}) do
-
-    Repo.transaction fn ->  create_full_publicacion(attrs, after_save) end
+    Repo.transaction(fn -> create_full_publicacion(attrs, after_save) end)
   end
 
   defp create_full_publicacion(attrs \\ %{}, after_save \\ &{:ok, &1}) do
-    resp = %Publicacion{}
-    |> Publicacion.changeset(attrs)
-    |> Repo.insert()
-    |> after_save(after_save)
-    |> broadcast(:post_created)
-
+    resp =
+      %Publicacion{}
+      |> Publicacion.changeset(attrs)
+      |> Repo.insert()
+      |> after_save(after_save)
+      |> broadcast(:post_created)
 
     resp
   end
@@ -71,13 +75,12 @@ defmodule Protectora.Publicacions do
   defp after_save({:ok, publicacion}, func) do
     photos = func.(publicacion)
 
-    completed = Enum.each(photos, fn el ->
-                                %ImaxePublicacion{}
-                                |> ImaxePublicacion.changeset(%{path_imaxe: el, publicacion_id: publicacion.id})
-                                |> Repo.insert()
-                          end)
-
-
+    completed =
+      Enum.each(photos, fn el ->
+        %ImaxePublicacion{}
+        |> ImaxePublicacion.changeset(%{path_imaxe: el, publicacion_id: publicacion.id})
+        |> Repo.insert()
+      end)
 
     {:ok, publicacion}
   end
@@ -96,39 +99,42 @@ defmodule Protectora.Publicacions do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_publicacion(%Publicacion{} = publicacion, attrs,  after_update \\ &{:ok, &1}) do
-
-    Repo.transaction fn ->  update_full_publicacion(publicacion, attrs, after_update) end
-
+  def update_publicacion(%Publicacion{} = publicacion, attrs, after_update \\ &{:ok, &1}) do
+    Repo.transaction(fn -> update_full_publicacion(publicacion, attrs, after_update) end)
   end
 
-  defp update_full_publicacion(%Publicacion{} = publicacion, attrs,  after_update \\ &{:ok, &1}) do
+  defp update_full_publicacion(%Publicacion{} = publicacion, attrs, after_update \\ &{:ok, &1}) do
+    resp =
+      publicacion
+      |> Publicacion.changeset(attrs)
+      |> Repo.update()
+      |> after_update(after_update)
+      |> broadcast(:post_updated)
 
-        resp = publicacion
-          |> Publicacion.changeset(attrs)
-          |> Repo.update()
-          |> after_update(after_update)
-          |> broadcast(:post_updated)
-        resp
+    resp
   end
 
   defp after_update({:ok, publicacion}, func) do
     photos = func.(publicacion)
 
     case photos do
-     [] -> {:ok, publicacion}
-     [h | t] -> Enum.each(publicacion.imaxe_publicacion, fn el -> el |> Repo.delete() end)
-             Enum.each(photos, fn el ->
-                                %ImaxePublicacion{}
-                                |> ImaxePublicacion.changeset(%{path_imaxe: el, publicacion_id: publicacion.id})
-                                |> Repo.insert()
-                          end)
-                  {:ok, publicacion}
-     _ -> {:ok, publicacion}
+      [] ->
+        {:ok, publicacion}
 
+      [h | t] ->
+        Enum.each(publicacion.imaxe_publicacion, fn el -> el |> Repo.delete() end)
 
+        Enum.each(photos, fn el ->
+          %ImaxePublicacion{}
+          |> ImaxePublicacion.changeset(%{path_imaxe: el, publicacion_id: publicacion.id})
+          |> Repo.insert()
+        end)
+
+        {:ok, publicacion}
+
+      _ ->
+        {:ok, publicacion}
     end
-
   end
 
   defp after_update(error, _func), do: error
@@ -146,17 +152,17 @@ defmodule Protectora.Publicacions do
 
   """
   def delete_publicacion(%Publicacion{} = publicacion) do
-    Repo.transaction fn ->  delete_full_publication(publicacion) end
-
+    Repo.transaction(fn -> delete_full_publication(publicacion) end)
   end
 
   defp delete_full_publication(%Publicacion{} = publicacion) do
-
-    Enum.each(publicacion.imaxe_publicacion, fn el -> File.rm!(Path.join(["priv/static", el.path_imaxe])) end)
+    Enum.each(publicacion.imaxe_publicacion, fn el ->
+      File.rm!(Path.join(["priv/static", el.path_imaxe]))
+    end)
 
     publicacion
-      |> Repo.delete()
-      |> broadcast(:post_deleted)
+    |> Repo.delete()
+    |> broadcast(:post_deleted)
   end
 
   @doc """

@@ -21,7 +21,7 @@ defmodule ProtectoraWeb.PublicacionLiveTest do
     test "lists all publicacion", %{conn: conn, publicacion: publicacion} do
       {:ok, _index_live, html} = live(conn, Routes.publicacion_index_path(conn, :index))
 
-      assert html =~ "Listing Publicacion"
+      assert html =~ "Publicacións dispoñíbles"
       assert html =~ publicacion.contido
     end
 
@@ -58,38 +58,39 @@ defmodule ProtectoraWeb.PublicacionLiveTest do
       assert html =~ "some contido"
     end
 
-    test "updates publicacion in listing", %{conn: conn, publicacion: publicacion} do
-      conn =
-        conn
-        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
-        |> init_test_session(%{})
+    # THis functionality is no longer needed, wait here in case is necessary
+    # test "updates publicacion in listing", %{conn: conn, publicacion: publicacion} do
+    #   conn =
+    #     conn
+    #     |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+    #     |> init_test_session(%{})
 
-      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+    #   token = Protectora.Accounts.generate_user_session_token(user_fixture())
 
-      conn =
-        conn
-        |> put_session(:user_token, token)
+    #   conn =
+    #     conn
+    #     |> put_session(:user_token, token)
 
-      {:ok, index_live, _html} = live(conn, Routes.publicacion_index_path(conn, :index))
+    #   {:ok, index_live, _html} = live(conn, Routes.publicacion_index_path(conn, :index))
 
-      assert index_live |> element("#publicacion-#{publicacion.id} a", "Editar") |> render_click() =~
-               "Edit Publicacion"
+    #   assert index_live |> element("#publicacion-#{publicacion.id} a", "Editar") |> render_click() =~
+    #            "Editar Publicación"
 
-      assert_patch(index_live, Routes.publicacion_index_path(conn, :edit, publicacion))
+    #   assert_patch(index_live, Routes.publicacion_index_path(conn, :edit, publicacion))
 
-      assert index_live
-             |> form("#publicacion-form", publicacion: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+    #   assert index_live
+    #          |> form("#publicacion-form", publicacion: @invalid_attrs)
+    #          |> render_change() =~ "can&#39;t be blank"
 
-      {:ok, _, html} =
-        index_live
-        |> form("#publicacion-form", publicacion: @update_attrs)
-        |> render_submit()
-        |> follow_redirect(conn, Routes.publicacion_index_path(conn, :index))
+    #   {:ok, _, html} =
+    #     index_live
+    #     |> form("#publicacion-form", publicacion: @update_attrs)
+    #     |> render_submit()
+    #     |> follow_redirect(conn, Routes.publicacion_index_path(conn, :index))
 
-      assert html =~ "Publicación actualizada correctamente"
-      assert html =~ "some updated contido"
-    end
+    #   assert html =~ "Publicación actualizada correctamente"
+    #   assert html =~ "some updated contido"
+    # end
 
     test "deletes publicacion in listing", %{conn: conn, publicacion: publicacion} do
       conn =
