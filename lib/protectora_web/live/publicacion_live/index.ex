@@ -6,11 +6,12 @@ defmodule ProtectoraWeb.PublicacionLive.Index do
   alias Protectora.Publicacions.Publicacion
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(_params, session, socket) do
     if connected?(socket), do: Publicacions.subscribe()
 
     assigns = [
-      posts: list_publicacion()
+      posts: list_publicacion(),
+      user_token: Map.get(session, "user_token")
     ]
 
     {:ok, assign(socket, assigns)}

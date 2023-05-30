@@ -3,7 +3,9 @@ defmodule ProtectoraWeb.PublicacionLiveTest do
 
   import Phoenix.LiveViewTest
   import Protectora.PublicacionsFixtures
-
+  alias Protectora.Accounts
+  alias ProtectoraWeb.UserAuth
+  import Protectora.AccountsFixtures
   @create_attrs %{contido: "some contido", titulo: "some titulo"}
   @update_attrs %{contido: "some updated contido", titulo: "some updated titulo"}
   @invalid_attrs %{contido: nil, titulo: nil}
@@ -24,10 +26,21 @@ defmodule ProtectoraWeb.PublicacionLiveTest do
     end
 
     test "saves new publicacion", %{conn: conn} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, index_live, _html} = live(conn, Routes.publicacion_index_path(conn, :index))
 
-      assert index_live |> element("a", "New Publicacion") |> render_click() =~
-               "New Publicacion"
+      assert index_live |> element("a", "Engadir publicación") |> render_click() =~
+               "Engadir publicación"
 
       assert_patch(index_live, Routes.publicacion_index_path(conn, :new))
 
@@ -46,9 +59,20 @@ defmodule ProtectoraWeb.PublicacionLiveTest do
     end
 
     test "updates publicacion in listing", %{conn: conn, publicacion: publicacion} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, index_live, _html} = live(conn, Routes.publicacion_index_path(conn, :index))
 
-      assert index_live |> element("#publicacion-#{publicacion.id} a", "Edit") |> render_click() =~
+      assert index_live |> element("#publicacion-#{publicacion.id} a", "Editar") |> render_click() =~
                "Edit Publicacion"
 
       assert_patch(index_live, Routes.publicacion_index_path(conn, :edit, publicacion))
@@ -68,9 +92,20 @@ defmodule ProtectoraWeb.PublicacionLiveTest do
     end
 
     test "deletes publicacion in listing", %{conn: conn, publicacion: publicacion} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, index_live, _html} = live(conn, Routes.publicacion_index_path(conn, :index))
 
-      assert index_live |> element("#publicacion-#{publicacion.id} a", "Delete") |> render_click()
+      assert index_live |> element("#publicacion-#{publicacion.id} a", "Borrar") |> render_click()
       refute has_element?(index_live, "#publicacion-#{publicacion.id}")
     end
   end
