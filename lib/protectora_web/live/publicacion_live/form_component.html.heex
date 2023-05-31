@@ -10,7 +10,7 @@
     phx-change="validate"
     phx-submit="save">
 
-    <%= label f, :titulo, "Título flipante", class: "font-extrabold" %>
+    <%= label f, :titulo, "Título", class: "font-extrabold" %>
     <%= text_input f, :titulo %>
     <%= error_tag f, :titulo %>
 
@@ -46,8 +46,8 @@
     </div>
 
     <%= if @action == :edit  do %>
-      <div class="font-extrabold"> Aviso imáxes</div>
-      <div>As imaxes que engada sustituirán ás imaxes previamente gardadas. Se non indica ningunha imaxe non se borrarán as imaxes que xa había.</div>
+      <div class="font-extrabold text-red-600 "> Aviso imáxes</div>
+      <div class="text-red-600">As imaxes que engada sustituirán ás imaxes previamente gardadas. Se non indica ningunha imaxe non se borrarán as imaxes que xa había.</div>
     <% end %>
 
   </.form>

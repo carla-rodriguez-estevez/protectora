@@ -4,8 +4,13 @@ defmodule ProtectoraWeb.PublicacionLive.Show do
   alias Protectora.Publicacions
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, socket}
+  def mount(_params, session, socket) do
+    assigns = [
+      page_title: "Mostar Publicación",
+      user_token: Map.get(session, "user_token")
+    ]
+
+    {:ok, assign(socket, assigns)}
   end
 
   @impl true
@@ -16,6 +21,6 @@ defmodule ProtectoraWeb.PublicacionLive.Show do
      |> assign(:publicacion, Publicacions.get_publicacion!(id))}
   end
 
-  defp page_title(:show), do: "Show Publicacion"
-  defp page_title(:edit), do: "Edit Publicacion"
+  defp page_title(:show), do: "Mostar Publicación"
+  defp page_title(:edit), do: "Editar Publicación"
 end

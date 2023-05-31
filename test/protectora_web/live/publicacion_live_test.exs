@@ -117,15 +117,26 @@ defmodule ProtectoraWeb.PublicacionLiveTest do
     test "displays publicacion", %{conn: conn, publicacion: publicacion} do
       {:ok, _show_live, html} = live(conn, Routes.publicacion_show_path(conn, :show, publicacion))
 
-      assert html =~ "Show Publicacion"
+      assert html =~ "Mostar Publicación"
       assert html =~ publicacion.contido
     end
 
     test "updates publicacion within modal", %{conn: conn, publicacion: publicacion} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, show_live, _html} = live(conn, Routes.publicacion_show_path(conn, :show, publicacion))
 
-      assert show_live |> element("a", "Edit") |> render_click() =~
-               "Edit Publicacion"
+      assert show_live |> element("a", "Editar publicación") |> render_click() =~
+               "Editar Publicación"
 
       assert_patch(show_live, Routes.publicacion_show_path(conn, :edit, publicacion))
 
