@@ -21,7 +21,7 @@ defmodule ProtectoraWeb.PublicacionLiveTest do
     test "lists all publicacion", %{conn: conn, publicacion: publicacion} do
       {:ok, _index_live, html} = live(conn, Routes.publicacion_index_path(conn, :index))
 
-      assert html =~ "Publicacións dispoñíbles"
+      assert html =~ "Publicacións dispoñibles"
       assert html =~ publicacion.contido
     end
 
@@ -46,7 +46,7 @@ defmodule ProtectoraWeb.PublicacionLiveTest do
 
       assert index_live
              |> form("#publicacion-form", publicacion: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "non pode estar valeiro"
 
       {:ok, _, html} =
         index_live
@@ -131,7 +131,7 @@ defmodule ProtectoraWeb.PublicacionLiveTest do
 
       assert show_live
              |> form("#publicacion-form", publicacion: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "non pode estar valeiro"
 
       {:ok, _, html} =
         show_live

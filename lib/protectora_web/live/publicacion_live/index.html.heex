@@ -1,6 +1,6 @@
 <div class=" flex flex-col justify-center mt-6">
 <div class="flex justify-center items-center">
-<h1 class="  mt-6 underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600 text-2xl sm:text-4xl font-extrabold leading-none tracking-tight text-gray-900  dark:text-white">Publicacións dispoñíbles</h1>
+<h1 class="  mt-6 underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600 text-2xl sm:text-4xl font-extrabold leading-none tracking-tight text-gray-900  dark:text-white">Publicacións dispoñibles</h1>
 </div>
 
 <%= if @live_action in [:new, :edit] do %>
@@ -43,8 +43,14 @@
     <% end %>
   </tbody>
 </table>
+<%= if @user_token do %>
 
-    <nav class="border-t border-gray-200">
+<div class="flex justify-center items-center">
+  <span class="flex justify-center items-center w-64 text-white my-4 bg-teal-500 border-0 py-2 px-6 focus:outline-none hover:bg-teal-600 rounded text-lg"><%= live_patch "Engadir publicación", to: Routes.publicacion_index_path(@socket, :new) %></span>
+</div>
+<% end %>
+
+    <nav class="border-t border-gray-200 my-12">
       <ul class="flex my-2 items-center justify-center">
         <li class="">
         <%= if  @page_number <= 1 do %>
@@ -75,11 +81,6 @@
         </li>
       </ul>
     </nav>
-<%= if @user_token do %>
 
-<div class="flex justify-center items-center">
-  <span class="flex justify-center items-center w-64 text-white my-4 bg-teal-500 border-0 py-2 px-6 focus:outline-none hover:bg-teal-600 rounded text-lg"><%= live_patch "Engadir publicación", to: Routes.publicacion_index_path(@socket, :new) %></span>
-</div>
-<% end %>
 
 </div>

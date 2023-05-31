@@ -33,6 +33,7 @@ defmodule ProtectoraWeb.Router do
     pipe_through([:browser, :require_authenticated_user])
 
     live("/publicacion/new", PublicacionLive.Index, :new)
+    live("/publicacion/:id/show/edit", PublicacionLive.Show, :edit)
   end
 
   scope "/", ProtectoraWeb do
@@ -148,7 +149,6 @@ defmodule ProtectoraWeb.Router do
 
     live("/publicacion/new", PublicacionLive.Index, :new)
     live("/publicacion/:id/edit", PublicacionLive.Index, :edit)
-    live("/publicacion/:id/show/edit", PublicacionLive.Show, :edit)
 
     live("/colaborador", ColaboradorLive.Index, :index)
     live("/colaborador/new", ColaboradorLive.Index, :new)
