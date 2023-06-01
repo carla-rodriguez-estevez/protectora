@@ -16,19 +16,19 @@ defmodule ProtectoraWeb.VoluntarioLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit Voluntario")
+    |> assign(:page_title, "Editar Voluntario")
     |> assign(:voluntario, Voluntarios.get_voluntario!(id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Voluntario")
+    |> assign(:page_title, "Novo Voluntario")
     |> assign(:voluntario, %Voluntario{})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Voluntario")
+    |> assign(:page_title, "Lista Voluntario")
     |> assign(:voluntario, nil)
   end
 

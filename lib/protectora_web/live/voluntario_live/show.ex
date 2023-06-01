@@ -16,6 +16,6 @@ defmodule ProtectoraWeb.VoluntarioLive.Show do
      |> assign(:voluntario, Voluntarios.get_voluntario!(id))}
   end
 
-  defp page_title(:show), do: "Show Voluntario"
-  defp page_title(:edit), do: "Edit Voluntario"
+  defp page_title(:show), do: "Ensinar Voluntario"
+  defp page_title(:edit), do: "Editar Voluntario"
 end

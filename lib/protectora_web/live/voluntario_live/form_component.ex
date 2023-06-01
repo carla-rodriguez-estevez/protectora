@@ -32,7 +32,7 @@ defmodule ProtectoraWeb.VoluntarioLive.FormComponent do
       {:ok, _voluntario} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Voluntario updated successfully")
+         |> put_flash(:info, "Voluntario actualizado correctamente")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -45,7 +45,7 @@ defmodule ProtectoraWeb.VoluntarioLive.FormComponent do
       {:ok, _voluntario} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Voluntario created successfully")
+         |> put_flash(:info, "Voluntario creado correctamente")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

@@ -85,7 +85,7 @@ defmodule Protectora.Voluntarios do
   defp update_voluntario_full(voluntario, attrs) do
     user = User |> where(email: ^voluntario.email) |> Repo.one()
 
-    Protectora.Accounts.delete_user(user)
+    Protectora.Accounts.delete_user(change_user(user))
     Protectora.Accounts.register_user(%{password: attrs["contrasinal"], email: attrs["email"]})
 
     voluntario
@@ -128,5 +128,9 @@ defmodule Protectora.Voluntarios do
   """
   def change_voluntario(%Voluntario{} = voluntario, attrs \\ %{}) do
     Voluntario.changeset(voluntario, attrs)
+  end
+
+  def change_user(%User{} = user, attrs \\ %{}) do
+    Protectora.Accounts.User.registration_changeset(user, attrs)
   end
 end
