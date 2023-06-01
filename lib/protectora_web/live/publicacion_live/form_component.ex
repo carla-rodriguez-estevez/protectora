@@ -20,7 +20,7 @@ defmodule ProtectoraWeb.PublicacionLive.FormComponent do
     {:ok,
      allow_upload(socket, :photo,
        accept: ~w(.png .jpeg .jpg),
-       max_entries: 8,
+       max_entries: 18,
        max_file_size: 2_000_000
      )}
   end

@@ -1,4 +1,6 @@
-<h1>Show Publicacion</h1>
+<div class=" flex flex-col items-center justify-center m-6">
+
+<h1 class="  mt-6 underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600 text-2xl sm:text-4xl font-extrabold leading-none tracking-tight text-gray-900  dark:text-white"><%= @publicacion.titulo %></h1>
 
 <%= if @live_action in [:edit] do %>
   <.modal return_to={Routes.publicacion_show_path(@socket, :show, @publicacion)}>
@@ -13,26 +15,24 @@
   </.modal>
 <% end %>
 
-<ul>
-
-  <li>
-    <strong>Titulo:</strong>
-    <%= @publicacion.titulo %>
-  </li>
-
-  <li>
-    <strong>Contido:</strong>
+<ul class="flex flex-col mt-4 gap-4 max-w-5xl text-xl  my-6">
+  <li class="flex flex-col mt-4 gap-4 max-w-5xl my-6">
     <%= @publicacion.contido %>
   </li>
-
-   <%= for entry <- @publicacion.imaxe_publicacion do %>
-      <div class="row">
-        <img src={entry.path_imaxe} height="150"/>
-      </div>
-    <% end %>
-
-
 </ul>
 
-<span><%= live_patch "Edit", to: Routes.publicacion_show_path(@socket, :edit, @publicacion), class: "button" %></span> |
-<span><%= live_redirect "Back", to: Routes.publicacion_index_path(@socket, :index) %></span>
+<h1 class="flex flex-row space-x-4  my-4 text-2xl font-extrabold leading-none tracking-tight text-gray-900  dark:text-white"><div><%= length(@publicacion.imaxe_publicacion) %></div><div>imaxes</div></h1>
+
+<div class="flex overflow-x-scroll my-4 mx-10  lg:mx-44">
+   <%= for entry <- @publicacion.imaxe_publicacion do %>
+        <img class="object-fill m-4 h-52"  width="450" src={entry.path_imaxe}/>
+    <% end %>
+</div>
+
+<div class="flex flex-col sm:flex-row ">
+<%= if @user_token do %>
+<span class="flex justify-center items-center w-64 text-white my-4 mx-4 bg-teal-500 border-0 py-2 px-6 focus:outline-none hover:bg-teal-600 rounded text-lg"><%= live_patch "Editar publicación", to: Routes.publicacion_show_path(@socket, :edit, @publicacion), class: "button" %></span>
+<% end %>
+<span class="flex justify-center items-center w-64 text-white  mx-4 my-4 bg-teal-500 border-0 py-2 px-6 focus:outline-none hover:bg-teal-600 rounded text-lg"><%= live_redirect "Voltar á páxina anterior", to: Routes.publicacion_index_path(@socket, :index) %></span>
+</div>
+</div>

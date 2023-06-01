@@ -5,7 +5,7 @@ defmodule Protectora.Repo.Migrations.CreatePublicacion do
     create table(:publicacion, primary_key: false) do
       add :id, :binary_id, primary_key: true
       add :titulo, :string
-      add :contido, :string
+      add :contido, :text
 
       timestamps()
     end

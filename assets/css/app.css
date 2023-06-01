@@ -18,6 +18,14 @@
   justify-content: center;
 }
 
+.long-cell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  height: 75px;
+  justify-content: center;
+}
+
 .container {
   max-width: 100%;
 }
@@ -51,7 +59,7 @@
 .invalid-feedback {
   color: #a94442;
   display: block;
-  margin: -1rem 0 2rem;
+  margin: 6px;
 }
 
 /* LiveView specific classes for your customization */
