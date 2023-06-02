@@ -210,8 +210,6 @@ defmodule Protectora.Padrinamentos do
 
   """
   def change_padrinamento(padrinamento, attrs \\ %{}) do
-    #  Logger.warn(padrinamento)
-
     padrinamento_result =
       Padrinamento.changeset(
         %Padrinamento{

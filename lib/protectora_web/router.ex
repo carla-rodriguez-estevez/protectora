@@ -4,6 +4,8 @@ defmodule ProtectoraWeb.Router do
 
   import ProtectoraWeb.UserAuth
 
+  require Logger
+
   pipeline :browser do
     plug(:accepts, ["html"])
     plug(:fetch_session)
@@ -21,7 +23,7 @@ defmodule ProtectoraWeb.Router do
   end
 
   pipeline :auth do
-    plug :fetch_session
+    plug(:fetch_session)
 
     plug(ProtectoraWeb.Auth.Pipeline)
     plug(ProtectoraWeb.Auth.SetAccount)
@@ -39,7 +41,8 @@ defmodule ProtectoraWeb.Router do
   scope "/", ProtectoraWeb do
     pipe_through(:browser)
 
-    get("/", PageController, :index)
+    live("/", IndexLive.Index, :index)
+    live("/colaborar", IndexLive.Index, :new)
 
     live("/publicacion", PublicacionLive.Index, :index)
     live("/publicacion/:id", PublicacionLive.Show, :show)
@@ -60,17 +63,21 @@ defmodule ProtectoraWeb.Router do
     conn |> json(%{errors: message}) |> halt()
   end
 
+  defp handle_errors(conn, rest) do
+    Logger.warn(rest)
+  end
+
   scope "/api", ProtectoraWeb do
     pipe_through(:api)
 
     get("/", DefaultController, :index)
 
     post("/voluntario/sign_in", VoluntarioController, :sign_in)
-    post "/voluntario", VoluntarioController, :create
+    post("/voluntario", VoluntarioController, :create)
 
     resources("/animal", AnimalController, except: [:new, :edit])
-    get "/publicacion", PublicacionController, :index
-    get "/publicacion/:id", PublicacionController, :show
+    get("/publicacion", PublicacionController, :index)
+    get("/publicacion/:id", PublicacionController, :show)
 
     # resources "/imaxe_pVoluntarioControllerublicacion", ImaxePublicacionController, except: [:new, :edit]
   end
@@ -78,18 +85,18 @@ defmodule ProtectoraWeb.Router do
   scope "/api", ProtectoraWeb do
     pipe_through([:api, :auth])
 
-    get "/publicacion/:id/edit", PublicacionController, :edit
-    put "/publicacion/:id", PublicacionController, :update
-    patch "/publicacion/:id", PublicacionController, :update
-    delete "/publicacion/:id", PublicacionController, :delete
-    post "/publicacion", PublicacionController, :create
+    get("/publicacion/:id/edit", PublicacionController, :edit)
+    put("/publicacion/:id", PublicacionController, :update)
+    patch("/publicacion/:id", PublicacionController, :update)
+    delete("/publicacion/:id", PublicacionController, :delete)
+    post("/publicacion", PublicacionController, :create)
 
-    get "/voluntario", VoluntarioController, :index
-    get "/voluntario/:id", VoluntarioController, :show
-    get "/voluntario/:id/edit", VoluntarioController, :edit
-    put "/voluntario/:id", VoluntarioController, :update
-    patch "/voluntario/:id", VoluntarioController, :update
-    delete "/voluntario/:id", VoluntarioController, :delete
+    get("/voluntario", VoluntarioController, :index)
+    get("/voluntario/:id", VoluntarioController, :show)
+    get("/voluntario/:id/edit", VoluntarioController, :edit)
+    put("/voluntario/:id", VoluntarioController, :update)
+    patch("/voluntario/:id", VoluntarioController, :update)
+    delete("/voluntario/:id", VoluntarioController, :delete)
 
     get("/voluntario/get/:id", VoluntarioController, :show)
 

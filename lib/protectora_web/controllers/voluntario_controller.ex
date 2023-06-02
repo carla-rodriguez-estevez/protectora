@@ -42,6 +42,9 @@ defmodule ProtectoraWeb.VoluntarioController do
 
       {:error, :unauthorized} ->
         raise ErrorResponse.Unauthorized, message: "Email or Password incorrect"
+
+      {:error, :unauthored} ->
+        raise ErrorResponse.Unauthorized, message: "Email or Password incorrect"
     end
   end
 

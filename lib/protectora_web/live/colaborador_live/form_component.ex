@@ -2,7 +2,7 @@ defmodule ProtectoraWeb.ColaboradorLive.FormComponent do
   use ProtectoraWeb, :live_component
 
   alias Protectora.Colaboradores
-
+  require Logger
   @impl true
   def update(%{colaborador: colaborador} = assigns, socket) do
     changeset = Colaboradores.change_colaborador(colaborador)
