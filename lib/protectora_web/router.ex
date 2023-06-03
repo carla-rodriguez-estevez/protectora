@@ -78,6 +78,7 @@ defmodule ProtectoraWeb.Router do
     resources("/animal", AnimalController, except: [:new, :edit])
     get("/publicacion", PublicacionController, :index)
     get("/publicacion/:id", PublicacionController, :show)
+    post("/colaborador", PublicacionController, :create)
 
     # resources "/imaxe_pVoluntarioControllerublicacion", ImaxePublicacionController, except: [:new, :edit]
   end
@@ -101,9 +102,16 @@ defmodule ProtectoraWeb.Router do
     get("/voluntario/get/:id", VoluntarioController, :show)
 
     # Authorizated routes in HTTP
+    get("/colaborador", PublicacionController, :index)
+    get("/colaborador/:id", PublicacionController, :show)
+    get("/colaborador/:id/edit", PublicacionController, :edit)
+    put("/colaborador/:id", PublicacionController, :update)
+    patch("/colaborador/:id", PublicacionController, :update)
+    delete("/colaborador/:id", PublicacionController, :delete)
+
     resources("/rexistro", RexistroController, except: [:new, :edit])
     resources("/padrinamento", PadrinamentoController, except: [:new, :edit])
-    resources("/colaborador", ColaboradorController, except: [:new, :edit])
+    # resources("/colaborador", ColaboradorController, except: [:new, :edit])
   end
 
   # Other scopes may use custom stacks.

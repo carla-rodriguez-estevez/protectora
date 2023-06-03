@@ -1,6 +1,6 @@
 <div class=" flex flex-col items-center justify-center m-6">
 
-<h1>Detalles colaborador</h1>
+<h1 class="  mt-6 text-2xl sm:text-4xl font-extrabold leading-none tracking-tight text-gray-900  dark:text-white"><%= @colaborador.nome %></h1>
 
 <%= if @live_action in [:edit] do %>
   <.modal return_to={Routes.colaborador_show_path(@socket, :show, @colaborador)}>
@@ -15,54 +15,49 @@
   </.modal>
 <% end %>
 
-<ul>
+<ul class="flex flex-col mt-4 gap-4 max-w-5xl text-xl  my-6">
 
-  <li>
-    <strong>Nome:</strong>
-    <%= @colaborador.nome %>
-  </li>
-
-  <li>
+  <li class="flex flex-row mt-10 gap-4 max-w-5xl mb-2">
     <strong>Apelidos:</strong>
     <%= @colaborador.apelidos %>
   </li>
 
-  <li>
-    <strong>Datanacemento:</strong>
+  <li class="flex flex-row gap-4 max-w-5xl mb-2">
+    <strong>Data de nacemento:</strong>
     <%= @colaborador.dataNacemento %>
   </li>
 
-  <li>
-    <strong>Direccion:</strong>
+  <li class="flex flex-row gap-4 max-w-5xl mb-2">
+    <strong>Dirección:</strong>
     <%= @colaborador.direccion %>
   </li>
 
-  <li>
-    <strong>Codigopostal:</strong>
+  <li class="flex flex-row gap-4 max-w-5xl mb-2">
+    <strong>Código postal:</strong>
     <%= @colaborador.codigoPostal %>
   </li>
 
-  <li>
+  <li class="flex flex-row gap-4 max-w-5xl mb-2">
     <strong>Localidade:</strong>
     <%= @colaborador.localidade %>
   </li>
 
-  <li>
+  <li class="flex flex-row gap-4 max-w-5xl mb-2">
     <strong>Email:</strong>
     <%= @colaborador.email %>
   </li>
 
-  <li>
-    <strong>Numeroconta:</strong>
+  <li class="flex flex-col md:flex-row gap-4 max-w-5xl mb-2">
+    <strong>Número de conta:</strong>
     <%= @colaborador.numeroConta %>
   </li>
 
-  <li>
-    <strong>Cantidadeaporte:</strong>
+  <li class="flex flex-row gap-4 max-w-5xl mb-2">
+    <strong>Cantidade aportada:</strong>
     <%= @colaborador.cantidadeAporte %>
   </li>
 
-  <li>
+  <li class="flex flex-row gap-4 max-w-5xl mb-2">
     <strong>Perioricidade:</strong>
     <%= @colaborador.perioricidade %>
   </li>

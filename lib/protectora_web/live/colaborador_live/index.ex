@@ -54,7 +54,7 @@ defmodule ProtectoraWeb.ColaboradorLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit Colaborador")
+    |> assign(:page_title, "Editar colaborador")
     |> assign(:colaborador, Colaboradores.get_colaborador!(id))
   end
 
