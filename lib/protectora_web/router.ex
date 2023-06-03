@@ -78,7 +78,7 @@ defmodule ProtectoraWeb.Router do
     resources("/animal", AnimalController, except: [:new, :edit])
     get("/publicacion", PublicacionController, :index)
     get("/publicacion/:id", PublicacionController, :show)
-    post("/colaborador", PublicacionController, :create)
+    post("/colaborador", ColaboradorController, :create)
 
     # resources "/imaxe_pVoluntarioControllerublicacion", ImaxePublicacionController, except: [:new, :edit]
   end
@@ -102,12 +102,12 @@ defmodule ProtectoraWeb.Router do
     get("/voluntario/get/:id", VoluntarioController, :show)
 
     # Authorizated routes in HTTP
-    get("/colaborador", PublicacionController, :index)
-    get("/colaborador/:id", PublicacionController, :show)
-    get("/colaborador/:id/edit", PublicacionController, :edit)
-    put("/colaborador/:id", PublicacionController, :update)
-    patch("/colaborador/:id", PublicacionController, :update)
-    delete("/colaborador/:id", PublicacionController, :delete)
+    get("/colaborador", ColaboradorController, :index)
+    get("/colaborador/:id", ColaboradorController, :show)
+    get("/colaborador/:id/edit", ColaboradorController, :edit)
+    put("/colaborador/:id", ColaboradorController, :update)
+    patch("/colaborador/:id", ColaboradorController, :update)
+    delete("/colaborador/:id", ColaboradorController, :delete)
 
     resources("/rexistro", RexistroController, except: [:new, :edit])
     resources("/padrinamento", PadrinamentoController, except: [:new, :edit])

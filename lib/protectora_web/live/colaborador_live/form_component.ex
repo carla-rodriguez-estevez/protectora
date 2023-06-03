@@ -7,9 +7,6 @@ defmodule ProtectoraWeb.ColaboradorLive.FormComponent do
   def update(%{colaborador: colaborador} = assigns, socket) do
     changeset = Colaboradores.change_colaborador(colaborador)
 
-    # Logger.warn("EDITAR")
-    # Logger.warn(assigns)
-
     {:ok,
      socket
      |> assign(assigns)
