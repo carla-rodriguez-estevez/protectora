@@ -8,7 +8,7 @@
       module={ProtectoraWeb.ColaboradorLive.FormComponent}
       id={@colaborador.id || :new}
       title={@page_title}
-      action={@live_action}
+      action={:edit}
       colaborador={@colaborador}
       return_to={Routes.colaborador_index_path(@socket, :index)}
     />
