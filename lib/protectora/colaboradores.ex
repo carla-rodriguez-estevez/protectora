@@ -21,6 +21,10 @@ defmodule Protectora.Colaboradores do
     Repo.all(Colaborador)
   end
 
+  def list_colaborador_paginated(params \\ []) do
+    Repo.paginate(Colaborador, params)
+  end
+
   @doc """
   Gets a single colaborador.
 
