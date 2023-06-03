@@ -21,7 +21,7 @@ defmodule Protectora.Colaboradores.Colaborador do
     field(:nome, :string)
     field(:numeroConta, :string)
     field(:perioricidade, :string)
-    has_many :padrinamento, Protectora.Padrinamentos.Padrinamento
+    has_many(:padrinamento, Protectora.Padrinamentos.Padrinamento)
 
     timestamps()
   end
@@ -58,6 +58,55 @@ defmodule Protectora.Colaboradores.Colaborador do
     |> validate_number(:codigoPostal, greater_than: 10_000, less_than: 99_999)
     |> validate_length(:email, max: 160)
     |> unique_constraint(:email)
+    |> validate_inclusion(:perioricidade, [
+      "mensual",
+      "bimensual",
+      "trimestral",
+      "cada 6 meses",
+      "anual"
+    ])
+  end
+
+  def complete_changeset(colaborador, attrs) do
+    colaborador
+    |> cast(attrs, [
+      :nome,
+      :apelidos,
+      :dataNacemento,
+      :direccion,
+      :codigoPostal,
+      :localidade,
+      :email,
+      :numeroConta,
+      :cantidadeAporte,
+      :perioricidade
+    ])
+    |> validate_required([
+      :nome,
+      :apelidos,
+      :dataNacemento,
+      :direccion,
+      :codigoPostal,
+      :localidade,
+      :email,
+      :numeroConta,
+      :cantidadeAporte,
+      :perioricidade
+    ])
+    |> validate_format(:email, @mail_regex)
+    |> validate_format(:numeroConta, @account_regex)
+    |> validate_current_or_future_date(:dataNacemento)
+    |> validate_number(:codigoPostal, greater_than: 10_000, less_than: 99_999)
+    |> validate_length(:email, max: 160)
+    |> unique_constraint(:email)
+    |> validate_number(:cantidadeAporte, greater_than: 0, less_than: 999_999)
+    |> validate_inclusion(:perioricidade, [
+      "mensual",
+      "bimensual",
+      "trimestral",
+      "cada 6 meses",
+      "anual"
+    ])
   end
 
   def validate_current_or_future_date(%{changes: changes} = changeset, field) do

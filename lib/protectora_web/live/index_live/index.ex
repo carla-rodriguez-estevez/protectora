@@ -28,7 +28,7 @@ defmodule ProtectoraWeb.IndexLive.Index do
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Voluntario")
+    |> assign(:page_title, "Novo colaborador")
     |> assign(:colaborador, %Colaborador{})
   end
 

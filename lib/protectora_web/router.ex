@@ -63,9 +63,9 @@ defmodule ProtectoraWeb.Router do
     conn |> json(%{errors: message}) |> halt()
   end
 
-  defp handle_errors(conn, rest) do
-    Logger.warn(rest)
-  end
+  # defp handle_errors(conn, rest) do
+  #   Logger.warn(rest)
+  # end
 
   scope "/api", ProtectoraWeb do
     pipe_through(:api)
@@ -158,7 +158,7 @@ defmodule ProtectoraWeb.Router do
     live("/publicacion/:id/edit", PublicacionLive.Index, :edit)
 
     live("/colaborador", ColaboradorLive.Index, :index)
-    live("/colaborador/new", ColaboradorLive.Index, :new)
+    # live("/colaborador/new", ColaboradorLive.Index, :new)
     live("/colaborador/:id/edit", ColaboradorLive.Index, :edit)
 
     live("/colaborador/:id", ColaboradorLive.Show, :show)

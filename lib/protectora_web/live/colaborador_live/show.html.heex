@@ -1,4 +1,6 @@
-<h1>Show Colaborador</h1>
+<div class=" flex flex-col items-center justify-center m-6">
+
+<h1>Detalles colaborador</h1>
 
 <%= if @live_action in [:edit] do %>
   <.modal return_to={Routes.colaborador_show_path(@socket, :show, @colaborador)}>
@@ -67,5 +69,8 @@
 
 </ul>
 
-<span><%= live_patch "Edit", to: Routes.colaborador_show_path(@socket, :edit, @colaborador), class: "button" %></span> |
-<span><%= live_redirect "Back", to: Routes.colaborador_index_path(@socket, :index) %></span>
+<div class="flex flex-col sm:flex-row ">
+<span class="flex justify-center items-center w-64 text-white my-4 mx-4 bg-teal-500 border-0 py-2 px-6 focus:outline-none hover:bg-teal-600 rounded text-lg"><%= live_patch "Editar colaborador", to: Routes.colaborador_show_path(@socket, :edit, @colaborador), class: "button" %></span>
+<span class="flex justify-center items-center w-64 text-white  mx-4 my-4 bg-teal-500 border-0 py-2 px-6 focus:outline-none hover:bg-teal-600 rounded text-lg"><%= live_redirect "Voltar á páxina anterior", to: Routes.colaborador_index_path(@socket, :index) %></span>
+</div>
+</div>

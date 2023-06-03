@@ -16,6 +16,6 @@ defmodule ProtectoraWeb.ColaboradorLive.Show do
      |> assign(:colaborador, Colaboradores.get_colaborador!(id))}
   end
 
-  defp page_title(:show), do: "Show Colaborador"
-  defp page_title(:edit), do: "Edit Colaborador"
+  defp page_title(:show), do: "Detalles colaborador"
+  defp page_title(:edit), do: "Editar colaborador"
 end

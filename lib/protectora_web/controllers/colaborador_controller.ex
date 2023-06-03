@@ -4,7 +4,7 @@ defmodule ProtectoraWeb.ColaboradorController do
   alias Protectora.Colaboradores
   alias Protectora.Colaboradores.Colaborador
 
-  action_fallback ProtectoraWeb.FallbackController
+  action_fallback(ProtectoraWeb.FallbackController)
 
   def index(conn, _params) do
     colaborador = Colaboradores.list_colaborador()
@@ -12,7 +12,8 @@ defmodule ProtectoraWeb.ColaboradorController do
   end
 
   def create(conn, %{"colaborador" => colaborador_params}) do
-    with {:ok, %Colaborador{} = colaborador} <- Colaboradores.create_colaborador(colaborador_params) do
+    with {:ok, %Colaborador{} = colaborador} <-
+           Colaboradores.create_colaborador(colaborador_params, :full_check) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.colaborador_path(conn, :show, colaborador))
@@ -28,7 +29,8 @@ defmodule ProtectoraWeb.ColaboradorController do
   def update(conn, %{"id" => id, "colaborador" => colaborador_params}) do
     colaborador = Colaboradores.get_colaborador!(id)
 
-    with {:ok, %Colaborador{} = colaborador} <- Colaboradores.update_colaborador(colaborador, colaborador_params) do
+    with {:ok, %Colaborador{} = colaborador} <-
+           Colaboradores.update_colaborador(colaborador, colaborador_params, :full_check) do
       render(conn, "show.json", colaborador: colaborador)
     end
   end

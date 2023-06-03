@@ -28,7 +28,11 @@ defmodule ProtectoraWeb.ColaboradorLive.FormComponent do
   end
 
   defp save_colaborador(socket, :edit, colaborador_params) do
-    case Colaboradores.update_colaborador(socket.assigns.colaborador, colaborador_params) do
+    case Colaboradores.update_colaborador(
+           socket.assigns.colaborador,
+           colaborador_params,
+           :full_check
+         ) do
       {:ok, _colaborador} ->
         {:noreply,
          socket
@@ -41,7 +45,7 @@ defmodule ProtectoraWeb.ColaboradorLive.FormComponent do
   end
 
   defp save_colaborador(socket, :new, colaborador_params) do
-    case Colaboradores.create_colaborador(colaborador_params) do
+    case Colaboradores.create_colaborador(colaborador_params, :full_check) do
       {:ok, _colaborador} ->
         {:noreply,
          socket

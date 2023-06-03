@@ -22,19 +22,19 @@ defmodule ProtectoraWeb.ColaboradorLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit Colaborador")
+    |> assign(:page_title, "Editar Colaborador")
     |> assign(:colaborador, Colaboradores.get_colaborador!(id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Colaborador")
+    |> assign(:page_title, "Novo Colaborador")
     |> assign(:colaborador, %Colaborador{})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Colaborador")
+    |> assign(:page_title, "Lista de colaboradores")
     |> assign(:colaborador, nil)
   end
 

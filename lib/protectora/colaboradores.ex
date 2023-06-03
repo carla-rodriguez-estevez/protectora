@@ -58,6 +58,13 @@ defmodule Protectora.Colaboradores do
     |> broadcast(:colaborador_created)
   end
 
+  def create_colaborador(attrs, :full_check) do
+    %Colaborador{}
+    |> Colaborador.complete_changeset(attrs)
+    |> Repo.insert()
+    |> broadcast(:colaborador_created)
+  end
+
   @doc """
   Updates a colaborador.
 
@@ -73,6 +80,13 @@ defmodule Protectora.Colaboradores do
   def update_colaborador(%Colaborador{} = colaborador, attrs) do
     colaborador
     |> Colaborador.changeset(attrs)
+    |> Repo.update()
+    |> broadcast(:colaborador_updated)
+  end
+
+  def update_colaborador(%Colaborador{} = colaborador, attrs, :full_check) do
+    colaborador
+    |> Colaborador.complete_changeset(attrs)
     |> Repo.update()
     |> broadcast(:colaborador_updated)
   end
