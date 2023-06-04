@@ -15,10 +15,58 @@ defmodule ProtectoraWeb.PublicacionLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
+    publicacion = Publicacions.get_publicacion!(id)
+
+    image =
+      if length(publicacion.imaxe_publicacion) > 0 do
+        Enum.at(publicacion.imaxe_publicacion, 0)
+      else
+        nil
+      end
+
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:publicacion, Publicacions.get_publicacion!(id))}
+     |> assign(:publicacion, publicacion)
+     |> assign(:index_image, 0)
+     |> assign(:current_image, image)}
+  end
+
+  def handle_event("prev", _, socket) do
+    images = socket.assigns.publicacion.imaxe_publicacion
+    images_length = length(images)
+
+    index = socket.assigns.index_image
+
+    if index == 0 do
+      {:noreply,
+       socket
+       |> assign(
+         index_image: images_length - 1,
+         current_image: Enum.at(images, images_length - 1)
+       )}
+    else
+      {:noreply,
+       socket
+       |> assign(index_image: index - 1, current_image: Enum.at(images, index - 1))}
+    end
+  end
+
+  def handle_event("next", _, socket) do
+    images = socket.assigns.publicacion.imaxe_publicacion
+    images_length = length(images) - 1
+
+    index = socket.assigns.index_image
+
+    if index == images_length do
+      {:noreply,
+       socket
+       |> assign(index_image: 0, current_image: Enum.at(images, 0))}
+    else
+      {:noreply,
+       socket
+       |> assign(index_image: index + 1, current_image: Enum.at(images, index + 1))}
+    end
   end
 
   defp page_title(:show), do: "Mostar Publicación"

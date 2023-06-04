@@ -25,9 +25,20 @@
 
 <div class="flex overflow-x-scroll my-4 mx-10  lg:mx-44">
    <%= for entry <- @publicacion.imaxe_publicacion do %>
-        <img class="object-fill m-4 h-52"  width="450" src={entry.path_imaxe}/>
+        <img class="w-20 h-20 mx-2" style="object-fit: cover;" src={entry.path_imaxe}/>
     <% end %>
 </div>
+
+<%= if is_nil(@current_image) == false do %>
+    <center id={@current_image.path_imaxe}>
+        <img class="w-72 h-72 mx-2" style="object-fit: scale-down;" src={@current_image.path_imaxe}/>
+      <div class="space-x-20 mt-10 mb-6">
+        <button class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" phx-click="prev">Anterior</button>
+        <button class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" phx-click="next">Seguinte</button>
+      </div>
+    </center>
+<% end %>
+
 
 <div class="flex flex-col sm:flex-row ">
 <%= if @user_token do %>
