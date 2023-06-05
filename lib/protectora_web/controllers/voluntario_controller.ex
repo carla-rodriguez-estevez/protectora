@@ -41,10 +41,10 @@ defmodule ProtectoraWeb.VoluntarioController do
         |> render("voluntario_token.json", %{voluntario: account, token: token})
 
       {:error, :unauthorized} ->
-        raise ErrorResponse.Unauthorized, message: "Email or Password incorrect"
+        raise ErrorResponse.Unauthorized, message: "Email ou contrasinal incorrecta"
 
       {:error, :unauthored} ->
-        raise ErrorResponse.Unauthorized, message: "Email or Password incorrect"
+        raise ErrorResponse.Unauthorized, message: "Email ou contrasinal incorrecta"
     end
   end
 

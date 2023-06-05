@@ -72,6 +72,7 @@ defmodule ProtectoraWeb.Router do
 
     get("/", DefaultController, :index)
 
+    # iniciar sesion
     post("/voluntario/sign_in", VoluntarioController, :sign_in)
     post("/voluntario", VoluntarioController, :create)
 
@@ -155,8 +156,8 @@ defmodule ProtectoraWeb.Router do
 
     get("/users/log_in", UserSessionController, :new)
     post("/users/log_in", UserSessionController, :create)
-    get("/users/reset_password/:token", UserResetPasswordController, :edit)
-    put("/users/reset_password/:token", UserResetPasswordController, :update)
+    # get("/users/reset_password/:token", UserResetPasswordController, :edit)
+    # put("/users/reset_password/:token", UserResetPasswordController, :update)
   end
 
   scope "/", ProtectoraWeb do
