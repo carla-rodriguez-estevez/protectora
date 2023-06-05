@@ -16,7 +16,8 @@ defmodule ProtectoraWeb.ColaboradorControllerTest do
     localidade: "Ponteareas",
     nome: "Carla",
     numeroConta: "ES12123412341234123412",
-    perioricidade: "Mensual"
+    perioricidade: "mensual",
+    cantidadeAporte: 12
   }
   @update_attrs %{
     apelidos: "Estévez",
@@ -27,7 +28,8 @@ defmodule ProtectoraWeb.ColaboradorControllerTest do
     localidade: "A Coruña",
     nome: "Lucia",
     numeroConta: "ES12123412341234123434",
-    perioricidade: "Trimestral"
+    perioricidade: "trimestral",
+    cantidadeAporte: 12
   }
   @invalid_attrs %{
     apelidos: nil,
@@ -39,7 +41,8 @@ defmodule ProtectoraWeb.ColaboradorControllerTest do
     localidade: nil,
     nome: nil,
     numeroConta: nil,
-    perioricidade: nil
+    perioricidade: nil,
+    cantidadeAporte: nil
   }
 
   setup %{conn: conn} do
@@ -100,7 +103,7 @@ defmodule ProtectoraWeb.ColaboradorControllerTest do
                "localidade" => "Ponteareas",
                "nome" => "Carla",
                "numeroConta" => "ES12123412341234123412",
-               "perioricidade" => "Mensual"
+               "perioricidade" => "mensual"
              } = json_response(conn, 200)["data"]
     end
 
@@ -161,7 +164,7 @@ defmodule ProtectoraWeb.ColaboradorControllerTest do
                "localidade" => "A Coruña",
                "nome" => "Lucia",
                "numeroConta" => "ES12123412341234123434",
-               "perioricidade" => "Trimestral"
+               "perioricidade" => "trimestral"
              } = json_response(conn, 200)["data"]
     end
 
@@ -207,9 +210,9 @@ defmodule ProtectoraWeb.ColaboradorControllerTest do
       conn = delete(conn, Routes.colaborador_path(conn, :delete, colaborador))
       assert response(conn, 204)
 
-      assert_error_sent 404, fn ->
+      assert_error_sent(404, fn ->
         get(conn, Routes.colaborador_path(conn, :show, colaborador))
-      end
+      end)
     end
   end
 

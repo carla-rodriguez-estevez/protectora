@@ -19,7 +19,7 @@ defmodule Protectora.ColaboradoresFixtures do
         localidade: "Ponteareas",
         nome: "Carla",
         numeroConta: "ES12123412341234123412",
-        perioricidade: "Mensual"
+        perioricidade: "mensual"
       })
       |> Protectora.Colaboradores.create_colaborador()
 

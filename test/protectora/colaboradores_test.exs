@@ -41,7 +41,7 @@ defmodule Protectora.ColaboradoresTest do
         localidade: "Ponteareas",
         nome: "Carla",
         numeroConta: "ES12123412341234123412",
-        perioricidade: "Mensual"
+        perioricidade: "mensual"
       }
 
       assert {:ok, %Colaborador{} = colaborador} = Colaboradores.create_colaborador(valid_attrs)
@@ -53,7 +53,7 @@ defmodule Protectora.ColaboradoresTest do
       assert colaborador.localidade == "Ponteareas"
       assert colaborador.nome == "Carla"
       assert colaborador.numeroConta == "ES12123412341234123412"
-      assert colaborador.perioricidade == "Mensual"
+      assert colaborador.perioricidade == "mensual"
     end
 
     test "create_colaborador/1 with invalid data returns error changeset" do
@@ -65,14 +65,14 @@ defmodule Protectora.ColaboradoresTest do
 
       update_attrs = %{
         apelidos: "Estévez",
-        codigoPostal: 15001,
+        codigoPostal: 15_001,
         dataNacemento: ~D[1997-05-14],
         direccion: "Poeta Trillo Figueroa",
         email: "lucia@udc.es",
         localidade: "A Coruña",
         nome: "Lucia",
         numeroConta: "ES12123412341234123434",
-        perioricidade: "Trimestral"
+        perioricidade: "trimestral"
       }
 
       assert {:ok, %Colaborador{} = colaborador} =
@@ -87,7 +87,7 @@ defmodule Protectora.ColaboradoresTest do
       assert colaborador.localidade == "A Coruña"
       assert colaborador.nome == "Lucia"
       assert colaborador.numeroConta == "ES12123412341234123434"
-      assert colaborador.perioricidade == "Trimestral"
+      assert colaborador.perioricidade == "trimestral"
     end
 
     test "update_colaborador/2 with invalid data returns error changeset" do

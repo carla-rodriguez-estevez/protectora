@@ -1,57 +1,84 @@
-<h1>Listing Colaborador</h1>
-
-<%= if @live_action in [:new, :edit] do %>
+<div class=" flex flex-col justify-center mt-6">
+<div class="flex justify-center items-center">
+<h1 class="  mt-6 underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600 text-2xl sm:text-4xl font-extrabold leading-none tracking-tight text-gray-900  dark:text-white">Lista de colaboradores</h1>
+</div>
+<%= if @live_action in [:edit] do %>
   <.modal return_to={Routes.colaborador_index_path(@socket, :index)}>
     <.live_component
       module={ProtectoraWeb.ColaboradorLive.FormComponent}
       id={@colaborador.id || :new}
       title={@page_title}
-      action={@live_action}
+      action={:edit}
       colaborador={@colaborador}
       return_to={Routes.colaborador_index_path(@socket, :index)}
     />
   </.modal>
 <% end %>
-
-<table>
-  <thead>
-    <tr>
-      <th>Nome</th>
-      <th>Apelidos</th>
-      <th>Datanacemento</th>
-      <th>Direccion</th>
-      <th>Codigopostal</th>
-      <th>Localidade</th>
-      <th>Email</th>
-      <th>Numeroconta</th>
-      <th>Cantidadeaporte</th>
-      <th>Perioricidade</th>
+<table  class="m-12 gap-2">
+  <thead class="text-white">
+    <tr class="bg-teal-400  table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0" style="height: 50px;">
+      <th class="text-center mx-8 md:text-xl">Nome</th>
+      <th class="hidden md:table-cell justify-center items-center md:text-xl mx-8">Apelidos</th>
+      <th class="hidden md:table-cell justify-center items-center md:text-xl mx-8">Localidade</th>
+      <th class="table-cell text-center mx-8 md:text-xl">Email</th>
+      <th class="hidden sm:table-cell text-center md:text-xl mx-8r">Perioricidade</th>
 
       <th></th>
     </tr>
   </thead>
   <tbody id="colaboradores">
     <%= for colaborador <- @colaboradores do %>
-      <tr id={"colaborador-#{colaborador.id}"}>
-        <td><%= colaborador.nome %></td>
-        <td><%= colaborador.apelidos %></td>
-        <td><%= colaborador.dataNacemento %></td>
-        <td><%= colaborador.direccion %></td>
-        <td><%= colaborador.codigoPostal %></td>
-        <td><%= colaborador.localidade %></td>
-        <td><%= colaborador.email %></td>
-        <td><%= colaborador.numeroConta %></td>
-        <td><%= colaborador.cantidadeAporte %></td>
-        <td><%= colaborador.perioricidade %></td>
+      <tr  class='hover:bg-gray-100 table-row' id={"colaborador-#{colaborador.id}"}>
+        <td class="text-center table-cell font-extrabold text-gray-500 mx-6"><%= colaborador.nome %></td>
+        <td class="hidden md:table-cell items-center justify-center text-center mx-6"><%= colaborador.apelidos %></td>
+        <td class="hidden md:table-cell text-center mx-6"><%= colaborador.localidade %></td>
+        <td class="text-center table-cell mx-6"><%= colaborador.email %></td>
+        <%= if is_nil(colaborador.perioricidade) do %>
+          <td class="hidden sm:table-cell text-center mx-6">---</td>
+        <% else %>
+          <td class="hidden sm:table-cell text-center mx-6"><%= colaborador.perioricidade %></td>
+        <% end %>
 
-        <td>
-          <span><%= live_redirect "Show", to: Routes.colaborador_show_path(@socket, :show, colaborador) %></span>
-          <span><%= live_patch "Edit", to: Routes.colaborador_index_path(@socket, :edit, colaborador) %></span>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: colaborador.id, data: [confirm: "Are you sure?"] %></span>
+        <td class="flex flex-col justify-center items-center m-6 ">
+          <span class="inline-flex items-center font-medium text-blue-600 dark:text-blue-500 hover:underline"><%= live_redirect "Detalles", to: Routes.colaborador_show_path(@socket, :show, colaborador) %></span>
+          <span class="inline-flex items-center font-medium text-green-600 dark:text-green-500 hover:underline"><%= live_patch "Editar", to: Routes.colaborador_index_path(@socket, :edit, colaborador) %></span>
+          <span class="inline-flex items-center font-medium text-red-600 dark:text-red-600 hover:underline"><%= link "Eliminar", to: "#", phx_click: "delete", phx_value_id: colaborador.id, data: [confirm: "Está seguro de querer eliminar a este colaborador do sistema?"] %></span>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<span><%= live_patch "New Colaborador", to: Routes.colaborador_index_path(@socket, :new) %></span>
+<nav class="border-t border-gray-200 mb-16">
+      <ul class="flex my-2 items-center justify-center">
+        <li class="">
+        <%= if  @page_number <= 1 do %>
+          <a class="px-2 py-2 pointer-events-none text-gray-600" href="#" phx-click="nav" phx-value-page={@page_number - 1}>Previous</a>
+        <% else %>
+          <a class="px-2 py-2" href="#" phx-click="nav" phx-value-page={@page_number - 1}>Previous</a>
+        <% end %>
+
+        </li>
+    <%= for idx <-  Enum.to_list(1..@total_pages) do %>
+        <li class="">
+
+        <%= if @page_number == idx do %>
+          <a class="px-2 py-2 pointer-events-none text-gray-600" href="#" phx-click="nav" phx-value-page={idx}><%= idx %></a>
+        <% else %>
+          <a class="px-2 py-2" href="#" phx-click="nav" phx-value-page={idx}><%= idx %></a>
+        <% end %>
+
+        </li>
+     <% end %>
+        <li class="">
+
+        <%= if @page_number >= @total_pages do %>
+          <a class="px-2 py-2 pointer-events-none text-gray-600" href="#" phx-click="nav" phx-value-page={@page_number + 1}>Next</a>
+        <% else %>
+          <a class="px-2 py-2" href="#" phx-click="nav" phx-value-page={@page_number + 1}>Next</a>
+        <% end %>
+        </li>
+      </ul>
+    </nav>
+
+</div>

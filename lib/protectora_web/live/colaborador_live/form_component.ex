@@ -2,7 +2,7 @@ defmodule ProtectoraWeb.ColaboradorLive.FormComponent do
   use ProtectoraWeb, :live_component
 
   alias Protectora.Colaboradores
-
+  require Logger
   @impl true
   def update(%{colaborador: colaborador} = assigns, socket) do
     changeset = Colaboradores.change_colaborador(colaborador)
@@ -28,11 +28,15 @@ defmodule ProtectoraWeb.ColaboradorLive.FormComponent do
   end
 
   defp save_colaborador(socket, :edit, colaborador_params) do
-    case Colaboradores.update_colaborador(socket.assigns.colaborador, colaborador_params) do
+    case Colaboradores.update_colaborador(
+           socket.assigns.colaborador,
+           colaborador_params,
+           :full_check
+         ) do
       {:ok, _colaborador} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Colaborador updated successfully")
+         |> put_flash(:info, "Colaborador actualizado correctamente")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -41,11 +45,11 @@ defmodule ProtectoraWeb.ColaboradorLive.FormComponent do
   end
 
   defp save_colaborador(socket, :new, colaborador_params) do
-    case Colaboradores.create_colaborador(colaborador_params) do
+    case Colaboradores.create_colaborador(colaborador_params, :full_check) do
       {:ok, _colaborador} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Colaborador created successfully")
+         |> put_flash(:info, "Colaborador creado correctamente")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

@@ -4,6 +4,8 @@ defmodule ProtectoraWeb.Router do
 
   import ProtectoraWeb.UserAuth
 
+  require Logger
+
   pipeline :browser do
     plug(:accepts, ["html"])
     plug(:fetch_session)
@@ -21,7 +23,7 @@ defmodule ProtectoraWeb.Router do
   end
 
   pipeline :auth do
-    plug :fetch_session
+    plug(:fetch_session)
 
     plug(ProtectoraWeb.Auth.Pipeline)
     plug(ProtectoraWeb.Auth.SetAccount)
@@ -39,7 +41,8 @@ defmodule ProtectoraWeb.Router do
   scope "/", ProtectoraWeb do
     pipe_through(:browser)
 
-    get("/", PageController, :index)
+    live("/", IndexLive.Index, :index)
+    live("/colaborar", IndexLive.Index, :new)
 
     live("/publicacion", PublicacionLive.Index, :index)
     live("/publicacion/:id", PublicacionLive.Show, :show)
@@ -60,17 +63,23 @@ defmodule ProtectoraWeb.Router do
     conn |> json(%{errors: message}) |> halt()
   end
 
+  # defp handle_errors(conn, rest) do
+  #   Logger.warn(rest)
+  # end
+
   scope "/api", ProtectoraWeb do
     pipe_through(:api)
 
     get("/", DefaultController, :index)
 
+    # iniciar sesion
     post("/voluntario/sign_in", VoluntarioController, :sign_in)
-    post "/voluntario", VoluntarioController, :create
+    post("/voluntario", VoluntarioController, :create)
 
     resources("/animal", AnimalController, except: [:new, :edit])
-    get "/publicacion", PublicacionController, :index
-    get "/publicacion/:id", PublicacionController, :show
+    get("/publicacion", PublicacionController, :index)
+    get("/publicacion/:id", PublicacionController, :show)
+    post("/colaborador", ColaboradorController, :create)
 
     # resources "/imaxe_pVoluntarioControllerublicacion", ImaxePublicacionController, except: [:new, :edit]
   end
@@ -78,25 +87,32 @@ defmodule ProtectoraWeb.Router do
   scope "/api", ProtectoraWeb do
     pipe_through([:api, :auth])
 
-    get "/publicacion/:id/edit", PublicacionController, :edit
-    put "/publicacion/:id", PublicacionController, :update
-    patch "/publicacion/:id", PublicacionController, :update
-    delete "/publicacion/:id", PublicacionController, :delete
-    post "/publicacion", PublicacionController, :create
+    get("/publicacion/:id/edit", PublicacionController, :edit)
+    put("/publicacion/:id", PublicacionController, :update)
+    patch("/publicacion/:id", PublicacionController, :update)
+    delete("/publicacion/:id", PublicacionController, :delete)
+    post("/publicacion", PublicacionController, :create)
 
-    get "/voluntario", VoluntarioController, :index
-    get "/voluntario/:id", VoluntarioController, :show
-    get "/voluntario/:id/edit", VoluntarioController, :edit
-    put "/voluntario/:id", VoluntarioController, :update
-    patch "/voluntario/:id", VoluntarioController, :update
-    delete "/voluntario/:id", VoluntarioController, :delete
+    get("/voluntario", VoluntarioController, :index)
+    get("/voluntario/:id", VoluntarioController, :show)
+    get("/voluntario/:id/edit", VoluntarioController, :edit)
+    put("/voluntario/:id", VoluntarioController, :update)
+    patch("/voluntario/:id", VoluntarioController, :update)
+    delete("/voluntario/:id", VoluntarioController, :delete)
 
     get("/voluntario/get/:id", VoluntarioController, :show)
 
     # Authorizated routes in HTTP
+    get("/colaborador", ColaboradorController, :index)
+    get("/colaborador/:id", ColaboradorController, :show)
+    get("/colaborador/:id/edit", ColaboradorController, :edit)
+    put("/colaborador/:id", ColaboradorController, :update)
+    patch("/colaborador/:id", ColaboradorController, :update)
+    delete("/colaborador/:id", ColaboradorController, :delete)
+
     resources("/rexistro", RexistroController, except: [:new, :edit])
     resources("/padrinamento", PadrinamentoController, except: [:new, :edit])
-    resources("/colaborador", ColaboradorController, except: [:new, :edit])
+    # resources("/colaborador", ColaboradorController, except: [:new, :edit])
   end
 
   # Other scopes may use custom stacks.
@@ -140,8 +156,8 @@ defmodule ProtectoraWeb.Router do
 
     get("/users/log_in", UserSessionController, :new)
     post("/users/log_in", UserSessionController, :create)
-    get("/users/reset_password/:token", UserResetPasswordController, :edit)
-    put("/users/reset_password/:token", UserResetPasswordController, :update)
+    # get("/users/reset_password/:token", UserResetPasswordController, :edit)
+    # put("/users/reset_password/:token", UserResetPasswordController, :update)
   end
 
   scope "/", ProtectoraWeb do
@@ -151,7 +167,7 @@ defmodule ProtectoraWeb.Router do
     live("/publicacion/:id/edit", PublicacionLive.Index, :edit)
 
     live("/colaborador", ColaboradorLive.Index, :index)
-    live("/colaborador/new", ColaboradorLive.Index, :new)
+    # live("/colaborador/new", ColaboradorLive.Index, :new)
     live("/colaborador/:id/edit", ColaboradorLive.Index, :edit)
 
     live("/colaborador/:id", ColaboradorLive.Show, :show)

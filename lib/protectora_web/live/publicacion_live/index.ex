@@ -30,7 +30,7 @@ defmodule ProtectoraWeb.PublicacionLive.Index do
       total_pages: total_pages || 0,
       publicacion: %Publicacion{},
       live_action: :index,
-      page_title: "Nova Publicación",
+      page_title: "Mostrar publicacións",
       user_token: Map.get(session, "user_token")
     ]
 

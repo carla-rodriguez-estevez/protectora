@@ -16,8 +16,8 @@
   </.modal>
 <% end %>
 
-<table  class="m-12">
-  <thead class="text-white">
+<table  class="m-12 rounded-l-lg">
+  <thead class="text-white rounded-l-lg">
     <tr class="bg-teal-400  table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
       <th class="md:text-xl">Titulo</th>
       <th class="hidden sm:flex justify-center items-center md:text-xl" style="  height: 58px">Contido</th>
@@ -36,7 +36,7 @@
         <td class="flex flex-col justify-center items-center m-6 " style="  height: 75px">
           <span  class="inline-flex items-center font-medium text-blue-600 dark:text-blue-500 hover:underline"><%= live_redirect "Detalle", to: Routes.publicacion_show_path(@socket, :show, publicacion) %><svg aria-hidden="true" class="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg></span>
           <%= if @user_token do %>
-          <span  class="inline-flex items-center font-medium text-red-600 dark:text-red-600 hover:underline"><%= link "Borrar", to: "#", phx_click: "delete", phx_value_id: publicacion.id %></span>
+          <span  class="inline-flex items-center font-medium text-red-600 dark:text-red-600 hover:underline"><%= link "Borrar", to: "#", phx_click: "delete", phx_value_id: publicacion.id, data: [confirm: "Está seguro de querer eliminar a esta publicación do sistema?"] %></span>
           <% end %>
         </td>
       </tr>

@@ -22,24 +22,25 @@ defmodule ProtectoraWeb.ColaboradorLiveTest do
   @update_attrs %{
     apelidos: "Estévez",
     codigoPostal: 15_001,
-    dataNacemento: %{day: 14, month: 5, year: 1997},
+    dataNacemento: "2023-04-12",
     direccion: "Poeta Trillo Figueroa",
     email: "lucia@udc.es",
     localidade: "A Coruña",
     nome: "Lucia",
     numeroConta: "ES12123412341234123434",
-    perioricidade: "Trimestral"
+    perioricidade: "trimestral",
+    cantidadeAporte: 12
   }
 
   @invalid_attrs %{
     apelidos: nil,
     codigoPostal: nil,
-    dataNacemento: %{day: 30, month: 2, year: 2023},
+    dataNacemento: nil,
     direccion: nil,
     email: nil,
     localidade: nil,
     nome: nil,
-    numeroConta: nil
+    numeroConta: "ES20"
   }
 
   defp create_colaborador(_) do
@@ -64,7 +65,7 @@ defmodule ProtectoraWeb.ColaboradorLiveTest do
 
       {:ok, _index_live, html} = live(conn, Routes.colaborador_index_path(conn, :index))
 
-      assert html =~ "Listing Colaborador"
+      assert html =~ "Lista de colaboradores"
       assert html =~ colaborador.apelidos
     end
 
@@ -82,14 +83,14 @@ defmodule ProtectoraWeb.ColaboradorLiveTest do
 
       {:ok, index_live, _html} = live(conn, Routes.colaborador_index_path(conn, :index))
 
-      assert index_live |> element("#colaborador-#{colaborador.id} a", "Edit") |> render_click() =~
-               "Edit Colaborador"
+      assert index_live |> element("#colaborador-#{colaborador.id} a", "Editar") |> render_click() =~
+               "Editar colaborador"
 
       assert_patch(index_live, Routes.colaborador_index_path(conn, :edit, colaborador))
 
       assert index_live
              |> form("#colaborador-form", colaborador: @invalid_attrs)
-             |> render_change() =~ "is invalid"
+             |> render_change() =~ "non pode estar valeiro"
 
       {:ok, _, html} =
         index_live
@@ -97,7 +98,7 @@ defmodule ProtectoraWeb.ColaboradorLiveTest do
         |> render_submit()
         |> follow_redirect(conn, Routes.colaborador_index_path(conn, :index))
 
-      assert html =~ "Colaborador updated successfully"
+      assert html =~ "Colaborador actualizado correctamente"
       # some updated apelidos
       assert html =~ "Estévez"
     end
@@ -116,7 +117,10 @@ defmodule ProtectoraWeb.ColaboradorLiveTest do
 
       {:ok, index_live, _html} = live(conn, Routes.colaborador_index_path(conn, :index))
 
-      assert index_live |> element("#colaborador-#{colaborador.id} a", "Delete") |> render_click()
+      assert index_live
+             |> element("#colaborador-#{colaborador.id} a", "Eliminar")
+             |> render_click()
+
       refute has_element?(index_live, "#colaborador-#{colaborador.id}")
     end
   end
@@ -138,7 +142,7 @@ defmodule ProtectoraWeb.ColaboradorLiveTest do
 
       {:ok, _show_live, html} = live(conn, Routes.colaborador_show_path(conn, :show, colaborador))
 
-      assert html =~ "Show Colaborador"
+      assert html =~ colaborador.nome
       assert html =~ colaborador.apelidos
     end
 
@@ -156,14 +160,14 @@ defmodule ProtectoraWeb.ColaboradorLiveTest do
 
       {:ok, show_live, _html} = live(conn, Routes.colaborador_show_path(conn, :show, colaborador))
 
-      assert show_live |> element("a", "Edit") |> render_click() =~
-               "Edit Colaborador"
+      assert show_live |> element("a", "Editar") |> render_click() =~
+               "Editar colaborador"
 
       assert_patch(show_live, Routes.colaborador_show_path(conn, :edit, colaborador))
 
       assert show_live
              |> form("#colaborador-form", colaborador: @invalid_attrs)
-             |> render_change() =~ "is invalid"
+             |> render_submit() =~ "A conta debe ter 20 caracteres sen espacios"
 
       {:ok, _, html} =
         show_live
@@ -171,7 +175,7 @@ defmodule ProtectoraWeb.ColaboradorLiveTest do
         |> render_submit()
         |> follow_redirect(conn, Routes.colaborador_show_path(conn, :show, colaborador))
 
-      assert html =~ "Colaborador updated successfully"
+      assert html =~ "Colaborador actualizado correctamente"
       # some updated apelidos
       assert html =~ "Estévez"
     end

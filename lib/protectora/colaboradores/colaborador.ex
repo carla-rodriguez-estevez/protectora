@@ -21,7 +21,7 @@ defmodule Protectora.Colaboradores.Colaborador do
     field(:nome, :string)
     field(:numeroConta, :string)
     field(:perioricidade, :string)
-    has_many :padrinamento, Protectora.Padrinamentos.Padrinamento
+    has_many(:padrinamento, Protectora.Padrinamentos.Padrinamento)
 
     timestamps()
   end
@@ -41,7 +41,52 @@ defmodule Protectora.Colaboradores.Colaborador do
       :cantidadeAporte,
       :perioricidade
     ])
-    |> validate_required([
+    |> validate_required(
+      [
+        :nome,
+        :apelidos,
+        :dataNacemento,
+        :direccion,
+        :codigoPostal,
+        :localidade,
+        :email,
+        :numeroConta
+      ],
+      message: "non pode estar valeiro"
+    )
+    |> validate_format(:email, @mail_regex, message: "Debe conter o signo @ e ningún espacio")
+    |> validate_format(:numeroConta, @account_regex,
+      message: "A conta debe ter 20 caracteres sen espacios"
+    )
+    |> validate_current_or_future_date(:dataNacemento)
+    |> validate_number(:cantidadeAporte,
+      greater_than: 0,
+      less_than: 99_999,
+      message: "A cantidade debe ser maior que 0"
+    )
+    |> validate_number(:codigoPostal,
+      greater_than: 10_000,
+      less_than: 99_999,
+      message: "O código postal é incorrecto"
+    )
+    |> validate_length(:email, max: 160, message: "Email demasiado longo")
+    |> unique_constraint(:email, message: "Email xa empregado")
+    |> validate_inclusion(
+      :perioricidade,
+      [
+        "mensual",
+        "bimensual",
+        "trimestral",
+        "cada 6 meses",
+        "anual"
+      ],
+      message: "Perioricidade non válida"
+    )
+  end
+
+  def complete_changeset(colaborador, attrs) do
+    colaborador
+    |> cast(attrs, [
       :nome,
       :apelidos,
       :dataNacemento,
@@ -49,15 +94,53 @@ defmodule Protectora.Colaboradores.Colaborador do
       :codigoPostal,
       :localidade,
       :email,
-      :numeroConta
+      :numeroConta,
+      :cantidadeAporte,
+      :perioricidade
     ])
-    |> validate_format(:email, @mail_regex)
-    |> validate_format(:numeroConta, @account_regex)
+    |> validate_required(
+      [
+        :nome,
+        :apelidos,
+        :dataNacemento,
+        :direccion,
+        :codigoPostal,
+        :localidade,
+        :email,
+        :numeroConta,
+        :cantidadeAporte,
+        :perioricidade
+      ],
+      message: "non pode estar valeiro"
+    )
+    |> validate_format(:email, @mail_regex, message: "Debe conter o signo @ e ningún espacio")
+    |> validate_format(:numeroConta, @account_regex,
+      message: "A conta debe ter 20 caracteres sen espacios"
+    )
     |> validate_current_or_future_date(:dataNacemento)
-    |> validate_number(:cantidadeAporte, greater_than: 0, less_than: 99_999)
-    |> validate_number(:codigoPostal, greater_than: 10_000, less_than: 99_999)
-    |> validate_length(:email, max: 160)
+    |> validate_number(:codigoPostal,
+      greater_than: 10_000,
+      less_than: 99_999,
+      message: "O código postal é incorrecto"
+    )
+    |> validate_length(:email, max: 160, message: "Email demasiado longo")
     |> unique_constraint(:email)
+    |> validate_number(:cantidadeAporte,
+      greater_than: 0,
+      less_than: 999_999,
+      message: "A cantidade debe ser maior que 0"
+    )
+    |> validate_inclusion(
+      :perioricidade,
+      [
+        "mensual",
+        "bimensual",
+        "trimestral",
+        "cada 6 meses",
+        "anual"
+      ],
+      message: "A perioricidade indicada é incorrecta"
+    )
   end
 
   def validate_current_or_future_date(%{changes: changes} = changeset, field) do
@@ -75,7 +158,7 @@ defmodule Protectora.Colaboradores.Colaborador do
 
     if Timex.compare(date, today) == 1 do
       changeset
-      |> add_error(field, "Date in the future")
+      |> add_error(field, "Data incorrecta")
     else
       changeset
     end

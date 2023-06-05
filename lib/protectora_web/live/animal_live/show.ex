@@ -2,12 +2,9 @@ defmodule ProtectoraWeb.AnimalLive.Show do
   use ProtectoraWeb, :live_view
 
   alias Protectora.Animais
-  require Logger
 
   @impl true
   def mount(_params, session, socket) do
-    # Logger.warn(socket.assigns)
-    # Logger.warn(Map.get(session, "user_token"))
     {:ok, assign(socket, :user_token, Map.get(session, "user_token"))}
   end
 
