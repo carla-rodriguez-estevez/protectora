@@ -1,4 +1,7 @@
-<h1>Listing Voluntario</h1>
+<div class=" flex flex-col justify-center mt-6">
+<div class="flex justify-center items-center">
+<h1 class="  mt-6 underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600 text-2xl sm:text-4xl font-extrabold leading-none tracking-tight text-gray-900  dark:text-white">Voluntarios Rexistrados</h1>
+</div>
 
 <%= if @live_action in [:new, :edit] do %>
   <.modal return_to={Routes.voluntario_index_path(@socket, :index)}>
@@ -13,31 +16,32 @@
   </.modal>
 <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Nome</th>
-      <th>Contrasinal</th>
-      <th>Email</th>
+<table class="m-12">
+  <thead  class="text-white">
+    <tr class="bg-teal-400  table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
+      <th class="md:text-xl">Nome</th>
+      <th class="md:text-xl">Email</th>
 
       <th></th>
     </tr>
   </thead>
   <tbody id="voluntario">
     <%= for voluntario <- @voluntario_collection do %>
-      <tr id={"voluntario-#{voluntario.id}"}>
-        <td><%= voluntario.nome %></td>
-        <td><%= voluntario.contrasinal %></td>
-        <td><%= voluntario.email %></td>
+      <tr class='hover:bg-gray-100' id={"voluntario-#{voluntario.id}"}>
+        <td class="text-center font-extrabold text-black-500 "><%= voluntario.nome %></td>
+        <td class="text-center mx-8"><%= voluntario.email %></td>
 
-        <td>
-          <span><%= live_redirect "Show", to: Routes.voluntario_show_path(@socket, :show, voluntario) %></span>
-          <span><%= live_patch "Edit", to: Routes.voluntario_index_path(@socket, :edit, voluntario) %></span>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: voluntario.id, data: [confirm: "Are you sure?"] %></span>
+        <td class="flex flex-col justify-center items-center m-6 " style="  height: 50px">
+          <span class="inline-flex sm:hidden items-center font-medium text-blue-600 dark:text-blue-500 hover:underline"><%= live_redirect "Ensinar", to: Routes.voluntario_show_path(@socket, :show, voluntario) %></span>
+          <span class="hidden sm:inline-flex items-center font-medium text-green-600 dark:text-green-500 hover:underline"><%= live_patch "Editar", to: Routes.voluntario_index_path(@socket, :edit, voluntario) %></span>
+          <span class="inline-flex items-center font-medium text-red-600 dark:text-red-500 hover:underline"><%= link "Eliminar", to: "#", phx_click: "delete", phx_value_id: voluntario.id, data: [confirm: "Está seguro?"] %></span>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<span><%= live_patch "New Voluntario", to: Routes.voluntario_index_path(@socket, :new) %></span>
+<div class="flex justify-center items-center">
+<span class="flex justify-center items-center w-64 text-white my-4 bg-teal-500 border-0 py-2 px-6 focus:outline-none hover:bg-teal-600 rounded text-lg"><%= live_patch "Engadir Voluntario", to: Routes.voluntario_index_path(@socket, :new) %></span>
+</div>
+</div>

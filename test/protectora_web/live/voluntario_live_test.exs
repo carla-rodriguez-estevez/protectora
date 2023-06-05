@@ -13,7 +13,7 @@ defmodule ProtectoraWeb.VoluntarioLiveTest do
     email: "someupdated@email.com",
     nome: "some updated nome"
   }
-  @invalid_attrs %{contrasinal: nil, email: nil, nome: nil}
+  @invalid_attrs %{contrasinal: "", email: "", nome: ""}
 
   defp create_voluntario(_) do
     voluntario = voluntario_fixture()
@@ -37,8 +37,8 @@ defmodule ProtectoraWeb.VoluntarioLiveTest do
 
       {:ok, _index_live, html} = live(conn, Routes.voluntario_index_path(conn, :index))
 
-      assert html =~ "Listing Voluntario"
-      assert html =~ voluntario.contrasinal
+      assert html =~ "Voluntarios Rexistrados"
+      assert html =~ voluntario.nome
     end
 
     test "saves new voluntario", %{conn: conn} do
@@ -55,14 +55,14 @@ defmodule ProtectoraWeb.VoluntarioLiveTest do
 
       {:ok, index_live, _html} = live(conn, Routes.voluntario_index_path(conn, :index))
 
-      assert index_live |> element("a", "New Voluntario") |> render_click() =~
-               "New Voluntario"
+      assert index_live |> element("a", "Engadir Voluntario") |> render_click() =~
+               "Engadir Voluntario"
 
       assert_patch(index_live, Routes.voluntario_index_path(conn, :new))
 
       assert index_live
              |> form("#voluntario-form", voluntario: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_submit() =~ "non pode estar valeiro"
 
       {:ok, _, html} =
         index_live
@@ -72,7 +72,7 @@ defmodule ProtectoraWeb.VoluntarioLiveTest do
         |> render_submit()
         |> follow_redirect(conn, Routes.voluntario_index_path(conn, :index))
 
-      assert html =~ "Voluntario created successfully"
+      assert html =~ "Voluntario creado correctamente"
     end
 
     test "updates voluntario in listing", %{conn: conn, voluntario: voluntario} do
@@ -89,14 +89,14 @@ defmodule ProtectoraWeb.VoluntarioLiveTest do
 
       {:ok, index_live, _html} = live(conn, Routes.voluntario_index_path(conn, :index))
 
-      assert index_live |> element("#voluntario-#{voluntario.id} a", "Edit") |> render_click() =~
-               "Edit Voluntario"
+      assert index_live |> element("#voluntario-#{voluntario.id} a", "Editar") |> render_click() =~
+               "Editar Voluntario"
 
       assert_patch(index_live, Routes.voluntario_index_path(conn, :edit, voluntario))
 
       assert index_live
              |> form("#voluntario-form", voluntario: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_submit() =~ "non pode estar valeiro"
 
       {:ok, _, html} =
         index_live
@@ -104,7 +104,7 @@ defmodule ProtectoraWeb.VoluntarioLiveTest do
         |> render_submit()
         |> follow_redirect(conn, Routes.voluntario_index_path(conn, :index))
 
-      assert html =~ "Voluntario updated successfully"
+      assert html =~ "Voluntario actualizado correctamente"
     end
 
     test "deletes voluntario in listing", %{conn: conn, voluntario: voluntario} do
@@ -121,7 +121,7 @@ defmodule ProtectoraWeb.VoluntarioLiveTest do
 
       {:ok, index_live, _html} = live(conn, Routes.voluntario_index_path(conn, :index))
 
-      assert index_live |> element("#voluntario-#{voluntario.id} a", "Delete") |> render_click()
+      assert index_live |> element("#voluntario-#{voluntario.id} a", "Eliminar") |> render_click()
       refute has_element?(index_live, "#voluntario-#{voluntario.id}")
     end
   end
@@ -143,8 +143,8 @@ defmodule ProtectoraWeb.VoluntarioLiveTest do
 
       {:ok, _show_live, html} = live(conn, Routes.voluntario_show_path(conn, :show, voluntario))
 
-      assert html =~ "Show Voluntario"
-      assert html =~ voluntario.contrasinal
+      assert html =~ "Información Voluntario"
+      assert html =~ voluntario.nome
     end
 
     test "updates voluntario within modal", %{conn: conn, voluntario: voluntario} do
@@ -161,14 +161,14 @@ defmodule ProtectoraWeb.VoluntarioLiveTest do
 
       {:ok, show_live, _html} = live(conn, Routes.voluntario_show_path(conn, :show, voluntario))
 
-      assert show_live |> element("a", "Edit") |> render_click() =~
-               "Edit Voluntario"
+      assert show_live |> element("a", "Editar voluntario") |> render_click() =~
+               "Editar Voluntario"
 
       assert_patch(show_live, Routes.voluntario_show_path(conn, :edit, voluntario))
 
       assert show_live
              |> form("#voluntario-form", voluntario: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_submit() =~ "non pode estar valeiro"
 
       {:ok, _, html} =
         show_live
@@ -176,7 +176,7 @@ defmodule ProtectoraWeb.VoluntarioLiveTest do
         |> render_submit()
         |> follow_redirect(conn, Routes.voluntario_show_path(conn, :show, voluntario))
 
-      assert html =~ "Voluntario updated successfully"
+      assert html =~ "Voluntario actualizado correctamente"
     end
   end
 end

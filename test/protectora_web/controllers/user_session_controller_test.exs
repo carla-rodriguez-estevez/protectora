@@ -73,7 +73,7 @@ defmodule ProtectoraWeb.UserSessionControllerTest do
 
       response = html_response(conn, 200)
       assert response =~ "<h1 class=\"font-semibold text-xl\">Iniciar sesión</h1>"
-      assert response =~ "Invalid email or password"
+      assert response =~ "Contrasinal ou email incorrecto"
     end
   end
 
@@ -82,14 +82,14 @@ defmodule ProtectoraWeb.UserSessionControllerTest do
       conn = conn |> log_in_user(user) |> delete(Routes.user_session_path(conn, :delete))
       assert redirected_to(conn) == "/"
       refute get_session(conn, :user_token)
-      assert get_flash(conn, :info) =~ "Logged out successfully"
+      assert get_flash(conn, :info) =~ "Sesión cerrada correctamente"
     end
 
     test "succeeds even if the user is not logged in", %{conn: conn} do
       conn = delete(conn, Routes.user_session_path(conn, :delete))
       assert redirected_to(conn) == "/"
       refute get_session(conn, :user_token)
-      assert get_flash(conn, :info) =~ "Logged out successfully"
+      assert get_flash(conn, :info) =~ "Sesión cerrada correctamente"
     end
   end
 end
