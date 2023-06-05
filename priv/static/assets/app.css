@@ -836,6 +836,10 @@ select {
   margin-bottom: 1rem;
 }
 
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+
 .mb-8 {
   margin-bottom: 2rem;
 }
@@ -859,6 +863,12 @@ select {
 .mt-10 {
   margin-top: 2.5rem;
 }
+
+
+.mt-12 {
+  margin-top: 3rem;
+}
+
 
 .mt-4 {
   margin-top: 1rem;
@@ -1573,6 +1583,12 @@ select {
     color: rgb(34 197 94 / var(--tw-text-opacity));
   }
 
+
+  .dark\:text-red-500 {
+    --tw-text-opacity: 1;
+    color: rgb(239 68 68 / var(--tw-text-opacity));
+  }
+
   .dark\:text-red-600 {
     --tw-text-opacity: 1;
     color: rgb(220 38 38 / var(--tw-text-opacity));
@@ -1609,6 +1625,14 @@ select {
 
   .sm\:table-cell {
     display: table-cell;
+  }
+  
+  .sm\:inline-flex {
+    display: inline-flex;
+  }
+
+  .sm\:hidden {
+    display: none;
   }
 
   .sm\:flex-row {

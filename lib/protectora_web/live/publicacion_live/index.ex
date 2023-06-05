@@ -68,7 +68,7 @@ defmodule ProtectoraWeb.PublicacionLive.Index do
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Publicacion")
+    |> assign(:page_title, "Lista Publicación")
     |> assign(:publicacion, nil)
   end
 

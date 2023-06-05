@@ -1,28 +1,28 @@
-<div>
-  <h2><%= @title %></h2>
+<div class="w-full ">
+  <h2 class="flex justify-center items-center  text-xl font-extrabold underline underline-offset-3 decoration-8 decoration-blue-400 "><%= @title %></h2>
 
   <.form
+   class="flex flex-col mt-12 gap-4 max-w-5xl "
     let={f}
     for={@changeset}
     id="voluntario-form"
     phx-target={@myself}
-    phx-change="validate"
     phx-submit="save">
-  
-    <%= label f, :nome %>
+
+    <%= label f, :nome, class: "font-extrabold" %>
     <%= text_input f, :nome %>
     <%= error_tag f, :nome %>
-  
-    <%= label f, :contrasinal %>
-    <%= text_input f, :contrasinal %>
+
+    <%= label f, :contrasinal, class: "font-extrabold" %>
+    <%= password_input f, :contrasinal %>
     <%= error_tag f, :contrasinal %>
-  
-    <%= label f, :email %>
+
+    <%= label f, :email, class: "font-extrabold" %>
     <%= text_input f, :email %>
     <%= error_tag f, :email %>
-  
-    <div>
-      <%= submit "Save", phx_disable_with: "Saving..." %>
+
+    <div class="inline-flex text-white mb-4 bg-teal-500 border-0 py-2 px-6 focus:outline-none hover:bg-teal-600 rounded text-lg max-w-fit">
+      <%= submit "Gardar", phx_disable_with: "Gardando..." %>
     </div>
   </.form>
 </div>

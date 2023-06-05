@@ -20,10 +20,10 @@ defmodule Protectora.Voluntarios.Voluntario do
   def changeset(voluntario, attrs) do
     voluntario
     |> cast(attrs, [:nome, :contrasinal, :email])
-    |> validate_required([:nome, :contrasinal, :email])
-    |> validate_format(:email, @mail_regex, message: "must have the @ sign and no spaces")
-    |> validate_length(:email, max: 160)
-    |> unique_constraint([:email])
+    |> validate_required([:nome, :contrasinal, :email], message: "non pode estar valeiro")
+    |> validate_format(:email, @mail_regex, message: "Debe conter o signo @ e ningún espacio")
+    |> validate_length(:email, max: 160, message: "email demasiado longo")
+    |> unique_constraint([:email], message: "Este email xa ten un voluntario asociado")
     |> put_password_hash()
   end
 
