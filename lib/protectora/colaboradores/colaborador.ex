@@ -124,7 +124,7 @@ defmodule Protectora.Colaboradores.Colaborador do
       message: "O código postal é incorrecto"
     )
     |> validate_length(:email, max: 160, message: "Email demasiado longo")
-    |> unique_constraint(:email)
+    |> unique_constraint(:email, message: "Email xa empregado")
     |> validate_number(:cantidadeAporte,
       greater_than: 0,
       less_than: 999_999,

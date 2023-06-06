@@ -3,18 +3,19 @@
 <h1 class="  mt-6 underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600 text-2xl sm:text-4xl font-extrabold leading-none tracking-tight text-gray-900  dark:text-white">Lista de colaboradores</h1>
 </div>
 <%= if @live_action in [:edit] do %>
-  <.modal return_to={Routes.colaborador_index_path(@socket, :index)}>
+  <.modal return_to={"/colaborador?colaboradores=" <> to_string(@page_number)}>
     <.live_component
       module={ProtectoraWeb.ColaboradorLive.FormComponent}
       id={@colaborador.id || :new}
       title={@page_title}
       action={:edit}
       colaborador={@colaborador}
-      return_to={Routes.colaborador_index_path(@socket, :index)}
+      return_to={"/colaborador?colaboradores=" <> to_string(@page_number)}
     />
   </.modal>
 <% end %>
-<table  class="m-12 gap-2">
+
+<table  class="m-12 gap-2 border-spacing-2">
   <thead class="text-white">
     <tr class="bg-teal-400  table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0" style="height: 50px;">
       <th class="text-center mx-8 md:text-xl">Nome</th>
@@ -32,14 +33,14 @@
         <td class="text-center table-cell font-extrabold text-gray-500 mx-6"><%= colaborador.nome %></td>
         <td class="hidden md:table-cell items-center justify-center text-center mx-6"><%= colaborador.apelidos %></td>
         <td class="hidden md:table-cell text-center mx-6"><%= colaborador.localidade %></td>
-        <td class="text-center table-cell mx-6"><%= colaborador.email %></td>
+        <td class="auto text-center  px-6 whitespace-nowrap truncate max-w-[150px]"><%= colaborador.email %></td>
         <%= if is_nil(colaborador.perioricidade) do %>
           <td class="hidden sm:table-cell text-center mx-6">---</td>
         <% else %>
           <td class="hidden sm:table-cell text-center mx-6"><%= colaborador.perioricidade %></td>
         <% end %>
 
-        <td class="flex flex-col justify-center items-center m-6 ">
+        <td class="flex flex-col justify-center items-center m-2 ">
           <span class="inline-flex items-center font-medium text-blue-600 dark:text-blue-500 hover:underline"><%= live_redirect "Detalles", to: Routes.colaborador_show_path(@socket, :show, colaborador) %></span>
           <span class="inline-flex items-center font-medium text-green-600 dark:text-green-500 hover:underline"><%= live_patch "Editar", to: Routes.colaborador_index_path(@socket, :edit, colaborador) %></span>
           <span class="inline-flex items-center font-medium text-red-600 dark:text-red-600 hover:underline"><%= link "Eliminar", to: "#", phx_click: "delete", phx_value_id: colaborador.id, data: [confirm: "Está seguro de querer eliminar a este colaborador do sistema?"] %></span>
