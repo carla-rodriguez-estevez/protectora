@@ -24,6 +24,10 @@ defmodule Protectora.Padrinamentos do
     Repo.all(Padrinamento)
   end
 
+  def list_padrinamento_paginated(params \\ []) do
+    Repo.paginate(Padrinamento |> preload([:colaborador, :animal]), params)
+  end
+
   @doc """
   Gets a single padrinamento.
 

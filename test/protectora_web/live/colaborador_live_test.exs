@@ -96,7 +96,7 @@ defmodule ProtectoraWeb.ColaboradorLiveTest do
         index_live
         |> form("#colaborador-form", colaborador: @update_attrs)
         |> render_submit()
-        |> follow_redirect(conn, Routes.colaborador_index_path(conn, :index))
+        |> follow_redirect(conn, "/colaborador?colaboradores=1")
 
       assert html =~ "Colaborador actualizado correctamente"
       # some updated apelidos

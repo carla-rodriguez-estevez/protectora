@@ -79,10 +79,6 @@ defmodule ProtectoraWeb.ColaboradorLive.Index do
   end
 
   def handle_event("nav", %{"page" => page}, socket) do
-    new_socket = assign(socket, :page_number, page)
-
-    {:noreply, assign(socket, get_and_assign_page(page, socket.assigns.live_action))}
-
     {:noreply,
      push_redirect(assign(socket, get_and_assign_page(page, socket.assigns.live_action)),
        to: "/colaborador?colaboradores=" <> page
