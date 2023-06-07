@@ -1,9 +1,10 @@
-<div>
-  <h2><%= @title %></h2>
+<div class="w-full ">
+  <h2 class="flex justify-center items-center  text-xl font-extrabold underline underline-offset-3 decoration-8 decoration-blue-400 "><%= @title %></h2>
 
   <.form
     let={f}
     for={@changeset}
+    class="flex flex-col mt-4 gap-1 max-w-5xl form"
     id="padrinamento-form"
     phx-target={@myself}
     phx-change="validate"
@@ -12,51 +13,75 @@
     <div>Se xa está colaborando coa protectora engada a súa información para ser actualizada ou recuperaremos a información a través do email que engada</div>
 
 
-    <%= label f, :email %>
-    <%= text_input f, :email %>
-    <%= error_tag f, :email %>
+    <div class="mb-3 flex flex-col">
+      <%= label f, :email, class: "font-extrabold" %>
+      <%= text_input f, :email %>
+      <%= error_tag f, :email %>
+    </div>
 
-    <%= label f, :perioricidade %>
-    <%= select f, :perioricidade, options: ["","mensual", "bimensual", "trimestral", "cada 6 meses", "anual"] %>
-    <%= error_tag f, :perioricidade %>
+    <div class="mb-3 flex flex-col sm:flex-row">
+      <%= label f, :perioricidade, class: "font-extrabold",  style: "margin-right: 14px"%>
+      <%= select f, :perioricidade, seleccione: ["","mensual", "bimensual", "trimestral", "cada 6 meses", "anual"] %>
+      <%= error_tag f, :perioricidade %>
+    </div>
 
-    <%= label f, :cantidade_aporte %>
-    <%= number_input f, :cantidade_aporte, step: "0.1" %>
-    <%= error_tag f, :cantidade_aporte %>
+    <div class="mb-3 flex flex-col">
+      <%= label f, :cantidade_aporte,  "Cantidade de aporte (€)" , class: "font-extrabold"%>
+      <%= number_input f, :cantidade_aporte, step: "0.1" %>
+      <%= error_tag f, :cantidade_aporte %>
+    </div>
+
 
     <%= label f, :animal_id %>
     <%= text_input f, :animal_id %>
     <%= error_tag f, :animal_id %>
 
-    <%= label f, :nome %>
-    <%= text_input f, :nome %>
-    <%= error_tag f, :nome %>
+      <div class="mb-3 flex flex-col">
+        <%= label f, :nome , class: "font-extrabold"%>
+        <%= text_input f, :nome %>
+        <%= error_tag f, :nome %>
+    </div>
 
-    <%= label f, :apelidos %>
-    <%= text_input f, :apelidos %>
-    <%= error_tag f, :apelidos %>
+      <div class="mb-3 flex flex-col">
+        <%= label f, :apelidos, class: "font-extrabold" %>
+        <%= text_input f, :apelidos %>
+        <%= error_tag f, :apelidos %>
+    </div>
 
-    <%= label f, :dataNacemento %>
-    <%= date_select f, :dataNacemento, year: [options: DateTime.utc_now.year()..1940] %>
-    <%= error_tag f, :dataNacemento %>
+    <div class="mb-3 flex flex-col">
+      <div class="inline-flex flex-col md:flex-row mr-2 text-center font-extrabold">
+        <%= label f, :dataNacemento, "Data de nacemento", style: "margin-right: 14px" %>
+        <%= date_input f, :dataNacemento %>
+        <%= error_tag f, :dataNacemento %>
+        </div>
+    </div>
 
-    <%= label f, :direccion %>
-    <%= text_input f, :direccion %>
-    <%= error_tag f, :direccion %>
+    <div class="mb-3  flex flex-col">
+      <%= label f, :direccion, "Dirección", class: "font-extrabold"%>
+      <%= text_input f, :direccion %>
+      <%= error_tag f, :direccion %>
+    </div>
 
-    <%= label f, :codigoPostal %>
-    <%= number_input f, :codigoPostal %>
-    <%= error_tag f, :codigoPostal %>
+    <div class="mb-3  flex flex-col">
+      <%= label f, :codigoPostal , "Código postal" , class: "font-extrabold"%>
+      <%= number_input f, :codigoPostal %>
+      <%= error_tag f, :codigoPostal %>
+    </div>
 
-    <%= label f, :localidade %>
-    <%= text_input f, :localidade %>
-    <%= error_tag f, :localidade %>
+    <div class="mb-3 flex flex-col">
+      <%= label f, :localidade , class: "font-extrabold"%>
+      <%= text_input f, :localidade %>
+      <%= error_tag f, :localidade %>
+    </div>
 
-    <%= label f, :numeroConta %>
-    <%= text_input f, :numeroConta %>
-    <%= error_tag f, :numeroConta %>
-    <div>
-      <%= submit "Save", phx_disable_with: "Saving..." %>
+    <div class="mb-3 flex flex-col">
+      <%= label f, :numeroConta, "Número de conta", class: "font-extrabold" %>
+      <%= text_input f, :numeroConta %>
+      <%= error_tag f, :numeroConta %>
+    </div>
+
+    <div class="inline-flex text-white mb-4 bg-teal-500 border-0 py-2 px-6 focus:outline-none hover:bg-teal-600 rounded text-lg max-w-fit">
+      <%= submit "Gardar", phx_disable_with: "Gardando..." %>
     </div>
   </.form>
 </div>

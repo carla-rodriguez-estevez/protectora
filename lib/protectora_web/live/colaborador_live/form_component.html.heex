@@ -48,8 +48,8 @@
     <%= error_tag f, :localidade %>
   </div>
 
-    <div class="mb-3 flex flex-col">
-  <%= label f, :email, class: "font-extrabold" %>
+  <div class="mb-3 flex flex-col">
+    <%= label f, :email, class: "font-extrabold" %>
     <%= text_input f, :email %>
     <%= error_tag f, :email %>
   </div>
@@ -62,15 +62,16 @@
 
   <div class="mb-3 flex flex-col">
     <%= label f, :cantidadeAporte,  "Cantidade de aporte (€)" , class: "font-extrabold"%>
-    <%= number_input f, :cantidadeAporte %>
+    <%= number_input f, :cantidadeAporte, step: "0.1" %>
     <%= error_tag f, :cantidadeAporte %>
  </div>
 
-     <div class="mb-3 flex flex-col sm:flex-row">
- <%= label f, :perioricidade, class: "font-extrabold",  style: "margin-right: 14px"%>
+  <div class="mb-3 flex flex-col sm:flex-row">
+    <%= label f, :perioricidade, class: "font-extrabold",  style: "margin-right: 14px"%>
     <%= select f, :perioricidade, seleccione: ["","mensual", "bimensual", "trimestral", "cada 6 meses", "anual"] %>
     <%= error_tag f, :perioricidade %>
- </div>
+  </div>
+
     <%= if @action == :new  do %>
       <div class="text-red-600  my-6">Revise os datos correctamente, xa que unha vez rexistada a petición para eliminala ou modificala deberá contactar cun voluntario.</div>
       <% end %>

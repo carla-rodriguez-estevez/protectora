@@ -16,32 +16,44 @@
   </.modal>
 <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Perioricidade</th>
-      <th>Cantidade aporte</th>
+<table  class="m-12 gap-2 border-spacing-2">
+  <thead class="text-white">
+    <tr class="bg-teal-400  table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0" style="height: 50px;">
+      <th class="text-center mx-8 md:text-xl">Email</th>
+      <th class="text-center mx-8 md:text-xl">Perioricidade </th>
+      <th class="hidden md:table-cell text-center mx-8 md:text-xl">Perfil de colaborador</th>
+      <th class=" hidden md:table-cell text-center mx-8 md:text-xl">Perfil do animal</th>
+
 
       <th></th>
     </tr>
   </thead>
   <tbody id="padrinamento">
     <%= for padrinamento <- @padrinamento_collection do %>
-      <tr id={"padrinamento-#{padrinamento.id}"}>
-        <td><%= padrinamento.perioricidade %></td>
-        <td><%= padrinamento.cantidade_aporte %></td>
+      <tr class='hover:bg-gray-100 table-row' id={"padrinamento-#{padrinamento.id}"}>
+        <td class="text-center table-cell font-extrabold mx-6"><%= padrinamento.colaborador.email %></td>
+        <td class="table-cell items-center justify-center text-center mx-6"><%= padrinamento.perioricidade %></td>
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+        <td class="hidden md:table-cell items-center justify-center text-center "><span  class="inline-flex items-center font-medium text-gray-500 dark:text-gray-500  hover:underline"><%= live_patch padrinamento.colaborador.nome, to: "/colaborador/" <> padrinamento.colaborador.id %><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mx-3">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+        </svg>
+        </span></td>
+        <td class="hidden md:table-cell items-center justify-center text-center  "><span  class="inline-flex items-center font-medium text-gray-500 dark:text-gray-500 hover:underline"><%= live_patch padrinamento.animal.nome, to: "/animal/" <> padrinamento.animal.id %><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mx-3">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+        </svg>
+        </span></td>
 
-        <td>
-          <span><%= live_redirect "Show", to: Routes.padrinamento_show_path(@socket, :show, padrinamento) %></span>
-          <span><%= live_patch "Edit", to: Routes.padrinamento_index_path(@socket, :edit, padrinamento) %></span>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: padrinamento.id, data: [confirm: "Are you sure?"] %></span>
+        <td class="flex flex-col justify-center items-center m-2 ">
+          <span class="inline-flex items-center font-medium text-blue-600 dark:text-blue-500 hover:underline"><%= live_redirect "Detalles", to: Routes.padrinamento_show_path(@socket, :show, padrinamento) %></span>
+          <span class="inline-flex items-center font-medium text-green-600 dark:text-green-500 hover:underline"><%= live_patch "Editar", to: Routes.padrinamento_index_path(@socket, :edit, padrinamento) %></span>
+          <span class="inline-flex items-center font-medium text-red-600 dark:text-red-600 hover:underline"><%= link "Borrar", to: "#", phx_click: "delete", phx_value_id: padrinamento.id, data: [confirm: "Está seguro de querer eliminar a este padriñamento do sistema?"] %></span>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<span><%= live_patch "New Padrinamento", to: Routes.padrinamento_index_path(@socket, :new) %></span>
+
 <nav class="border-t border-gray-200 mb-16">
       <ul class="flex my-2 items-center justify-center">
         <li class="">
@@ -74,4 +86,5 @@
       </ul>
     </nav>
 
+<span><%= live_patch "New Padrinamento", to: Routes.padrinamento_index_path(@socket, :new) %></span>
 </div>

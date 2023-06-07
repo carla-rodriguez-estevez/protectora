@@ -30,7 +30,7 @@ defmodule ProtectoraWeb.PadrinamentoLive.Index do
       total_pages: total_pages || 0,
       padrinamento: %Padrinamento{},
       live_action: :index,
-      page_title: "Novo Padriñ@",
+      page_title: "Padriñamentos",
       user_token: Map.get(session, "user_token")
     ]
 
@@ -78,7 +78,7 @@ defmodule ProtectoraWeb.PadrinamentoLive.Index do
   defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, "New Padrinamento")
-    |> assign(:live_action, :index)
+    |> assign(:live_action, :new)
     |> assign(:padrinamento, %Padrinamento{})
   end
 
