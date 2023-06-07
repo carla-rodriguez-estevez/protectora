@@ -53,6 +53,9 @@ defmodule ProtectoraWeb.Router do
 
     live("/animal/:id", AnimalLive.Show, :show)
     live("/animal/:id/show/edit", AnimalLive.Show, :edit)
+
+    live("/animal/:id/padrinamento/new", AnimalLive.Show, :new_padrinamento)
+    live("/animal/:id/padrinamento/edit", AnimalLive.Show, :edit_padrinamento)
   end
 
   defp handle_errors(conn, %{reason: %Phoenix.Router.NoRouteError{message: message}}) do

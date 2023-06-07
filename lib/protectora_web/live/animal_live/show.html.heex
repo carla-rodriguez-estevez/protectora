@@ -1,6 +1,6 @@
 <h1>Show Animal</h1>
 
-<%= if @live_action in [:edit] do %>
+<%= if @live_action in [:edit] and !is_nil(@animal) do %>
   <.modal return_to={Routes.animal_show_path(@socket, :show, @animal)}>
     <.live_component
       module={ProtectoraWeb.AnimalLive.FormComponent}
@@ -12,6 +12,8 @@
     />
   </.modal>
 <% end %>
+
+
 
 <ul>
 
