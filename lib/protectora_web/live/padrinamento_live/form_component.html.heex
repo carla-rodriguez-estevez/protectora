@@ -10,10 +10,10 @@
     phx-change="validate"
     phx-submit="save">
 
-    <div class="text-red-600  my-6">Se xa está colaborando coa protectora, engada a súa información se quere que sexa actualizada ou recuperaremos a información a través do email que engada.</div>
+    <div class="text-red-600  mt-6 mb-2">Se xa está colaborando coa protectora, engada a súa información se quere que sexa actualizada ou recuperaremos a información a través do email que engada.</div>
 
-      <%= if @action == :edit do %>
-          <div class="text-red-600  my-6">Os datos que se engadan sustituirán ós orixinais para todos os padriñamentos do usuario.</div>
+      <%= if @action == :edit || @action == :edit_padrinamento do %>
+          <div class="text-red-600  mt-2">Os datos que se engadan sustituirán ós orixinais para todos os padriñamentos do usuario.</div>
       <% end %>
 
     <div class="mb-3 flex flex-col">
@@ -34,11 +34,11 @@
       <%= error_tag f, :cantidade_aporte %>
     </div>
 
-
-    <%= label f, :animal_id %>
-    <%= text_input f, :animal_id %>
-    <%= error_tag f, :animal_id %>
-
+    <div class="hidden">
+        <%= label f, :animal_id %>
+        <%= text_input f, :animal_id %>
+        <%= error_tag f, :animal_id %>
+    </div>
       <div class="mb-3 flex flex-col">
         <%= label f, :nome , class: "font-extrabold"%>
         <%= text_input f, :nome %>

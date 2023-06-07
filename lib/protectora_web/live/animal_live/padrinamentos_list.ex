@@ -23,6 +23,8 @@ defmodule ProtectoraWeb.AnimalLive.PadrinamentosList do
     </.modal>
     <% end %>
     <% end %>
+      <%= if @user_token do %>
+
     <h1>Listing Padrinamento</h1>
     <table>
     <thead>
@@ -48,6 +50,7 @@ defmodule ProtectoraWeb.AnimalLive.PadrinamentosList do
     <% end %>
     </tbody>
     </table>
+    <% end %>
         <span><%= live_patch "New Padrinamento", to: Routes.animal_show_path(@socket, :new_padrinamento,  @animal.id) %></span>
       </div>
     """
