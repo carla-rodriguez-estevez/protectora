@@ -169,7 +169,7 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
       {:ok, index_live, _html} = live(conn, Routes.padrinamento_index_path(conn, :index))
 
       assert index_live
-             |> element("#padrinamento-#{padrinamento.id} a", "Delete")
+             |> element("#padrinamento-#{padrinamento.id} a", "Borrar")
              |> render_click()
 
       refute has_element?(index_live, "#padrinamento-#{padrinamento.id}")
