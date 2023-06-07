@@ -58,9 +58,9 @@
       <ul class="flex my-2 items-center justify-center">
         <li class="">
         <%= if  @page_number <= 1 do %>
-          <a class="px-2 py-2 pointer-events-none text-gray-600" href="#" phx-click="nav" phx-value-page={@page_number - 1}>Previous</a>
+          <a class="px-2 py-2 pointer-events-none text-gray-600" href="#" phx-click="nav" phx-value-page={@page_number - 1}>Ant</a>
         <% else %>
-          <a class="px-2 py-2" href="#" phx-click="nav" phx-value-page={@page_number - 1}>Previous</a>
+          <a class="px-2 py-2" href="#" phx-click="nav" phx-value-page={@page_number - 1}>Ant</a>
         <% end %>
 
         </li>
@@ -78,9 +78,9 @@
         <li class="">
 
         <%= if @page_number >= @total_pages do %>
-          <a class="px-2 py-2 pointer-events-none text-gray-600" href="#" phx-click="nav" phx-value-page={@page_number + 1}>Next</a>
+          <a class="px-2 py-2 pointer-events-none text-gray-600" href="#" phx-click="nav" phx-value-page={@page_number + 1}>Seg</a>
         <% else %>
-          <a class="px-2 py-2" href="#" phx-click="nav" phx-value-page={@page_number + 1}>Next</a>
+          <a class="px-2 py-2" href="#" phx-click="nav" phx-value-page={@page_number + 1}>Seg</a>
         <% end %>
         </li>
       </ul>

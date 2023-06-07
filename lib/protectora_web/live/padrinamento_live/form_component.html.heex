@@ -10,8 +10,11 @@
     phx-change="validate"
     phx-submit="save">
 
-    <div>Se xa está colaborando coa protectora engada a súa información para ser actualizada ou recuperaremos a información a través do email que engada</div>
+    <div class="text-red-600  my-6">Se xa está colaborando coa protectora, engada a súa información se quere que sexa actualizada ou recuperaremos a información a través do email que engada.</div>
 
+      <%= if @action == :edit do %>
+          <div class="text-red-600  my-6">Os datos que se engadan sustituirán ós orixinais para todos os padriñamentos do usuario.</div>
+      <% end %>
 
     <div class="mb-3 flex flex-col">
       <%= label f, :email, class: "font-extrabold" %>
