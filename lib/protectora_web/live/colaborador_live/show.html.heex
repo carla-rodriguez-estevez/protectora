@@ -52,20 +52,27 @@
     <%= @colaborador.numeroConta %>
   </li>
 
-  <li class="flex flex-row gap-4 max-w-5xl mb-2">
-    <strong>Cantidade aportada:</strong>
-    <%= @colaborador.cantidadeAporte %> €
-  </li>
+  <%= if @colaborador.cantidadeAporte do %>
+    <li class="flex flex-row gap-4 max-w-5xl mb-2">
+      <strong>Perioricidade:</strong>
+      <%= @colaborador.perioricidade %>
+    </li>
 
-  <li class="flex flex-row gap-4 max-w-5xl mb-2">
-    <strong>Perioricidade:</strong>
-    <%= @colaborador.perioricidade %>
-  </li>
+    <li class="flex flex-row gap-4 max-w-5xl mb-2">
+      <strong>Cantidade aportada:</strong>
+      <%= @colaborador.cantidadeAporte %> €
+    </li>
+  <% else %>
+    <li class="flex flex-row gap-4 max-w-5xl mb-2">
+      <span class="text-red-600  my-6">Este colaborador contribúe como padriño</span>
+    </li>
+  <% end %>
+
 
 </ul>
 
 <div class="flex flex-col sm:flex-row ">
 <span class="flex justify-center items-center w-64 text-white my-4 mx-4 bg-teal-500 border-0 py-2 px-6 focus:outline-none hover:bg-teal-600 rounded text-lg"><%= live_patch "Editar colaborador", to: Routes.colaborador_show_path(@socket, :edit, @colaborador), class: "button" %></span>
-<span class="flex justify-center items-center w-64 text-white  mx-4 my-4 bg-teal-500 border-0 py-2 px-6 focus:outline-none hover:bg-teal-600 rounded text-lg"><%= live_redirect "Voltar á páxina anterior", to: Routes.colaborador_index_path(@socket, :index) %></span>
+<span class="flex justify-center items-center w-64 text-white  mx-4 my-4 bg-teal-500 border-0 py-2 px-6 focus:outline-none hover:bg-teal-600 rounded text-lg"><%= live_redirect "Voltar á listaxe anterior", to: Routes.colaborador_index_path(@socket, :index) %></span>
 </div>
 </div>

@@ -26,47 +26,61 @@ defmodule ProtectoraWeb.ColaboradorLive.Index do
     assigns = [
       conn: socket,
       colaboradores: entries,
-      page_number: page_number || 0,
-      page_size: page_size || 0,
-      total_entries: total_entries || 0,
-      total_pages: total_pages || 0,
+      page_number: page_number,
+      page_size: page_size,
+      total_entries: total_entries,
+      total_pages: total_pages,
       colaborador: nil,
       page_title: "Mostar colaboradores",
-      live_action: :index
+      live_action: socket.assigns.live_action
     ]
 
     {:ok, assign(socket, assigns)}
   end
 
   @impl true
-  def handle_params(%{"colaboradores" => page}, _url, socket) do
-    assigns = get_and_assign_page(page)
-    {:noreply, assign(socket, assigns)}
-    {:noreply, apply_action(socket, socket.assigns.live_action, %{"page" => page})}
+  def handle_params(%{"colaboradores" => page} = params, _url, socket) do
+    assigns = get_and_assign_page(page, socket.assigns.live_action)
+
+    {:noreply,
+     apply_action(assign(socket, assigns), socket.assigns.live_action, %{
+       "colaboradores" => socket.assigns.page_number
+     })}
+  end
+
+  def handle_params(%{"id" => id} = params, _url, socket) do
+    assigns = get_and_assign_page(0, socket.assigns.live_action)
+
+    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
   def handle_params(params, _url, socket) do
-    assigns = get_and_assign_page(0)
-    {:noreply, assign(socket, assigns)}
+    assigns = get_and_assign_page(0, socket.assigns.live_action)
 
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+    {:noreply,
+     apply_action(assign(socket, assigns), socket.assigns.live_action, %{
+       "colaboradores" => socket.assigns.page_number
+     })}
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
     |> assign(:page_title, "Editar colaborador")
+    |> assign(:live_action, :edit)
     |> assign(:colaborador, Colaboradores.get_colaborador!(id))
+    |> assign(:page_number, socket.assigns.page_number)
   end
 
   defp apply_action(socket, :index, _params) do
     socket
     |> assign(:page_title, "Lista de colaboradores")
+    |> assign(:live_action, :index)
     |> assign(:colaborador, nil)
   end
 
   def handle_event("nav", %{"page" => page}, socket) do
     {:noreply,
-     push_redirect(socket,
+     push_redirect(assign(socket, get_and_assign_page(page, socket.assigns.live_action)),
        to: "/colaborador?colaboradores=" <> page
      )}
   end
@@ -76,7 +90,8 @@ defmodule ProtectoraWeb.ColaboradorLive.Index do
     colaborador = Colaboradores.get_colaborador!(id)
     {:ok, _} = Colaboradores.delete_colaborador(colaborador)
 
-    {:noreply, assign(socket, get_and_assign_page(socket.assigns.page_number))}
+    {:noreply,
+     assign(socket, get_and_assign_page(socket.assigns.page_number, socket.assigns.live_action))}
   end
 
   @impl true
@@ -108,14 +123,14 @@ defmodule ProtectoraWeb.ColaboradorLive.Index do
     {:noreply, assign(socket, assigns)}
   end
 
-  def get_and_assign_page(page_number) do
+  def get_and_assign_page(page, live_action) do
     %{
       entries: entries,
       page_number: page_number,
       page_size: page_size,
       total_entries: total_entries,
       total_pages: total_pages
-    } = Colaboradores.list_colaborador_paginated(page: page_number)
+    } = Colaboradores.list_colaborador_paginated(page: page)
 
     [
       colaboradores: entries,
@@ -123,6 +138,7 @@ defmodule ProtectoraWeb.ColaboradorLive.Index do
       page_size: page_size,
       total_entries: total_entries,
       total_pages: total_pages,
+      live_action: live_action,
       colaborador: %Colaborador{}
     ]
   end

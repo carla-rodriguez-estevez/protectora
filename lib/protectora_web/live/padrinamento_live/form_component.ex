@@ -5,8 +5,8 @@ defmodule ProtectoraWeb.PadrinamentoLive.FormComponent do
 
   require Logger
   @impl true
-  def update(%{padrinamento: padrinamento} = assigns, socket) do
-    changeset = Padrinamentos.change_padrinamento(padrinamento)
+  def update(assigns, socket) do
+    changeset = Padrinamentos.change_padrinamento(assigns.padrinamento)
 
     {:ok,
      socket
@@ -46,7 +46,20 @@ defmodule ProtectoraWeb.PadrinamentoLive.FormComponent do
       {:ok, _padrinamento} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Padrinamento updated successfully")
+         |> put_flash(:info, "Padriñamento actualizado correctamente")
+         |> push_redirect(to: socket.assigns.return_to)}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, :changeset, changeset)}
+    end
+  end
+
+  defp save_padrinamento(socket, :edit_padrinamento, padrinamento_params) do
+    case Padrinamentos.update_padrinamento(socket.assigns.padrinamento, padrinamento_params) do
+      {:ok, _padrinamento} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Padriñamento actualizado correctamente")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -59,7 +72,20 @@ defmodule ProtectoraWeb.PadrinamentoLive.FormComponent do
       {:ok, _padrinamento} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Padrinamento created successfully")
+         |> put_flash(:info, "Padriñamento creado correctamente")
+         |> push_redirect(to: socket.assigns.return_to)}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, changeset: changeset)}
+    end
+  end
+
+  defp save_padrinamento(socket, :new_padrinamento, padrinamento_params) do
+    case Padrinamentos.create_padrinamento(padrinamento_params) do
+      {:ok, _padrinamento} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Padriñamento creado correctamente")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

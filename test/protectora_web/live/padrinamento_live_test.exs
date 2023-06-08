@@ -8,6 +8,7 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
   alias Protectora.Accounts
   alias ProtectoraWeb.UserAuth
   import Protectora.AccountsFixtures
+  import Protectora.AnimaisFixtures
 
   @create_attrs %{cantidade_aporte: "120.5", perioricidade: "mensual"}
   @update_attrs %{cantidade_aporte: "456.7", perioricidade: "anual"}
@@ -18,8 +19,16 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
     %{padrinamento: padrinamento}
   end
 
+  defp create_animal(_) do
+    animal_fixture_var = animal_fixture()
+    animal = Protectora.Animais.get_animal!(animal_fixture_var.id)
+
+    %{animal: animal}
+  end
+
   describe "Index" do
     setup [:create_padrinamento]
+    setup [:create_animal]
 
     test "lists all padrinamento", %{conn: conn, padrinamento: padrinamento} do
       conn =
@@ -35,11 +44,12 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
 
       {:ok, _index_live, html} = live(conn, Routes.padrinamento_index_path(conn, :index))
 
-      assert html =~ "Listing Padrinamento"
+      assert html =~ "Lista de padriños"
       assert html =~ padrinamento.perioricidade
     end
 
-    test "saves new padrinamento", %{conn: conn} do
+    # Functionallity not available
+    test "saves new padrinamento", %{conn: conn, animal: animal} do
       conn =
         conn
         |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
@@ -51,18 +61,16 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
         conn
         |> put_session(:user_token, token)
 
-      {:ok, index_live, _html} = live(conn, Routes.padrinamento_index_path(conn, :index))
+      {:ok, index_live, _html} = live(conn, Routes.animal_show_path(conn, :show, animal))
 
       assert index_live |> element("a", "New Padrinamento") |> render_click() =~
                "New Padrinamento"
 
-      assert_patch(index_live, Routes.padrinamento_index_path(conn, :new))
+      assert_patch(index_live, "/animal/" <> animal.id <> "/padrinamento/new")
 
       assert index_live
              |> form("#padrinamento-form", padrinamento: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
-
-      animal = animal_fixture()
+             |> render_change() =~ "non pode estar valeiro"
 
       {:ok, colaborador} =
         %{}
@@ -82,7 +90,6 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
       valid_attrs = %{
         cantidade_aporte: "120.5",
         perioricidade: "anual",
-        animal_id: animal.id,
         email: "carla1@udc.es"
       }
 
@@ -90,9 +97,9 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
         index_live
         |> form("#padrinamento-form", padrinamento: valid_attrs)
         |> render_submit()
-        |> follow_redirect(conn, Routes.padrinamento_index_path(conn, :index))
+        |> follow_redirect(conn, "/animal/" <> animal.id)
 
-      assert html =~ "Padrinamento created successfully"
+      assert html =~ "Padriñamento creado correctamente"
       assert html =~ "anual"
     end
 
@@ -111,13 +118,13 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
       {:ok, index_live, _html} = live(conn, Routes.padrinamento_index_path(conn, :index))
 
       assert index_live |> element("#padrinamento-#{padrinamento.id} a", "Edit") |> render_click() =~
-               "Edit Padrinamento"
+               "Editar padriñamento"
 
       assert_patch(index_live, Routes.padrinamento_index_path(conn, :edit, padrinamento))
 
       assert index_live
              |> form("#padrinamento-form", padrinamento: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "non pode estar valeiro"
 
       animal = animal_fixture()
 
@@ -147,9 +154,9 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
         index_live
         |> form("#padrinamento-form", padrinamento: update_attrs)
         |> render_submit()
-        |> follow_redirect(conn, Routes.padrinamento_index_path(conn, :index))
+        |> follow_redirect(conn, "/padrinamento?padrinamentos=1")
 
-      assert html =~ "Padrinamento updated successfully"
+      assert html =~ "Padriñamento actualizado correctamente"
       assert html =~ "trimestral"
     end
 
@@ -168,7 +175,7 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
       {:ok, index_live, _html} = live(conn, Routes.padrinamento_index_path(conn, :index))
 
       assert index_live
-             |> element("#padrinamento-#{padrinamento.id} a", "Delete")
+             |> element("#padrinamento-#{padrinamento.id} a", "Borrar")
              |> render_click()
 
       refute has_element?(index_live, "#padrinamento-#{padrinamento.id}")
@@ -219,7 +226,7 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
 
       assert show_live
              |> form("#padrinamento-form", padrinamento: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "non pode estar valeiro"
 
       animal = animal_fixture()
 
@@ -251,7 +258,7 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
         |> render_submit()
         |> follow_redirect(conn, Routes.padrinamento_show_path(conn, :show, padrinamento))
 
-      assert html =~ "Padrinamento updated successfully"
+      assert html =~ "Padriñamento actualizado correctamente"
       assert html =~ "trimestral"
     end
   end

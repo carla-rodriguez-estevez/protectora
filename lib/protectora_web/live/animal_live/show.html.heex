@@ -1,6 +1,6 @@
 <h1>Show Animal</h1>
 
-<%= if @live_action in [:edit] do %>
+<%= if @live_action in [:edit] and !is_nil(@animal) do %>
   <.modal return_to={Routes.animal_show_path(@socket, :show, @animal)}>
     <.live_component
       module={ProtectoraWeb.AnimalLive.FormComponent}
@@ -12,6 +12,8 @@
     />
   </.modal>
 <% end %>
+
+
 
 <ul>
 
@@ -75,8 +77,12 @@
 
   <%= if @user_token do %>
 <%= live_component ProtectoraWeb.AnimalLive.RexistrosList,id: "rexistros_list",  rexistro_collection: @animal.rexistro, live_action: @live_action, animal: @animal, page_title: @page_title, rexistro: nil %>
-<%= live_component ProtectoraWeb.AnimalLive.PadrinamentosList,id: "padrinamentos_list",  padrinamento_collection: @animal.padrinamento, live_action: @live_action, animal: @animal, page_title: @page_title, padrinamento: nil %>
+  <% end %>
 
+
+<%= live_component ProtectoraWeb.AnimalLive.PadrinamentosList,id: "padrinamentos_list",  padrinamento_collection: @animal.padrinamento, live_action: @live_action, animal: @animal, page_title: @page_title, padrinamento: nil, user_token: @user_token %>
+
+  <%= if @user_token do %>
 <span><%= live_patch "Edit", to: Routes.animal_show_path(@socket, :edit, @animal), class: "button" %></span> |
   <% end %>
 </ul>

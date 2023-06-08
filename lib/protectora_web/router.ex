@@ -53,6 +53,9 @@ defmodule ProtectoraWeb.Router do
 
     live("/animal/:id", AnimalLive.Show, :show)
     live("/animal/:id/show/edit", AnimalLive.Show, :edit)
+
+    live("/animal/:id/padrinamento/new", AnimalLive.Show, :new_padrinamento)
+    live("/padrinamento/new", PadrinamentoLive.Index, :new)
   end
 
   defp handle_errors(conn, %{reason: %Phoenix.Router.NoRouteError{message: message}}) do
@@ -80,6 +83,7 @@ defmodule ProtectoraWeb.Router do
     get("/publicacion", PublicacionController, :index)
     get("/publicacion/:id", PublicacionController, :show)
     post("/colaborador", ColaboradorController, :create)
+    post("/padrinamento", PadrinamentoController, :create)
 
     # resources "/imaxe_pVoluntarioControllerublicacion", ImaxePublicacionController, except: [:new, :edit]
   end
@@ -110,8 +114,15 @@ defmodule ProtectoraWeb.Router do
     patch("/colaborador/:id", ColaboradorController, :update)
     delete("/colaborador/:id", ColaboradorController, :delete)
 
+    get("/padrinamento", PadrinamentoController, :index)
+    get("/padrinamento/:id", PadrinamentoController, :show)
+    get("/padrinamento/:id/edit", PadrinamentoController, :edit)
+    put("/padrinamento/:id", PadrinamentoController, :update)
+    patch("/padrinamento/:id", PadrinamentoController, :update)
+    delete("/padrinamento/:id", PadrinamentoController, :delete)
+
     resources("/rexistro", RexistroController, except: [:new, :edit])
-    resources("/padrinamento", PadrinamentoController, except: [:new, :edit])
+    # resources("/padrinamento", PadrinamentoController, except: [:new, :edit])
     # resources("/colaborador", ColaboradorController, except: [:new, :edit])
   end
 
@@ -181,11 +192,11 @@ defmodule ProtectoraWeb.Router do
     live("/voluntario/:id/show/edit", VoluntarioLive.Show, :edit)
 
     live("/padrinamento", PadrinamentoLive.Index, :index)
-    live("/padrinamento/new", PadrinamentoLive.Index, :new)
     live("/padrinamento/:id/edit", PadrinamentoLive.Index, :edit)
 
     live("/padrinamento/:id", PadrinamentoLive.Show, :show)
     live("/padrinamento/:id/show/edit", PadrinamentoLive.Show, :edit)
+    live("/animal/:id/padrinamento/edit", AnimalLive.Show, :edit_padrinamento)
 
     live("/rexistro", RexistroLive.Index, :index)
     live("/rexistro/new", RexistroLive.Index, :new)
