@@ -44,6 +44,6 @@
 <%= if @user_token do %>
 <span class="flex justify-center items-center w-64 text-white my-4 mx-4 bg-teal-500 border-0 py-2 px-6 focus:outline-none hover:bg-teal-600 rounded text-lg"><%= live_patch "Editar publicación", to: Routes.publicacion_show_path(@socket, :edit, @publicacion), class: "button" %></span>
 <% end %>
-<span class="flex justify-center items-center w-64 text-white  mx-4 my-4 bg-teal-500 border-0 py-2 px-6 focus:outline-none hover:bg-teal-600 rounded text-lg"><%= live_redirect "Voltar á páxina anterior", to: Routes.publicacion_index_path(@socket, :index) %></span>
+<span class="flex justify-center items-center w-64 text-white  mx-4 my-4 bg-teal-500 border-0 py-2 px-6 focus:outline-none hover:bg-teal-600 rounded text-lg"><%= live_redirect "Voltar á listaxe anterior", to: Routes.publicacion_index_path(@socket, :index) %></span>
 </div>
 </div>

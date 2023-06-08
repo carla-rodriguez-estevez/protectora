@@ -46,7 +46,7 @@ defmodule ProtectoraWeb.PadrinamentoLive.FormComponent do
       {:ok, _padrinamento} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Padrinamento updated successfully")
+         |> put_flash(:info, "Padriñamento actualizado correctamente")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -59,7 +59,7 @@ defmodule ProtectoraWeb.PadrinamentoLive.FormComponent do
       {:ok, _padrinamento} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Padrinamento updated successfully")
+         |> put_flash(:info, "Padriñamento actualizado correctamente")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -72,7 +72,7 @@ defmodule ProtectoraWeb.PadrinamentoLive.FormComponent do
       {:ok, _padrinamento} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Padrinamento created successfully")
+         |> put_flash(:info, "Padriñamento creado correctamente")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -85,7 +85,7 @@ defmodule ProtectoraWeb.PadrinamentoLive.FormComponent do
       {:ok, _padrinamento} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Padrinamento created successfully")
+         |> put_flash(:info, "Padriñamento creado correctamente")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

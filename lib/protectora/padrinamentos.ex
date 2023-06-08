@@ -43,7 +43,7 @@ defmodule Protectora.Padrinamentos do
 
   """
   def get_padrinamento!(id) do
-    Padrinamento |> where(id: ^id) |> preload([:colaborador]) |> Repo.one!()
+    Padrinamento |> where(id: ^id) |> preload([:colaborador, :animal]) |> Repo.one!()
   end
 
   @doc """

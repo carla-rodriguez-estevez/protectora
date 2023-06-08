@@ -3,6 +3,7 @@ defmodule ProtectoraWeb.AnimalLive.Show do
 
   alias Protectora.Animais
   alias Protectora.Padrinamentos.Padrinamento
+  alias Protectora.Padrinamentos
 
   require Logger
 
@@ -27,18 +28,24 @@ defmodule ProtectoraWeb.AnimalLive.Show do
 
   defp apply_action(socket, :new_padrinamento, _params) do
     socket
-    |> assign(:page_title, "New Padrinamento")
+    |> assign(:page_title, "Novo Padriñamento")
     |> assign(:live_action, :new_padrinamento)
     |> assign(:padrinamento, %Padrinamento{})
   end
 
   defp apply_action(socket, :edit_padrinamento, _params) do
-    Logger.warn("Nuevo padrino update antes")
-
     socket
-    |> assign(:page_title, "Editar Padrinamento")
+    |> assign(:page_title, "Editar Padriñamento")
     |> assign(:live_action, :edit_padrinamento)
     |> assign(:padrinamento, socket.assigns.padrinamento)
+  end
+
+  @impl true
+  def handle_event("delete", %{"id" => id}, socket) do
+    padrinamento = Padrinamentos.get_padrinamento!(id)
+    {:ok, _} = Padrinamentos.delete_padrinamento(padrinamento)
+
+    {:noreply, assign(socket, :animal, Animais.get_animal!(socket.assigns.animal.id))}
   end
 
   defp page_title(:show), do: "Show Animal"

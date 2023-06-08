@@ -17,14 +17,24 @@ defmodule Protectora.Padrinamentos.Padrinamento do
   def changeset(padrinamento, attrs) do
     padrinamento
     |> cast(attrs, [:perioricidade, :cantidade_aporte, :animal_id, :colaborador_id])
-    |> validate_required([:perioricidade, :cantidade_aporte, :animal_id])
-    |> validate_number(:cantidade_aporte, greater_than: 0, less_than: 999_999)
-    |> validate_inclusion(:perioricidade, [
-      "mensual",
-      "bimensual",
-      "trimestral",
-      "cada 6 meses",
-      "anual"
-    ])
+    |> validate_required([:perioricidade, :cantidade_aporte, :animal_id],
+      message: "non pode estar valeiro"
+    )
+    |> validate_number(:cantidade_aporte,
+      greater_than: 0,
+      less_than: 999_999,
+      message: "A cantidade debe ser maior que 0"
+    )
+    |> validate_inclusion(
+      :perioricidade,
+      [
+        "mensual",
+        "bimensual",
+        "trimestral",
+        "cada 6 meses",
+        "anual"
+      ],
+      message: "Perioricidade non válida"
+    )
   end
 end

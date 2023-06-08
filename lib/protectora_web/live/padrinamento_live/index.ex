@@ -72,14 +72,14 @@ defmodule ProtectoraWeb.PadrinamentoLive.Index do
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Padrinamento")
+    |> assign(:page_title, "Novo padriñamento")
     |> assign(:live_action, :new)
     |> assign(:padrinamento, %Padrinamento{})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Padrinamento")
+    |> assign(:page_title, "Padriñamentos")
     |> assign(:padrinamento, nil)
   end
 
