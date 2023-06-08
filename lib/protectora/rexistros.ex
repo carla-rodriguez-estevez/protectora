@@ -21,6 +21,10 @@ defmodule Protectora.Rexistros do
     Repo.all(Rexistro)
   end
 
+  def list_rexistro_paginated(params \\ []) do
+    Repo.paginate(Rexistro, params)
+  end
+
   @doc """
   Gets a single rexistro.
 

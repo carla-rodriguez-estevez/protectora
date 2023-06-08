@@ -42,5 +42,39 @@
     </tbody>
   </table>
 
+  <nav class="border-t border-gray-200 mb-16  mx-12 ">
+      <ul class="flex my-2 items-center justify-center">
+        <li class="">
+        <%= if  @page_number <= 1 do %>
+          <a class="px-2 py-2 pointer-events-none text-gray-600" href="#" phx-click="nav" phx-value-page={@page_number - 1}>Ant</a>
+        <% else %>
+          <a class="px-2 py-2" href="#" phx-click="nav" phx-value-page={@page_number - 1}>Ant</a>
+        <% end %>
+
+        </li>
+        <div class="w-44 md:w-[400px] flex flex-row overflow-hidden " style="width: fit-content;">
+    <%= for idx <-  Enum.to_list(1..@total_pages) do %>
+        <li class="">
+
+        <%= if @page_number == idx do %>
+          <a class="px-2 py-2 pointer-events-none text-gray-600" href="#" phx-click="nav" phx-value-page={idx}><%= idx %></a>
+        <% else %>
+          <a class="px-2 py-2" href="#" phx-click="nav" phx-value-page={idx}><%= idx %></a>
+        <% end %>
+
+        </li>
+     <% end %>
+     </div>
+        <li class="">
+
+        <%= if @page_number >= @total_pages do %>
+          <a class="px-2 py-2 pointer-events-none text-gray-600" href="#" phx-click="nav" phx-value-page={@page_number + 1}>Seg</a>
+        <% else %>
+          <a class="px-2 py-2" href="#" phx-click="nav" phx-value-page={@page_number + 1}>Seg</a>
+        <% end %>
+        </li>
+      </ul>
+    </nav>
+
   <span><%= live_patch "New Rexistro", to: Routes.rexistro_index_path(@socket, :new) %></span>
 </div>
