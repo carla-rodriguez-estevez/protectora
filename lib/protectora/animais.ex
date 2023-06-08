@@ -8,6 +8,7 @@ defmodule Protectora.Animais do
 
   alias Protectora.Animais.Animal
   alias Protectora.Animais.ImaxeAnimal
+  alias Protectora.Padrinamentos
 
   require Logger
 
@@ -156,7 +157,13 @@ defmodule Protectora.Animais do
   defp delete_full_animal(%Animal{} = animal) do
     imaxes = animal.imaxe_animal
 
+    padrinamentos = animal.padrinamento
+
     deleted_animal = Repo.get!(Animal, animal.id)
+
+    Enum.each(padrinamentos, fn padrinamento ->
+      Padrinamentos.delete_padrinamento(padrinamento)
+    end)
 
     Enum.each(imaxes, fn el ->
       File.rm(Path.join(["priv/static", el.path_imaxe]))

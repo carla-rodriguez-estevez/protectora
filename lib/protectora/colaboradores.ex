@@ -7,6 +7,7 @@ defmodule Protectora.Colaboradores do
   alias Protectora.Repo
 
   alias Protectora.Colaboradores.Colaborador
+  alias Protectora.Padrinamentos
 
   @doc """
   Returns the list of colaborador.
@@ -39,7 +40,8 @@ defmodule Protectora.Colaboradores do
       ** (Ecto.NoResultsError)
 
   """
-  def get_colaborador!(id), do: Repo.get!(Colaborador, id)
+  def get_colaborador!(id),
+    do: Colaborador |> where(id: ^id) |> preload([:padrinamento]) |> Repo.one!()
 
   def get_colaborador_by_email!(email), do: Colaborador |> where(email: ^email) |> Repo.one()
 
@@ -108,7 +110,21 @@ defmodule Protectora.Colaboradores do
 
   """
   def delete_colaborador(%Colaborador{} = colaborador) do
-    Repo.delete(colaborador) |> broadcast(:colaborador_deleted)
+    {:ok, resp} = Repo.transaction(fn _ -> delete_colaborador_completed(colaborador) end)
+
+    resp
+  end
+
+  defp delete_colaborador_completed(colaborador) do
+    colaborador_full = get_colaborador!(colaborador.id)
+    padrinamentos = colaborador_full.padrinamento
+
+    if length(padrinamentos) == 0 do
+      Repo.delete(colaborador) |> broadcast(:colaborador_deleted)
+    else
+      update_colaborador(colaborador, %{perioricidade: nil, cantidadeAporte: nil})
+      |> broadcast(:colaborador_deleted)
+    end
   end
 
   @doc """

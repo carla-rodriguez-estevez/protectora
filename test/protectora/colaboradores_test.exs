@@ -22,7 +22,7 @@ defmodule Protectora.ColaboradoresTest do
     }
 
     test "list_colaborador/0 returns all colaborador" do
-      colaborador = colaborador_fixture()
+      colaborador = colaborador_fixture_notloaded()
       assert Colaboradores.list_colaborador() == [colaborador]
     end
 

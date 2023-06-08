@@ -8,7 +8,6 @@ defmodule Protectora.Padrinamentos do
   alias Protectora.Repo
   import Ecto.Changeset
 
-  require Logger
   alias Protectora.Padrinamentos.Padrinamento
 
   @doc """
@@ -128,12 +127,16 @@ defmodule Protectora.Padrinamentos do
         email_attr
       end
 
+    perioricidade = attrs["perioricidade"]
+
+    Map.put(attrs, :perioricidade, nil)
+
     case create_colaborador(email, attrs) do
       {:ok, colaborador} ->
         %Padrinamento{}
         |> Padrinamento.changeset(%{
           cantidade_aporte: attrs["cantidade_aporte"],
-          perioricidade: attrs["perioricidade"],
+          perioricidade: perioricidade,
           animal_id: attrs["animal_id"],
           colaborador_id: colaborador.id
         })
@@ -201,7 +204,16 @@ defmodule Protectora.Padrinamentos do
 
   """
   def delete_padrinamento(%Padrinamento{} = padrinamento) do
-    Repo.delete(padrinamento)
+    colaborador = Colaboradores.get_colaborador!(padrinamento.colaborador.id)
+
+    resp = Repo.delete(padrinamento)
+
+    if length(colaborador.padrinamento) == 1 and
+         (is_nil(colaborador.cantidadeAporte) or is_nil(colaborador.perioricidade)) do
+      Colaboradores.delete_colaborador(colaborador)
+    end
+
+    resp
   end
 
   @doc """

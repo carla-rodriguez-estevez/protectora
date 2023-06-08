@@ -74,7 +74,12 @@ defmodule Protectora.PadrinamentosTest do
 
     test "delete_padrinamento/1 deletes the padrinamento" do
       padrinamento = padrinamento_fixture()
-      assert {:ok, %Padrinamento{}} = Padrinamentos.delete_padrinamento(padrinamento)
+
+      assert {:ok, %Padrinamento{}} =
+               Padrinamentos.delete_padrinamento(
+                 Protectora.Padrinamentos.get_padrinamento!(padrinamento.id)
+               )
+
       assert_raise Ecto.NoResultsError, fn -> Padrinamentos.get_padrinamento!(padrinamento.id) end
     end
 
