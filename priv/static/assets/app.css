@@ -985,6 +985,22 @@ select {
   width: 100%;
 }
 
+.w-8 {
+  width: 2rem;
+}
+
+.w-36 {
+  width: 9rem;
+}
+
+.w-40 {
+  width: 10rem;
+}
+
+.w-44 {
+  width: 11rem;
+}
+
 .max-w-3xl {
   max-width: 48rem;
 }
@@ -1717,6 +1733,18 @@ select {
 
   .md\:table-cell {
     display: table-cell;
+  }
+
+  .md\:w-12 {
+    width: 3rem;
+  }
+
+  .md\:w-96 {
+    width: 24rem;
+  }
+
+  .md\:w-\[400px\] {
+    width: 400px;
   }
 
   .md\:shrink-0 {
