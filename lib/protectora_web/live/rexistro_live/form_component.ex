@@ -40,7 +40,33 @@ defmodule ProtectoraWeb.RexistroLive.FormComponent do
     end
   end
 
+  defp save_rexistro(socket, :edit_rexistro, rexistro_params) do
+    case Rexistros.update_rexistro(socket.assigns.rexistro, rexistro_params) do
+      {:ok, _rexistro} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Rexistro updated successfully")
+         |> push_redirect(to: socket.assigns.return_to)}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, :changeset, changeset)}
+    end
+  end
+
   defp save_rexistro(socket, :new, rexistro_params) do
+    case Rexistros.create_rexistro(rexistro_params) do
+      {:ok, _rexistro} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Rexistro created successfully")
+         |> push_redirect(to: socket.assigns.return_to)}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, changeset: changeset)}
+    end
+  end
+
+  defp save_rexistro(socket, :new_rexistro, rexistro_params) do
     case Rexistros.create_rexistro(rexistro_params) do
       {:ok, _rexistro} ->
         {:noreply,

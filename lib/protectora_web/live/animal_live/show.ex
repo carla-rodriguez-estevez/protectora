@@ -4,6 +4,8 @@ defmodule ProtectoraWeb.AnimalLive.Show do
   alias Protectora.Animais
   alias Protectora.Padrinamentos.Padrinamento
   alias Protectora.Padrinamentos
+  alias Protectora.Rexistros
+  alias Protectora.Rexistros.Rexistro
 
   require Logger
 
@@ -17,6 +19,7 @@ defmodule ProtectoraWeb.AnimalLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
+     |> assign(:rexistro, nil)
      |> assign(:animal, Animais.get_animal!(id))}
   end
 
@@ -48,8 +51,33 @@ defmodule ProtectoraWeb.AnimalLive.Show do
     {:noreply, assign(socket, :animal, Animais.get_animal!(socket.assigns.animal.id))}
   end
 
+  @impl true
+  def handle_event("delete-rexistro", %{"id" => id}, socket) do
+    rexistro = Rexistros.get_rexistro!(id)
+    {:ok, _} = Rexistros.delete_rexistro(rexistro)
+
+    {:noreply, assign(socket, :animal, Animais.get_animal!(socket.assigns.animal.id))}
+  end
+
+  defp apply_action(socket, :new_rexistro, _params) do
+    socket
+    |> assign(:page_title, "Novo rexistro")
+    |> assign(:live_action, :new_rexistro)
+    |> assign(:rexistro, %Rexistro{})
+  end
+
+  defp apply_action(socket, :edit_rexistro, %{"idrexistro" => id} = params) do
+    socket
+    |> assign(:rexistro, id)
+    |> assign(:page_title, "Editar Padriñamento")
+    |> assign(:live_action, :edit_rexistro)
+    |> assign(:animal, socket.assigns.animal)
+  end
+
   defp page_title(:show), do: "Show Animal"
   defp page_title(:edit), do: "Edit Animal"
   defp page_title(:new_padrinamento), do: "Novo padriñamento"
   defp page_title(:edit_padrinamento), do: "Editar padriñamento"
+  defp page_title(:new_rexistro), do: "Novo rexistro"
+  defp page_title(:edit_rexistro), do: "Editar rexistro"
 end
