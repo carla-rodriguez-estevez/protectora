@@ -1,4 +1,6 @@
-<h1>Show Rexistro</h1>
+<div class=" flex flex-col items-center justify-center m-6">
+
+<h1 class="  mt-6 underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600 text-2xl sm:text-4xl font-extrabold leading-none tracking-tight text-gray-900  dark:text-white">Detalles do rexistro</h1>
 
 <%= if @live_action in [:edit] do %>
   <.modal return_to={Routes.rexistro_show_path(@socket, :show, @rexistro)}>
@@ -13,24 +15,30 @@
   </.modal>
 <% end %>
 
-<ul>
+<ul class="flex flex-col mt-4 gap-4 max-w-5xl text-xl  my-6">
 
-  <li>
+  <li class="flex flex-row mt-10 gap-4 max-w-5xl mb-2">
     <strong>Titulo:</strong>
     <%= @rexistro.titulo %>
   </li>
 
-  <li>
+  <li  class="flex flex-row gap-4 max-w-5xl mb-2">
+    <strong>Prezo:</strong>
+    <%= @rexistro.prezo %>€
+  </li>
+
+  <li  class="flex flex-col gap-4 max-w-5xl mb-2">
     <strong>Descricion:</strong>
     <%= @rexistro.descricion %>
   </li>
 
-  <li>
-    <strong>Prezo:</strong>
-    <%= @rexistro.prezo %>
-  </li>
-
 </ul>
 
-<span><%= live_patch "Edit", to: Routes.rexistro_show_path(@socket, :edit, @rexistro), class: "button" %></span> |
-<span><%= live_redirect "Back", to: Routes.rexistro_index_path(@socket, :index) %></span>
+<div class="flex flex-col sm:flex-row ">
+
+<span class="flex justify-center items-center w-64 text-white my-4 mx-4 bg-teal-500 border-0 py-2 px-6 focus:outline-none hover:bg-teal-600 rounded text-lg"><%= live_patch "Editar rexistro", to: Routes.rexistro_show_path(@socket, :edit, @rexistro), class: "button" %></span>
+<span class="flex justify-center items-center w-64 text-white my-4 mx-4 bg-teal-500 border-0 py-2 px-6 focus:outline-none hover:bg-teal-600 rounded text-lg"><%= live_redirect "Voltar á listaxe anterior", to: Routes.rexistro_index_path(@socket, :index) %></span>
+
+
+</div>
+</div>
