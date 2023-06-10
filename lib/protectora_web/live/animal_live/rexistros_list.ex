@@ -2,7 +2,6 @@ defmodule ProtectoraWeb.AnimalLive.RexistrosList do
   use ProtectoraWeb, :live_component
   alias Protectora.Rexistros
   alias Protectora.Rexistros.Rexistro
-  require Logger
 
   @impl true
   def update(assigns, socket) do
@@ -80,8 +79,8 @@ defmodule ProtectoraWeb.AnimalLive.RexistrosList do
           <td scope="row"  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white "><%= rexistro.prezo %>€</td>
           <td scope="row"  class="hidden md:table-cell px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white underline underline-offset-3 decoration-2 decoration-black-400 "><span><%= live_redirect "Ver detalle ", to: Routes.rexistro_show_path(@socket, :show, rexistro) %></span></td>
           <td scope="row"  class="flex flex-col px-6 py-4 bg-gray-50 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-            <span><%= live_patch "Editar", to:  Routes.animal_show_path(@socket, :edit_rexistro,  rexistro)  %></span>
-            <span><%= link "Eliminar", to: "#", phx_click: "delete-rexistro", phx_value_id: rexistro.id, data: [confirm: "Está seguro de querer realizar esta acción?"] %></span>
+            <span class="underline underline-offset-3 decoration-2 decoration-black-400 "><%= live_patch "Editar", to:  Routes.animal_show_path(@socket, :edit_rexistro,  rexistro)  %></span>
+            <span class="underline underline-offset-3 decoration-2 decoration-black-400 "><%= link "Eliminar", to: "#", phx_click: "delete-rexistro", phx_value_id: rexistro.id, data: [confirm: "Está seguro de querer realizar esta acción?"] %></span>
           </td>
         </tr>
       <% end %>
@@ -105,7 +104,7 @@ defmodule ProtectoraWeb.AnimalLive.RexistrosList do
     |> assign(:page_title, "Novo rexistro")
     |> assign(:live_action, :new_rexistro)
     |> assign(:animal, socket.assigns.animal)
-    |> assign(:rexistro, %Rexistro{})
+    |> assign(:rexistro, %Rexistro{animal_id: socket.assigns.animal.id})
   end
 
   defp apply_action(socket, :edit_rexistro, _params) do

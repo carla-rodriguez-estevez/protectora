@@ -4,6 +4,8 @@ defmodule ProtectoraWeb.RexistroLive.Index do
   alias Protectora.Rexistros
   alias Protectora.Rexistros.Rexistro
 
+  require Logger
+
   @impl true
   def mount(params, session, socket) do
     if connected?(socket), do: Rexistros.subscribe()
@@ -48,9 +50,13 @@ defmodule ProtectoraWeb.RexistroLive.Index do
   end
 
   def handle_params(%{"id" => id} = params, _url, socket) do
-    assigns = get_and_assign_page(0, socket.assigns.live_action)
-
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+    if is_nil(socket.assigns.page_number) do
+      assigns = get_and_assign_page(0, socket.assigns.live_action)
+      {:noreply, apply_action(assign(socket, assigns), socket.assigns.live_action, params)}
+    else
+      assigns = get_and_assign_page(socket.assigns.page_number, socket.assigns.live_action)
+      {:noreply, apply_action(assign(socket, assigns), socket.assigns.live_action, params)}
+    end
   end
 
   def handle_params(params, _url, socket) do

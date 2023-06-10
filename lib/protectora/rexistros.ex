@@ -39,7 +39,12 @@ defmodule Protectora.Rexistros do
       ** (Ecto.NoResultsError)
 
   """
-  def get_rexistro!(id), do: Repo.get!(Rexistro, id)
+  def get_rexistro!(id),
+    do:
+      Rexistro
+      |> where(id: ^id)
+      |> preload([:animal])
+      |> Repo.one!()
 
   @doc """
   Creates a rexistro.
