@@ -7,6 +7,7 @@ defmodule ProtectoraWeb.AnimalLive.Show do
   alias Protectora.Rexistros
   alias Protectora.Rexistros.Rexistro
 
+  require Logger
   @impl true
   def mount(_params, session, socket) do
     {:ok, assign(socket, user_token: Map.get(session, "user_token"))}

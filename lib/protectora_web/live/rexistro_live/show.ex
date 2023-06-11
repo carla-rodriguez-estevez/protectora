@@ -16,6 +16,6 @@ defmodule ProtectoraWeb.RexistroLive.Show do
      |> assign(:rexistro, Rexistros.get_rexistro!(id))}
   end
 
-  defp page_title(:show), do: "Show Rexistro"
-  defp page_title(:edit), do: "Edit Rexistro"
+  defp page_title(:show), do: "Ensinar Rexistro"
+  defp page_title(:edit), do: "Editar Rexistro"
 end

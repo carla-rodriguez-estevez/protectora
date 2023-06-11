@@ -17,6 +17,13 @@ defmodule Protectora.Rexistros.Rexistro do
   def changeset(rexistro, attrs) do
     rexistro
     |> cast(attrs, [:titulo, :descricion, :prezo, :animal_id])
-    |> validate_required([:titulo, :descricion, :prezo, :animal_id])
+    |> validate_required([:titulo, :descricion, :prezo, :animal_id],
+      message: "non pode estar valeiro"
+    )
+    |> validate_number(:prezo,
+      greater_than: 0,
+      less_than: 999_999,
+      message: "A cantidade debe ser maior que 0"
+    )
   end
 end

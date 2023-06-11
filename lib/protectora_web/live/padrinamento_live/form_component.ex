@@ -3,7 +3,6 @@ defmodule ProtectoraWeb.PadrinamentoLive.FormComponent do
 
   alias Protectora.Padrinamentos
 
-  require Logger
   @impl true
   def update(assigns, socket) do
     changeset = Padrinamentos.change_padrinamento(assigns.padrinamento)

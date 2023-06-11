@@ -37,7 +37,7 @@ defmodule ProtectoraWeb.RexistroLive.FormComponent do
       {:ok, _rexistro} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Rexistro updated successfully")
+         |> put_flash(:info, "Rexistro actualizado correctamente")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -50,7 +50,7 @@ defmodule ProtectoraWeb.RexistroLive.FormComponent do
       {:ok, _rexistro} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Rexistro updated successfully")
+         |> put_flash(:info, "Rexistro actualizado correctamente")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -63,7 +63,7 @@ defmodule ProtectoraWeb.RexistroLive.FormComponent do
       {:ok, _rexistro} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Rexistro created successfully")
+         |> put_flash(:info, "Rexistro creado correctamente")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -81,7 +81,7 @@ defmodule ProtectoraWeb.RexistroLive.FormComponent do
       {:ok, _rexistro} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Rexistro created successfully correct")
+         |> put_flash(:info, "Rexistro creado correctamente")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
