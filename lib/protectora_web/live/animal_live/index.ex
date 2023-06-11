@@ -72,7 +72,7 @@ defmodule ProtectoraWeb.AnimalLive.Index do
     socket
     |> assign(:page_title, "Engadir animal")
     |> assign(:animal, %Animal{})
-    |> assign(:live_action, :edit)
+    |> assign(:live_action, :new)
     |> assign(:page_number, socket.assigns.page_number)
   end
 
