@@ -76,7 +76,7 @@
 <ul>
 
   <%= if @user_token do %>
-<%= live_component ProtectoraWeb.AnimalLive.RexistrosList,id: "rexistros_list",  rexistro_collection: @animal.rexistro, live_action: @live_action, animal: @animal, page_title: @page_title, rexistro: nil %>
+<%= live_component ProtectoraWeb.AnimalLive.RexistrosList,id: "rexistros_list", rexistro: @rexistro,  rexistro_collection: @animal.rexistro, live_action: @live_action, animal: @animal, page_title: @page_title %>
   <% end %>
 
 

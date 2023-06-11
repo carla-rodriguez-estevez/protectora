@@ -1,7 +1,8 @@
-<div>
-  <h2><%= @title %></h2>
+<div class="w-full ">
+  <h2 class="flex justify-center items-center  text-xl font-extrabold underline underline-offset-3 decoration-8 decoration-blue-400 "><%= @title %></h2>
 
   <.form
+  class="flex flex-col mt-4 gap-4 max-w-5xl "
     let={f}
     for={@changeset}
     id="rexistro-form"
@@ -9,24 +10,21 @@
     phx-change="validate"
     phx-submit="save">
 
-    <%= label f, :titulo %>
+    <%= label f, :titulo, "Título", class: "font-extrabold"  %>
     <%= text_input f, :titulo %>
     <%= error_tag f, :titulo %>
 
-    <%= label f, :descricion %>
-    <%= text_input f, :descricion %>
+    <%= label f, :descricion, "Descripción", class: "font-extrabold" %>
+    <%= text_input f, :descricion, style: "height: 180px" %>
     <%= error_tag f, :descricion %>
 
-    <%= label f, :prezo %>
+    <%= label f, :prezo, class: "font-extrabold" %>
     <%= number_input f, :prezo, step: "0.01" %>
     <%= error_tag f, :prezo %>
 
-    <%= label f, :animal_id %>
-    <%= text_input f, :animal_id %>
-    <%= error_tag f, :animal_id %>
 
-    <div>
-      <%= submit "Save", phx_disable_with: "Saving..." %>
+    <div class="inline-flex text-white mb-4 bg-teal-500 border-0 py-2 px-6 focus:outline-none hover:bg-teal-600 rounded text-lg max-w-fit">
+      <%= submit "Gardar", phx_disable_with: "Gardando..." %>
     </div>
   </.form>
 </div>

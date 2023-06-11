@@ -1,46 +1,80 @@
-<div id="gastos-list">
-
-  <h1>Listing Rexistro</h1>
+<div class=" flex flex-col justify-center mt-6">
+<div class="flex justify-center items-center">
+<h1 class="  mt-6 underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600 text-2xl sm:text-4xl font-extrabold leading-none tracking-tight text-gray-900  dark:text-white">Listaxe de rexistros</h1>
+</div>
 
   <%= if @live_action in [:new, :edit] do %>
-    <.modal return_to={Routes.rexistro_index_path(@socket, :index)}>
+    <.modal return_to={"/rexistro?rexistros=" <> to_string(@page_number)}>
       <.live_component
         module={ProtectoraWeb.RexistroLive.FormComponent}
         id={@rexistro.id || :new}
         title={@page_title}
         action={@live_action}
         rexistro={@rexistro}
-        return_to={Routes.rexistro_index_path(@socket, :index)}
+        return_to={"/rexistro?rexistros=" <> to_string(@page_number)}
       />
     </.modal>
   <% end %>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Titulo</th>
-        <th>Descricion</th>
-        <th>Prezo</th>
+<table  class="m-12 gap-2 border-spacing-2">
+  <thead class="text-white">
+    <tr class="bg-teal-400  table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0" style="height: 50px;">
+        <th class="text-center mx-8 md:text-xl">Título</th>
+        <th class="hidden sm:table-cell text-center mx-4 md:text-xl">Descrición</th>
+        <th class="text-center mx-8 md:text-xl">Prezo</th>
 
         <th></th>
       </tr>
     </thead>
     <tbody id="rexistro">
       <%= for rexistro <- @rexistro_collection do %>
-        <tr id={"rexistro-#{rexistro.id}"}>
-          <td><%= rexistro.titulo %></td>
-          <td><%= rexistro.descricion %></td>
-          <td><%= rexistro.prezo %></td>
+        <tr  class='hover:bg-gray-100  table-row' id={"rexistro-#{rexistro.id}"}>
+          <td class="text-center table-cell font-extrabold text-gray-500 mx-6"><%= rexistro.titulo %></td>
+          <td class=" hidden sm:flex justify-center items-center ml-9 max-w-sm truncate long-cell"><%= rexistro.descricion %></td>
+          <td class="auto text-center  px-6 whitespace-nowrap truncate max-w-[150px]"><%= rexistro.prezo %>€</td>
 
-          <td>
-            <span><%= live_redirect "Show", to: Routes.rexistro_show_path(@socket, :show, rexistro) %></span>
-            <span><%= live_patch "Edit", to: Routes.rexistro_index_path(@socket, :edit, rexistro) %></span>
-            <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: rexistro.id, data: [confirm: "Are you sure?"] %></span>
+          <td class="flex flex-col justify-center items-center m-2 ">
+            <span  class="inline-flex items-center font-medium text-blue-600 dark:text-blue-500 hover:underline"><%= live_redirect "Detalles", to: Routes.rexistro_show_path(@socket, :show, rexistro) %></span>
+            <span class="inline-flex items-center font-medium text-green-600 dark:text-green-500 hover:underline"><%= live_patch "Editar", to: Routes.rexistro_index_path(@socket, :edit, rexistro) %></span>
+            <span class="inline-flex items-center font-medium text-red-600 dark:text-red-600 hover:underline"><%= link "Eliminar", to: "#", phx_click: "delete", phx_value_id: rexistro.id, data: [confirm: "Está seguro de querer eliminar este elemento"] %></span>
           </td>
         </tr>
       <% end %>
     </tbody>
   </table>
 
-  <span><%= live_patch "New Rexistro", to: Routes.rexistro_index_path(@socket, :new) %></span>
+  <nav class="border-t border-gray-200 mb-16  mx-12 ">
+      <ul class="flex my-2 items-center justify-center">
+        <li class="">
+        <%= if  @page_number <= 1 do %>
+          <a class="px-2 py-2 pointer-events-none text-gray-600" href="#" phx-click="nav" phx-value-page={@page_number - 1}>Ant</a>
+        <% else %>
+          <a class="px-2 py-2" href="#" phx-click="nav" phx-value-page={@page_number - 1}>Ant</a>
+        <% end %>
+
+        </li>
+        <div class="w-44 md:w-[400px] flex flex-row overflow-hidden " style="width: fit-content;">
+    <%= for idx <-  Enum.to_list(1..@total_pages) do %>
+        <li class="">
+
+        <%= if @page_number == idx do %>
+          <a class="px-2 py-2 pointer-events-none text-gray-600" href="#" phx-click="nav" phx-value-page={idx}><%= idx %></a>
+        <% else %>
+          <a class="px-2 py-2" href="#" phx-click="nav" phx-value-page={idx}><%= idx %></a>
+        <% end %>
+
+        </li>
+     <% end %>
+     </div>
+        <li class="">
+
+        <%= if @page_number >= @total_pages do %>
+          <a class="px-2 py-2 pointer-events-none text-gray-600" href="#" phx-click="nav" phx-value-page={@page_number + 1}>Seg</a>
+        <% else %>
+          <a class="px-2 py-2" href="#" phx-click="nav" phx-value-page={@page_number + 1}>Seg</a>
+        <% end %>
+        </li>
+      </ul>
+    </nav>
+
 </div>

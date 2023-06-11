@@ -10,15 +10,7 @@ defmodule ProtectoraWeb.AnimalLive.PadrinamentosList do
     ~H"""
       <div id='padrin@s'>
 
-      <%= if @user_token do %>
-
-    <div class=" flex flex-col justify-center">
-    <div class="flex justify-center items-center">
-
-    <h1 class="mt-3 text-xl sm:text-2xl font-extrabold leading-none tracking-tight text-gray-900  dark:text-white">Padriños</h1>
-        </div>
-
-            <%= if @live_action in [:new_padrinamento, :edit_padrinamento] do %>
+    <%= if @live_action in [:new_padrinamento, :edit_padrinamento] do %>
     <%= if !is_nil(@animal) do%>
     <.modal return_to={Routes.animal_show_path(@socket, :show, @animal)}>
     <.live_component
@@ -32,6 +24,15 @@ defmodule ProtectoraWeb.AnimalLive.PadrinamentosList do
     </.modal>
     <% end %>
     <% end %>
+      <%= if @user_token do %>
+
+    <div class=" flex flex-col justify-center">
+    <div class="flex justify-center items-center">
+
+    <h1 class="mt-3 text-xl sm:text-2xl font-extrabold leading-none tracking-tight text-gray-900  dark:text-white">Padriños</h1>
+        </div>
+
+
 
     <div class="relative overflow-x-auto p-6">
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 p-4 rounded-lg">
@@ -65,7 +66,7 @@ defmodule ProtectoraWeb.AnimalLive.PadrinamentosList do
     </div>
     </div>
     <% end %>
-        <span><%= live_patch "New Padrinamento", to: Routes.animal_show_path(@socket, :new_padrinamento,  @animal.id) %></span>
+      <span><%= live_patch "New Padrinamento", to: Routes.animal_show_path(@socket, :new_padrinamento,  @animal.id) %></span>
       </div>
 
     """

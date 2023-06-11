@@ -21,6 +21,10 @@ defmodule Protectora.Rexistros do
     Repo.all(Rexistro)
   end
 
+  def list_rexistro_paginated(params \\ []) do
+    Repo.paginate(Rexistro, params)
+  end
+
   @doc """
   Gets a single rexistro.
 
@@ -35,7 +39,12 @@ defmodule Protectora.Rexistros do
       ** (Ecto.NoResultsError)
 
   """
-  def get_rexistro!(id), do: Repo.get!(Rexistro, id)
+  def get_rexistro!(id),
+    do:
+      Rexistro
+      |> where(id: ^id)
+      |> preload([:animal])
+      |> Repo.one!()
 
   @doc """
   Creates a rexistro.

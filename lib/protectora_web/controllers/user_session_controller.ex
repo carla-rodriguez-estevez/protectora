@@ -24,7 +24,7 @@ defmodule ProtectoraWeb.UserSessionController do
 
   def delete(conn, _params) do
     conn
-    |> put_flash(:info, "Sesión cerrada correctamente")
+    |> put_flash(:info, "Sesión pechada correctamente")
     |> UserAuth.log_out_user()
   end
 end

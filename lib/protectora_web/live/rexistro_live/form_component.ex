@@ -2,14 +2,19 @@ defmodule ProtectoraWeb.RexistroLive.FormComponent do
   use ProtectoraWeb, :live_component
 
   alias Protectora.Rexistros
+  alias Protectora.Rexistros.Rexistro
+
+  require Logger
 
   @impl true
   def update(%{rexistro: rexistro} = assigns, socket) do
-    changeset = Rexistros.change_rexistro(rexistro)
+    changeset = Rexistros.change_rexistro(rexistro, %{animal_id: assigns.rexistro.id})
 
     {:ok,
      socket
      |> assign(assigns)
+     |> assign(:animal, assigns.rexistro.animal_id)
+     |> assign(:rexistro, assigns.rexistro)
      |> assign(:changeset, changeset)}
   end
 
@@ -32,7 +37,20 @@ defmodule ProtectoraWeb.RexistroLive.FormComponent do
       {:ok, _rexistro} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Rexistro updated successfully")
+         |> put_flash(:info, "Rexistro actualizado correctamente")
+         |> push_redirect(to: socket.assigns.return_to)}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, :changeset, changeset)}
+    end
+  end
+
+  defp save_rexistro(socket, :edit_rexistro, rexistro_params) do
+    case Rexistros.update_rexistro(socket.assigns.rexistro, rexistro_params) do
+      {:ok, _rexistro} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Rexistro actualizado correctamente")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -45,7 +63,25 @@ defmodule ProtectoraWeb.RexistroLive.FormComponent do
       {:ok, _rexistro} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Rexistro created successfully")
+         |> put_flash(:info, "Rexistro creado correctamente")
+         |> push_redirect(to: socket.assigns.return_to)}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, changeset: changeset)}
+    end
+  end
+
+  defp save_rexistro(socket, :new_rexistro, rexistro_params) do
+    case Rexistros.create_rexistro(%{
+           animal_id: socket.assigns.animal,
+           titulo: rexistro_params["titulo"],
+           descricion: rexistro_params["descricion"],
+           prezo: rexistro_params["prezo"]
+         }) do
+      {:ok, _rexistro} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Rexistro creado correctamente")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
