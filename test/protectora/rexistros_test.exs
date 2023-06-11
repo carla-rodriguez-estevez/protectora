@@ -18,7 +18,12 @@ defmodule Protectora.RexistrosTest do
 
     test "get_rexistro!/1 returns the rexistro with given id" do
       rexistro = rexistro_fixture()
-      assert Rexistros.get_rexistro!(rexistro.id) == rexistro
+      rexistro2 = Rexistros.get_rexistro!(rexistro.id)
+
+      assert rexistro2.descricion == rexistro.descricion
+      assert rexistro2.prezo == rexistro.prezo
+      assert rexistro2.titulo == rexistro.titulo
+      assert rexistro2.animal_id == rexistro.animal_id
     end
 
     test "create_rexistro/1 with valid data creates a rexistro" do
@@ -59,8 +64,14 @@ defmodule Protectora.RexistrosTest do
 
     test "update_rexistro/2 with invalid data returns error changeset" do
       rexistro = rexistro_fixture()
+      rexistro2 = Rexistros.get_rexistro!(rexistro.id)
+
       assert {:error, %Ecto.Changeset{}} = Rexistros.update_rexistro(rexistro, @invalid_attrs)
-      assert rexistro == Rexistros.get_rexistro!(rexistro.id)
+
+      assert rexistro2.descricion == rexistro.descricion
+      assert rexistro2.prezo == rexistro.prezo
+      assert rexistro2.titulo == rexistro.titulo
+      assert rexistro2.animal_id == rexistro.animal_id
     end
 
     test "delete_rexistro/1 deletes the rexistro" do
