@@ -36,6 +36,10 @@ defmodule ProtectoraWeb.Router do
 
     live("/publicacion/new", PublicacionLive.Index, :new)
     live("/publicacion/:id/show/edit", PublicacionLive.Show, :edit)
+    live("/animal/new", AnimalLive.Index, :new)
+    live("/animal/:id/edit", AnimalLive.Index, :edit)
+
+    live("/animal/:id/show/edit", AnimalLive.Show, :edit)
   end
 
   scope "/", ProtectoraWeb do
@@ -48,11 +52,7 @@ defmodule ProtectoraWeb.Router do
     live("/publicacion/:id", PublicacionLive.Show, :show)
 
     live("/animal", AnimalLive.Index, :index)
-    live("/animal/new", AnimalLive.Index, :new)
-    live("/animal/:id/edit", AnimalLive.Index, :edit)
-
     live("/animal/:id", AnimalLive.Show, :show)
-    live("/animal/:id/show/edit", AnimalLive.Show, :edit)
 
     live("/animal/:id/padrinamento/new", AnimalLive.Show, :new_padrinamento)
     live("/padrinamento/new", PadrinamentoLive.Index, :new)
@@ -79,17 +79,24 @@ defmodule ProtectoraWeb.Router do
     post("/voluntario/sign_in", VoluntarioController, :sign_in)
     post("/voluntario", VoluntarioController, :create)
 
-    resources("/animal", AnimalController, except: [:new, :edit])
     get("/publicacion", PublicacionController, :index)
     get("/publicacion/:id", PublicacionController, :show)
     post("/colaborador", ColaboradorController, :create)
     post("/padrinamento", PadrinamentoController, :create)
+    get("/animal", AnimalController, :index)
+    get("/animal/:id", AnimalController, :show)
 
     # resources "/imaxe_pVoluntarioControllerublicacion", ImaxePublicacionController, except: [:new, :edit]
   end
 
   scope "/api", ProtectoraWeb do
     pipe_through([:api, :auth])
+
+    get("/animal/:id/edit", AnimalController, :edit)
+    put("/animal/:id", AnimalController, :update)
+    patch("/animal/:id", AnimalController, :update)
+    delete("/animal/:id", AnimalController, :delete)
+    post("/animal", AnimalController, :create)
 
     get("/publicacion/:id/edit", PublicacionController, :edit)
     put("/publicacion/:id", PublicacionController, :update)

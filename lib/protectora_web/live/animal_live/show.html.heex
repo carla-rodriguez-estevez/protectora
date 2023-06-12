@@ -16,6 +16,7 @@
 <% end %>
 
 
+<%= if length(@animal.imaxe_animal) > 0 do %>
 <div class="flex overflow-x-scroll my-4 mx-10  lg:mx-44">
    <%= for entry <- @animal.imaxe_animal do %>
         <img class="w-20 h-20 mx-2" style="object-fit: cover;" src={entry.path_imaxe}/>
@@ -30,7 +31,7 @@
       </div>
     </center>
 <% end %>
-
+<% end %>
 
 <ul class="flex flex-col justify-center items-center mt-4 gap-4 max-w-5xl text-xl mx-6 sm:mx-14 my-6">
 

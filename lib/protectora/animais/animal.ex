@@ -37,31 +37,46 @@ defmodule Protectora.Animais.Animal do
       :eUrxente,
       :eEspecial
     ])
-    |> validate_required([
-      :nome,
+    |> validate_required(
+      [
+        :nome,
+        :tipo,
+        :peso,
+        :madurez,
+        :tamano,
+        :raza,
+        :idade,
+        :descricion,
+        :eUrxente,
+        :eEspecial
+      ],
+      message: "non pode estar valeiro"
+    )
+    |> validate_number(:idade,
+      greater_than: -1,
+      less_than: 50,
+      message: "a cantidade debe ser maior que 0 e menor que 50"
+    )
+    |> validate_number(:peso,
+      greater_than: 0,
+      less_than: 100,
+      message: "a cantidade debe ser maior que 0 e menor que 100"
+    )
+    |> validate_inclusion(:madurez, ["cachorro", "adulto", "ancián"], message: "Madurez inválida")
+    |> validate_inclusion(:tamano, ["grande", "mediano", "pequeno"], message: "tamaño inválido")
+    |> validate_inclusion(
       :tipo,
-      :peso,
-      :madurez,
-      :tamano,
-      :raza,
-      :idade,
-      :descricion,
-      :eUrxente,
-      :eEspecial
-    ])
-    |> validate_number(:idade, greater_than: -1, less_than: 50)
-    |> validate_number(:peso, greater_than: 0, less_than: 100)
-    |> validate_inclusion(:madurez, ["cachorro", "adulto", "ancián"])
-    |> validate_inclusion(:tamano, ["grande", "mediano", "pequeno"])
-    |> validate_inclusion(:tipo, [
-      "can",
-      "cadela",
-      "gato",
-      "gata",
-      "roedor",
-      "roedora",
-      "outro",
-      "outra"
-    ])
+      [
+        "can",
+        "cadela",
+        "gato",
+        "gata",
+        "roedor",
+        "roedora",
+        "outro",
+        "outra"
+      ],
+      message: "tipo inválido"
+    )
   end
 end
