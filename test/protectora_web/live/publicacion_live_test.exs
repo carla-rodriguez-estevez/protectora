@@ -6,6 +6,7 @@ defmodule ProtectoraWeb.PublicacionLiveTest do
   alias Protectora.Accounts
   alias ProtectoraWeb.UserAuth
   import Protectora.AccountsFixtures
+
   @create_attrs %{contido: "some contido", titulo: "some titulo"}
   @update_attrs %{contido: "some updated contido", titulo: "some updated titulo"}
   @invalid_attrs %{contido: nil, titulo: nil}

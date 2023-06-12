@@ -3,6 +3,9 @@ defmodule ProtectoraWeb.AnimalLiveTest do
 
   import Phoenix.LiveViewTest
   import Protectora.AnimaisFixtures
+  alias Protectora.Accounts
+  alias ProtectoraWeb.UserAuth
+  import Protectora.AccountsFixtures
 
   @create_attrs %{
     descricion: "some descricion",
@@ -54,21 +57,32 @@ defmodule ProtectoraWeb.AnimalLiveTest do
     test "lists all animal", %{conn: conn, animal: animal} do
       {:ok, _index_live, html} = live(conn, Routes.animal_index_path(conn, :index))
 
-      assert html =~ "Listing Animal"
+      assert html =~ "Os nosos animais"
       assert html =~ animal.nome
     end
 
     test "saves new animal", %{conn: conn} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, index_live, _html} = live(conn, Routes.animal_index_path(conn, :index))
 
-      assert index_live |> element("a", "New Animal") |> render_click() =~
-               "New Animal"
+      assert index_live |> element("a", "Engadir un animal") |> render_click() =~
+               "Engadir un animal"
 
       assert_patch(index_live, Routes.animal_index_path(conn, :new))
 
       assert index_live
              |> form("#animal-form", animal: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "non pode estar valeiro"
 
       {:ok, _, html} =
         index_live
@@ -81,6 +95,17 @@ defmodule ProtectoraWeb.AnimalLiveTest do
     end
 
     test "deletes animal in listing", %{conn: conn, animal: animal} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
+
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
+
+      conn =
+        conn
+        |> put_session(:user_token, token)
+
       {:ok, index_live, _html} = live(conn, Routes.animal_index_path(conn, :index))
 
       assert index_live |> element("a", "Borrar") |> render_click()
@@ -94,7 +119,7 @@ defmodule ProtectoraWeb.AnimalLiveTest do
     test "displays animal", %{conn: conn, animal: animal} do
       {:ok, _show_live, html} = live(conn, Routes.animal_show_path(conn, :show, animal))
 
-      assert html =~ "Show Animal"
+      assert html =~ animal.nome
       assert html =~ animal.descricion
     end
 

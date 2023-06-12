@@ -58,8 +58,8 @@ defmodule ProtectoraWeb.RexistroLiveTest do
 
       {:ok, index_live, _html} = live(conn, Routes.animal_show_path(conn, :new_rexistro, animal))
 
-      assert index_live |> element("a", "New Rexistro") |> render_click() =~
-               "New Rexistro"
+      assert index_live |> element("a", "Engadir rexistro") |> render_click() =~
+               "Engadir rexistro"
 
       assert_patch(index_live, Routes.animal_show_path(conn, :new_rexistro, animal))
 

@@ -63,8 +63,8 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
 
       {:ok, index_live, _html} = live(conn, Routes.animal_show_path(conn, :show, animal))
 
-      assert index_live |> element("a", "New Padrinamento") |> render_click() =~
-               "New Padrinamento"
+      assert index_live |> element("a", "Convertirse en padriño") |> render_click() =~
+               "Convertirse en padriño"
 
       assert_patch(index_live, "/animal/" <> animal.id <> "/padrinamento/new")
 
