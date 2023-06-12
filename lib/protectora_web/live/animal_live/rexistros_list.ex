@@ -89,8 +89,11 @@ defmodule ProtectoraWeb.AnimalLive.RexistrosList do
     </div>
     </div>
 
-    <span><%= live_patch "New Rexistro", to: Routes.animal_show_path(@socket, :new_rexistro,  @animal.id)%></span>
+    <div class="flex justify-center items-center">
+      <span class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 mb-14"><%= live_patch "Engadir rexistro", to: Routes.animal_show_path(@socket, :new_rexistro,  @animal.id)%></span>
     </div>
+        </div>
+
     """
   end
 

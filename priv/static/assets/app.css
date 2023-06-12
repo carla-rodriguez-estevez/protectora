@@ -817,6 +817,21 @@ select {
   margin-bottom: 1.5rem;
 }
 
+.mx-14 {
+  margin-left: 3.5rem;
+  margin-right: 3.5rem;
+}
+
+.my-3 {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.my-5 {
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
 .mb-1 {
   margin-bottom: 0.25rem;
 }
@@ -899,6 +914,30 @@ select {
 
 .mt-6 {
   margin-top: 1.5rem;
+}
+
+.mb-14 {
+  margin-bottom: 3.5rem;
+}
+
+.ml-14 {
+  margin-left: 3.5rem;
+}
+
+.mr-14 {
+  margin-right: 3.5rem;
+}
+
+.mr-10 {
+  margin-right: 2.5rem;
+}
+
+.mt-8 {
+  margin-top: 2rem;
+}
+
+.mr-24 {
+  margin-right: 6rem;
 }
 
 .flex {
@@ -993,6 +1032,10 @@ select {
   width: 100%;
 }
 
+.w-8 {
+  width: 2rem;
+}
+
 .max-w-3xl {
   max-width: 48rem;
 }
@@ -1052,6 +1095,10 @@ select {
   align-items: center;
 }
 
+.justify-end {
+  justify-content: flex-end;
+}
+
 .justify-center {
   justify-content: center;
 }
@@ -1092,6 +1139,14 @@ select {
   --tw-space-x-reverse: 0;
   margin-right: calc(1rem * var(--tw-space-x-reverse));
   margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.self-start {
+  align-self: flex-start;
+}
+
+.self-end {
+  align-self: flex-end;
 }
 
 .overflow-hidden {
@@ -1683,6 +1738,11 @@ select {
 }
 
 @media (min-width: 640px) {
+  .sm\:mx-14 {
+    margin-left: 3.5rem;
+    margin-right: 3.5rem;
+  }
+
   .sm\:mb-0 {
     margin-bottom: 0px;
   }

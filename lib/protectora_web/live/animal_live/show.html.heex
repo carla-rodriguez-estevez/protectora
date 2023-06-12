@@ -1,4 +1,6 @@
-<h1>Show Animal</h1>
+<div class=" flex flex-col items-center justify-center m-6">
+
+<h1 class="  my-6 underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600 text-2xl sm:text-4xl font-extrabold leading-none tracking-tight text-gray-900  dark:text-white"><%= @animal.nome %></h1>
 
 <%= if @live_action in [:edit] and !is_nil(@animal) do %>
   <.modal return_to={Routes.animal_show_path(@socket, :show, @animal)}>
@@ -14,64 +16,81 @@
 <% end %>
 
 
+<div class="flex overflow-x-scroll my-4 mx-10  lg:mx-44">
+   <%= for entry <- @animal.imaxe_animal do %>
+        <img class="w-20 h-20 mx-2" style="object-fit: cover;" src={entry.path_imaxe}/>
+    <% end %>
+</div>
+<%= if is_nil(@current_image) == false do %>
+    <center id={@current_image.path_imaxe}>
+        <img class="w-72 h-72 mx-2" style="object-fit: scale-down;" src={@current_image.path_imaxe}/>
+      <div class="space-x-20 mt-2 mb-6">
+        <button class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" phx-click="prev">Anterior</button>
+        <button class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" phx-click="next">Seguinte</button>
+      </div>
+    </center>
+<% end %>
 
-<ul>
 
-  <li>
-    <strong>Nome:</strong>
-    <%= @animal.nome %>
-  </li>
+<ul class="flex flex-col justify-center items-center mt-4 gap-4 max-w-5xl text-xl mx-6 sm:mx-14 my-6">
 
-  <li>
-    <strong>Tipo:</strong>
-    <%= @animal.tipo %>
-  </li>
-
-  <li>
-    <strong>Peso:</strong>
-    <%= @animal.peso %>
-  </li>
-
-  <li>
-    <strong>Madurez:</strong>
-    <%= @animal.madurez %>
-  </li>
-
-  <li>
-    <strong>Tamano:</strong>
-    <%= @animal.tamano %>
-  </li>
-
-  <li>
-    <strong>Raza:</strong>
-    <%= @animal.raza %>
-  </li>
-
-  <li>
-    <strong>Idade:</strong>
-    <%= @animal.idade %>
-  </li>
-
-  <li>
-    <strong>Descricion:</strong>
+  <li class="mb-14">
     <%= @animal.descricion %>
   </li>
 
-  <li>
-    <strong>Eurxente:</strong>
-    <%= @animal.eUrxente %>
+
+    <h1 class="my-5 underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600 text-xl sm:text-2xl font-extrabold leading-none tracking-tight text-gray-900  dark:text-white ">Características</h1>
+
+<div  class="flex flex-col justify-center items-center mt-4 gap-4 max-w-5xl text-xl mx-6 sm:mx-14 my-6">
+
+  <li class="flex self-start	">
+    <strong class="mr-24">Tipo:</strong>
+        <div class="flex self-end	">
+          <%= @animal.tipo %>
+        </div>
+
   </li>
 
-  <li>
-    <strong>Eespecial:</strong>
-    <%= @animal.eEspecial %>
+  <li class="flex self-start	">
+    <strong class="mr-24">Peso:</strong>
+    <%= @animal.peso %>kg
   </li>
 
-  <%= for entry <- @animal.imaxe_animal do %>
-    <div class="row">
-      <img src={entry.path_imaxe} height="150"/>
-    </div>
+  <li class="flex self-start	">
+    <strong class="mr-24">Madurez:</strong>
+    <%= @animal.madurez %>
+  </li>
+
+  <li class="flex self-start	">
+    <strong class="mr-24">Tamano:</strong>
+    <%= @animal.tamano %>
+  </li>
+
+  <li class="flex self-start	">
+    <strong class="mr-24">Raza:</strong>
+    <%= @animal.raza %>
+  </li>
+
+  <li class="flex self-start	">
+    <strong class="mr-24">Idade:</strong>
+    <%= @animal.idade %> anos
+  </li>
+
+
+  <%= if @animal.eUrxente do %>
+   <li class="flex self-start text-red-600 ">
+    Este é un caso urxente
+  </li>
   <% end %>
+
+
+  <%= if @animal.eEspecial do %>
+   <li class="flex self-start text-red-600 ">
+    Este é un caso especial
+  </li>
+  <% end %>
+
+</div>
 </ul>
 <ul>
 
@@ -82,9 +101,14 @@
 
 <%= live_component ProtectoraWeb.AnimalLive.PadrinamentosList,id: "padrinamentos_list",  padrinamento_collection: @animal.padrinamento, live_action: @live_action, animal: @animal, page_title: @page_title, padrinamento: nil, user_token: @user_token %>
 
+<div class="flex flex-col sm:flex-row justify-center items-center mt-10">
   <%= if @user_token do %>
-<span><%= live_patch "Edit", to: Routes.animal_show_path(@socket, :edit, @animal), class: "button" %></span> |
+<span  class="flex justify-center items-center w-64 text-white my-4 mx-4 bg-teal-500 border-0 py-2 px-6 focus:outline-none hover:bg-teal-600 rounded text-lg"><%= live_patch "Editar animal", to: Routes.animal_show_path(@socket, :edit, @animal), class: "button" %></span>
   <% end %>
-</ul>
 
-<span><%= live_redirect "Back", to: Routes.animal_index_path(@socket, :index) %></span>
+
+<span class="flex justify-center items-center w-64 text-white  mx-4 my-4 bg-teal-500 border-0 py-2 px-6 focus:outline-none hover:bg-teal-600 rounded text-lg"><%= live_redirect "Voltar á listaxe anterior", to: Routes.animal_index_path(@socket, :index) %></span>
+</div>
+
+</ul>
+</div>

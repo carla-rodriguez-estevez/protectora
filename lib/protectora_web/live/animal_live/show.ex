@@ -15,11 +15,22 @@ defmodule ProtectoraWeb.AnimalLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
+    animal = Animais.get_animal!(id)
+
+    image =
+      if length(animal.imaxe_animal) > 0 do
+        Enum.at(animal.imaxe_animal, 0)
+      else
+        nil
+      end
+
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
      |> assign(:rexistro, nil)
-     |> assign(:animal, Animais.get_animal!(id))}
+     |> assign(:current_image, image)
+     |> assign(:index_image, 0)
+     |> assign(:animal, animal)}
   end
 
   @impl true
@@ -50,7 +61,7 @@ defmodule ProtectoraWeb.AnimalLive.Show do
     |> assign(:rexistro, %Rexistro{})
   end
 
-  defp apply_action(socket, :edit_rexistro, %{"idrexistro" => id} = params) do
+  defp apply_action(socket, :edit_rexistro, %{"idrexistro" => id}) do
     rexistro = Rexistros.get_rexistro!(id)
 
     socket
@@ -76,8 +87,46 @@ defmodule ProtectoraWeb.AnimalLive.Show do
     {:noreply, assign(socket, :animal, Animais.get_animal!(socket.assigns.animal.id))}
   end
 
-  defp page_title(:show), do: "Show Animal"
-  defp page_title(:edit), do: "Edit Animal"
+  @impl true
+  def handle_event("prev", _, socket) do
+    images = socket.assigns.animal.imaxe_animal
+    images_length = length(images)
+
+    index = socket.assigns.index_image
+
+    if index == 0 do
+      {:noreply,
+       socket
+       |> assign(
+         index_image: images_length - 1,
+         current_image: Enum.at(images, images_length - 1)
+       )}
+    else
+      {:noreply,
+       socket
+       |> assign(index_image: index - 1, current_image: Enum.at(images, index - 1))}
+    end
+  end
+
+  def handle_event("next", _, socket) do
+    images = socket.assigns.animal.imaxe_animal
+    images_length = length(images) - 1
+
+    index = socket.assigns.index_image
+
+    if index == images_length do
+      {:noreply,
+       socket
+       |> assign(index_image: 0, current_image: Enum.at(images, 0))}
+    else
+      {:noreply,
+       socket
+       |> assign(index_image: index + 1, current_image: Enum.at(images, index + 1))}
+    end
+  end
+
+  defp page_title(:show), do: "Ensinar Animal"
+  defp page_title(:edit), do: "Editar Animal"
   defp page_title(:new_padrinamento), do: "Novo padriñamento"
   defp page_title(:edit_padrinamento), do: "Editar padriñamento"
   defp page_title(:new_rexistro), do: "Novo rexistro"
