@@ -4,6 +4,8 @@ defmodule ProtectoraWeb.PublicacionLive.Index do
   alias Protectora.Publicacions
   alias Protectora.Publicacions.Publicacion
 
+  require Logger
+
   @impl true
   def mount(params, session, socket) do
     if connected?(socket), do: Publicacions.subscribe()
@@ -30,7 +32,7 @@ defmodule ProtectoraWeb.PublicacionLive.Index do
       total_pages: total_pages || 0,
       publicacion: %Publicacion{},
       live_action: :index,
-      page_title: "Mostrar publicacións",
+      page_title: nil,
       user_token: Map.get(session, "user_token")
     ]
 
@@ -38,17 +40,20 @@ defmodule ProtectoraWeb.PublicacionLive.Index do
   end
 
   @impl true
-  def handle_params(%{"posts" => page}, _url, socket) do
+  def handle_params(%{"posts" => page} = params, _url, socket) do
     assigns = get_and_assign_page(page)
-    {:noreply, apply_action(socket, socket.assigns.live_action, %{"page" => page})}
 
-    {:noreply, assign(socket, assigns)}
+    {:noreply, apply_action(assign(socket, assigns), socket.assigns.live_action, params)}
   end
 
   def handle_params(params, _url, socket) do
-    assigns = get_and_assign_page(0)
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
-    {:noreply, assign(socket, assigns)}
+    if is_nil(socket.assigns.page_number) do
+      assigns = get_and_assign_page(0)
+      {:noreply, apply_action(assign(socket, assigns), socket.assigns.live_action, params)}
+    else
+      assigns = get_and_assign_page(socket.assigns.page_number)
+      {:noreply, apply_action(assign(socket, assigns), socket.assigns.live_action, params)}
+    end
   end
 
   # defp apply_action(socket, :edit, %{"id" => id}) do
@@ -60,10 +65,12 @@ defmodule ProtectoraWeb.PublicacionLive.Index do
   #   |> assign(:publicacion, Publicacions.get_publicacion!(id))
   # end
 
-  defp apply_action(socket, :new, _params) do
+  defp apply_action(socket, :new, params) do
     socket
     |> assign(:page_title, "Nova Publicación")
     |> assign(:publicacion, %Publicacion{})
+    |> assign(:live_action, :new)
+    |> assign(:page_number, socket.assigns.page_number)
   end
 
   defp apply_action(socket, :index, _params) do

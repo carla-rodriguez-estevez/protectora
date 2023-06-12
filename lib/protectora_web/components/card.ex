@@ -42,9 +42,11 @@ defmodule ProtectoraWeb.Components.Card do
         <div class="link text-blue-600">
           <%= live_redirect "Ensinar", to: ProtectoraWeb.Router.Helpers.animal_show_path(@socket, :show, @animal) %>
         </div>
+        <%= if @user_token do %>
         <div class="link text-blue-600">
-          <%= link "Borrar", to: "#", phx_click: "delete", phx_value_id: @animal.id, data: [confirm: "Are you sure?"] %>
+          <%= link "Borrar", to: "#", phx_click: "delete", phx_value_id: @animal.id, data: [confirm: "Está seguro de querer eliminar este elemento permanentemente?"] %>
         </div>
+        <% end %>
       </div>
     </div>
     """

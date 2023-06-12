@@ -7,17 +7,18 @@ defmodule ProtectoraWeb.ColaboradorLiveTest do
   alias ProtectoraWeb.UserAuth
   import Protectora.AccountsFixtures
 
-  ##  @create_attrs %{
-  #    apelidos: "Rodríguez",
-  #    codigoPostal: 36_860,
-  #    dataNacemento: %{day: 14, month: 5, year: 2001},
-  #    direccion: "Canedo 32",
-  #    email: "carla@udc.es",
-  #    localidade: "Ponteareas",
-  #    nome: "Carla",
-  #    numeroConta: "ES12123412341234123412",
-  #    perioricidade: "Mensual"
-  #  }
+  @create_attrs %{
+    apelidos: "Rodríguez",
+    codigoPostal: 36_860,
+    dataNacemento: ~D[2001-05-14],
+    direccion: "Canedo 32",
+    email: "carla@udc.es",
+    localidade: "Ponteareas",
+    nome: "Carla",
+    numeroConta: "ES12123412341234123412",
+    perioricidade: "mensual",
+    cantidadeAporte: 20
+  }
 
   @update_attrs %{
     apelidos: "Estévez",
@@ -67,6 +68,40 @@ defmodule ProtectoraWeb.ColaboradorLiveTest do
 
       assert html =~ "Lista de colaboradores"
       assert html =~ colaborador.apelidos
+    end
+
+    test "saves new colaborador", %{conn: conn} do
+      {:ok, index_live, _html} = live(conn, Routes.index_index_path(conn, :index))
+
+      assert index_live |> element("a", "Colabore coa protectora") |> render_click() =~
+               "Colabore coa protectora"
+
+      assert_patch(index_live, Routes.index_index_path(conn, :new))
+
+      assert index_live
+             |> form("#colaborador-form", colaborador: @invalid_attrs)
+             |> render_change() =~ "non pode estar valeiro"
+
+      {:ok, view, html} =
+        index_live
+        |> form("#colaborador-form",
+          colaborador: %{
+            apelidos: "Rodríguez",
+            codigoPostal: 36_860,
+            dataNacemento: ~D[2001-05-14],
+            direccion: "Canedo 32",
+            email: "carla1@udc.es",
+            localidade: "Ponteareas",
+            nome: "Carla",
+            numeroConta: "ES12123412341234123412",
+            perioricidade: "mensual",
+            cantidadeAporte: 20
+          }
+        )
+        |> render_submit()
+        |> follow_redirect(conn, Routes.index_index_path(conn, :index))
+
+      assert html =~ "Colaborador creado correctamente"
     end
 
     test "updates colaborador in listing", %{conn: conn, colaborador: colaborador} do

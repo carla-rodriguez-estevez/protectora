@@ -66,9 +66,10 @@ defmodule ProtectoraWeb.AnimalLive.PadrinamentosList do
     </div>
     </div>
     <% end %>
-      <span><%= live_patch "New Padrinamento", to: Routes.animal_show_path(@socket, :new_padrinamento,  @animal.id) %></span>
+    <div class="flex justify-center items-center">
+      <span class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 mt-8"><%= live_patch "Convertirse en padriño", to: Routes.animal_show_path(@socket, :new_padrinamento,  @animal.id) %></span>
       </div>
-
+    </div>
     """
   end
 

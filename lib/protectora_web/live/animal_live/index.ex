@@ -9,7 +9,7 @@ defmodule ProtectoraWeb.AnimalLive.Index do
   end
 
   @impl true
-  def mount(params, _session, socket) do
+  def mount(params, session, socket) do
     if connected?(socket), do: Animais.subscribe()
 
     %{
@@ -34,7 +34,8 @@ defmodule ProtectoraWeb.AnimalLive.Index do
       total_pages: total_pages || 0,
       page_title: nil,
       live_action: :index,
-      animal: %Animal{}
+      animal: %Animal{},
+      user_token: Map.get(session, "user_token")
     ]
 
     {:ok, assign(socket, assigns)}
@@ -43,32 +44,41 @@ defmodule ProtectoraWeb.AnimalLive.Index do
   @impl true
   def handle_params(%{"animais" => page}, _url, socket) do
     assigns = get_and_assign_page(page)
-    {:noreply, apply_action(socket, socket.assigns.live_action, %{"page" => page})}
 
-    {:noreply, assign(socket, assigns)}
+    {:noreply,
+     apply_action(assign(socket, assigns), socket.assigns.live_action, %{"page" => page})}
   end
 
   def handle_params(params, _url, socket) do
-    assigns = get_and_assign_page(0)
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
-    {:noreply, assign(socket, assigns)}
+    if is_nil(socket.assigns.page_number) do
+      assigns = get_and_assign_page(0)
+      {:noreply, apply_action(assign(socket, assigns), socket.assigns.live_action, params)}
+    else
+      assigns = get_and_assign_page(socket.assigns.page_number)
+      {:noreply, apply_action(assign(socket, assigns), socket.assigns.live_action, params)}
+    end
   end
 
-  defp apply_action(socket, :edit, %{"id" => id}) do
-    socket
-    |> assign(:page_title, "Edit Animal")
-    |> assign(:animal, Animais.get_animal!(id))
-  end
+  # No longer used in this page
+  # defp apply_action(socket, :edit, %{"id" => id}) do
+  #   socket
+  #   |> assign(:page_title, "Editar animal")
+  #   |> assign(:animal, Animais.get_animal!(id))
+  #   |> assign(:live_action, :edit)
+  #   |> assign(:page_number, socket.assigns.page_number)
+  # end
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Animal")
+    |> assign(:page_title, "Engadir animal")
     |> assign(:animal, %Animal{})
+    |> assign(:live_action, :new)
+    |> assign(:page_number, socket.assigns.page_number)
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Animal")
+    |> assign(:page_title, "Lista animais")
     |> assign(:animal, nil)
   end
 

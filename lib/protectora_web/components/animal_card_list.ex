@@ -4,8 +4,6 @@ defmodule ProtectoraWeb.Components.AnimalCardList do
   """
   use Phoenix.LiveComponent
 
-  require Logger
-
   def mount(socket) do
     if connected?(socket), do: Protectora.Animais.subscribe()
 

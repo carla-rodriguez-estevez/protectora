@@ -21,7 +21,8 @@
   </li>
 </ul>
 
-<h1 class="flex flex-row space-x-4  my-4 text-2xl font-extrabold leading-none tracking-tight text-gray-900  dark:text-white"><div><%= length(@publicacion.imaxe_publicacion) %></div><div>imaxes</div></h1>
+
+<%= if length(@publicacion.imaxe_publicacion) > 0 do %>
 
 <div class="flex overflow-x-scroll my-4 mx-10  lg:mx-44">
    <%= for entry <- @publicacion.imaxe_publicacion do %>
@@ -37,6 +38,7 @@
         <button class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" phx-click="next">Seguinte</button>
       </div>
     </center>
+<% end %>
 <% end %>
 
 

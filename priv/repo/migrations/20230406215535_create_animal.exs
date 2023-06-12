@@ -11,7 +11,7 @@ defmodule Protectora.Repo.Migrations.CreateAnimal do
       add :tamano, :string
       add :raza, :string
       add :idade, :integer
-      add :descricion, :string
+      add :descricion, :text
       add :eUrxente, :boolean, default: false, null: false
       add :eEspecial, :boolean, default: false, null: false
 

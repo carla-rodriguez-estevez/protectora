@@ -32,6 +32,7 @@ defmodule ProtectoraWeb.PublicacionLive.Show do
      |> assign(:current_image, image)}
   end
 
+  @impl true
   def handle_event("prev", _, socket) do
     images = socket.assigns.publicacion.imaxe_publicacion
     images_length = length(images)

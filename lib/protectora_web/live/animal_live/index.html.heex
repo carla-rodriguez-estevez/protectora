@@ -1,4 +1,8 @@
-<h1>Listing Animal</h1>
+<div class=" flex flex-col justify-center mt-6">
+<div class="flex justify-center items-center">
+<h1 class="  mt-6 underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600 text-2xl sm:text-4xl font-extrabold leading-none tracking-tight text-gray-900  dark:text-white">Os nosos animais</h1>
+</div>
+
 
 <%= if @live_action in [:new, :edit] do %>
   <.modal return_to={Routes.animal_index_path(@socket, :index)}>
@@ -17,12 +21,20 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mx-12 my-12">
             <%= for animal <- @animais do %>
             <div class="flex justify-center">
-              <.live_component module={ProtectoraWeb.Components.Card} id={animal.id} animal={animal} rounded/>
+              <.live_component module={ProtectoraWeb.Components.Card} id={animal.id} animal={animal} user_token={@user_token} rounded/>
             </div>
           <% end %>
         </div>
       </div>
     </div>
+
+<%= if @user_token do %>
+<div class="flex justify-center items-center">
+<span class="flex justify-center items-center w-64 text-white my-4 bg-teal-500 border-0 py-2 px-6 focus:outline-none hover:bg-teal-600 rounded text-lg"><%= live_patch "Engadir un animal", to: Routes.animal_index_path(@socket, :new) %></span>
+</div>
+<% end %>
+
+
     <nav class="border-t border-gray-200 mb-16  mx-12">
       <ul class="flex my-2 items-center justify-center">
         <li class="">
@@ -56,4 +68,5 @@
         </li>
       </ul>
     </nav>
-<span><%= live_patch "New Animal", to: Routes.animal_index_path(@socket, :new) %></span>
+
+</div>
