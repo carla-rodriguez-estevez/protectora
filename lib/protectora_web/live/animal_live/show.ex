@@ -131,4 +131,5 @@ defmodule ProtectoraWeb.AnimalLive.Show do
   defp page_title(:edit_padrinamento), do: "Editar padriñamento"
   defp page_title(:new_rexistro), do: "Novo rexistro"
   defp page_title(:edit_rexistro), do: "Editar rexistro"
+  defp page_title(:email), do: "Solicitar adopción"
 end

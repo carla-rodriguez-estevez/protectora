@@ -24,6 +24,23 @@ defmodule ProtectoraWeb.AnimalLive.PadrinamentosList do
     </.modal>
     <% end %>
     <% end %>
+
+
+    <%= if @live_action in [:email] do %>
+    <%= if !is_nil(@animal) do%>
+    <.modal return_to={Routes.animal_show_path(@socket, :show, @animal)}>
+    <.live_component
+      module={ProtectoraWeb.AnimalLive.Email}
+      id={ :new}
+      title={@page_title}
+      action={@live_action}
+      animal={@animal}
+      return_to={Routes.animal_show_path(@socket, :show, @animal)}
+    />
+    </.modal>
+    <% end %>
+    <% end %>
+
       <%= if @user_token do %>
 
     <div class=" flex flex-col justify-center">

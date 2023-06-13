@@ -28,11 +28,23 @@ config :protectora, ProtectoraWeb.Endpoint,
 # locally. You can see the emails in your browser, at "/dev/mailbox".
 #
 # For production it's recommended to configure a different adapter
-# at the `config/runtime.exs`.
-config :protectora, Protectora.Mailer, adapter: Swoosh.Adapters.Local
+# # at the `config/runtime.exs`.
+# config :protectora, Protectora.Mailer,
+#   adapter: Swoosh.Adapters.Gmail,
+#   access_token:
+#     {:system,
+#      "ya29.a0AWY7CkkUDAIlEdMUUYNhZ_4M-i1jnkP7nD5E44Gakc802Ti8aD_3UZ8X1PUa_Dg0qahgHWJdQsjRvRYg4re9WOQf_KxTU910UZmPtGM09FfT8gTHz1DdQG4CzND700mVQlhZJ89JJN3zjmDpGoR4BNFIicqRaCgYKAdQSARMSFQG1tDrp-CtppWcJpLufDADTicVrYA0163"}
+config :protectora, Protectora.Mailer,
+  adapter: Swoosh.Adapters.SMTP,
+  relay: "smtp.gmail.com",
+  port: 587,
+  username: "protectoratfg@gmail.com",
+  password: "wgnhbaqsjyylcvvm",
+  tls: :always,
+  ssl: false
 
 # Swoosh API client is needed for adapters other than SMTP.
-config :swoosh, :api_client, false
+config :swoosh, :api_client, Swoosh.ApiClient.Hackney
 
 # Configure esbuild (the version is required)
 config :esbuild,
