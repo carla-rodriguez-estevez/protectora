@@ -124,26 +124,67 @@ defmodule ProtectoraWeb.AnimalLiveTest do
     end
 
     # No longer available
-    # test "updates animal within modal", %{conn: conn, animal: animal} do
-    #   {:ok, show_live, _html} = live(conn, Routes.animal_show_path(conn, :show, animal))
+    test "updates animal within modal", %{conn: conn, animal: animal} do
+      conn =
+        conn
+        |> Map.replace!(:secret_key_base, ProtectoraWeb.Endpoint.config(:secret_key_base))
+        |> init_test_session(%{})
 
-    #   assert show_live |> element("a", "Edit") |> render_click() =~
-    #            "Edit Animal"
+      token = Protectora.Accounts.generate_user_session_token(user_fixture())
 
-    #   assert_patch(show_live, Routes.animal_show_path(conn, :edit, animal))
+      conn =
+        conn
+        |> put_session(:user_token, token)
 
-    #   assert show_live
-    #          |> form("#animal-form", animal: @invalid_attrs)
-    #          |> render_change() =~ "can&#39;t be blank"
+      {:ok, show_live, _html} = live(conn, Routes.animal_show_path(conn, :show, animal))
 
-    #   {:ok, _, html} =
-    #     show_live
-    #     |> form("#animal-form", animal: @update_attrs)
-    #     |> render_submit()
-    #     |> follow_redirect(conn, Routes.animal_show_path(conn, :show, animal))
+      assert show_live |> element("a", "Editar animal") |> render_click() =~
+               "Editar Animal"
 
-    #   assert html =~ "Animal actualizado correctamente"
-    #   assert html =~ "Pequena cadela moi querida e cariñosa"
-    # end
+      assert_patch(show_live, Routes.animal_show_path(conn, :edit, animal))
+
+      assert show_live
+             |> form("#animal-form", animal: @invalid_attrs)
+             |> render_change() =~ "non pode estar valeiro"
+
+      {:ok, _, html} =
+        show_live
+        |> form("#animal-form", animal: @update_attrs)
+        |> render_submit()
+        |> follow_redirect(conn, Routes.animal_show_path(conn, :show, animal))
+
+      assert html =~ "Animal actualizado correctamente"
+      assert html =~ "Pequena cadela moi querida e cariñosa"
+    end
+
+    test "sends adoption", %{conn: conn, animal: animal} do
+      {:ok, show_live, _html} = live(conn, Routes.animal_show_path(conn, :show, animal))
+
+      assert show_live |> element("a", "Solicitar adopción") |> render_click() =~
+               "Solicitar adopción"
+
+      assert_patch(show_live, "/animal/" <> animal.id <> "/email")
+
+      assert show_live
+             |> form("#email-form",
+               adoption_email: %{nome: nil, telefono: nil, email: nil, nota: nil}
+             )
+             |> render_submit() =~ "non pode estar valeiro"
+
+      {:ok, _, html} =
+        show_live
+        |> form("#email-form",
+          adoption_email: %{
+            nome: "test suite",
+            telefono: 986_660_754,
+            email: "carla@udc.es",
+            nota: nil
+          }
+        )
+        |> render_submit()
+        |> follow_redirect(conn, Routes.animal_show_path(conn, :show, animal))
+
+      assert html =~ "Petición de adopción enviada"
+    end
   end
 end

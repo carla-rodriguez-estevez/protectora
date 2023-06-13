@@ -55,6 +55,8 @@ defmodule ProtectoraWeb.Router do
     live("/animal/:id", AnimalLive.Show, :show)
 
     live("/animal/:id/padrinamento/new", AnimalLive.Show, :new_padrinamento)
+    live("/animal/:id/email", AnimalLive.Show, :email)
+
     live("/padrinamento/new", PadrinamentoLive.Index, :new)
   end
 

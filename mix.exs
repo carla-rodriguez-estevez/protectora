@@ -62,7 +62,11 @@ defmodule Protectora.MixProject do
       {:scrivener_ecto, "~> 2.0"},
       # authentication dependencies
       {:guardian, "~> 2.0"},
-      {:guardian_db, "~> 2.0"}
+      {:guardian_db, "~> 2.0"},
+      # mails
+      {:gen_smtp, "~> 1.1.1"},
+      {:hackney, "~> 1.18.0"},
+      {:mail, ">= 0.0.0"}
     ]
   end
 

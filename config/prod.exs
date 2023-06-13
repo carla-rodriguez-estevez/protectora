@@ -30,7 +30,7 @@ config :protectora, Protectora.Repo,
 #  check_origin: ["https://example.com"]
 # Do not print debug messages in production
 config :logger, level: :info
-
+config :swoosh, local: false
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key
