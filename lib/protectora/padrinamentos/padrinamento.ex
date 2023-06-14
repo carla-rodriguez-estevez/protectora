@@ -7,8 +7,8 @@ defmodule Protectora.Padrinamentos.Padrinamento do
   schema "padrinamento" do
     field(:cantidade_aporte, :decimal)
     field(:perioricidade, :string)
-    belongs_to :animal, Protectora.Animais.Animal
-    belongs_to :colaborador, Protectora.Colaboradores.Colaborador
+    belongs_to(:animal, Protectora.Animais.Animal)
+    belongs_to(:colaborador, Protectora.Colaboradores.Colaborador)
 
     timestamps()
   end
@@ -18,7 +18,7 @@ defmodule Protectora.Padrinamentos.Padrinamento do
     padrinamento
     |> cast(attrs, [:perioricidade, :cantidade_aporte, :animal_id, :colaborador_id])
     |> validate_required([:perioricidade, :cantidade_aporte, :animal_id],
-      message: "non pode estar valeiro"
+      message: "non pode estar baleiro"
     )
     |> validate_number(:cantidade_aporte,
       greater_than: 0,

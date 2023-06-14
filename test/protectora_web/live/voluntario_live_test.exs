@@ -62,7 +62,7 @@ defmodule ProtectoraWeb.VoluntarioLiveTest do
 
       assert index_live
              |> form("#voluntario-form", voluntario: @invalid_attrs)
-             |> render_submit() =~ "non pode estar valeiro"
+             |> render_submit() =~ "non pode estar baleiro"
 
       {:ok, _, html} =
         index_live
@@ -96,7 +96,7 @@ defmodule ProtectoraWeb.VoluntarioLiveTest do
 
       assert index_live
              |> form("#voluntario-form", voluntario: @invalid_attrs)
-             |> render_submit() =~ "non pode estar valeiro"
+             |> render_submit() =~ "non pode estar baleiro"
 
       {:ok, _, html} =
         index_live
@@ -168,7 +168,7 @@ defmodule ProtectoraWeb.VoluntarioLiveTest do
 
       assert show_live
              |> form("#voluntario-form", voluntario: @invalid_attrs)
-             |> render_submit() =~ "non pode estar valeiro"
+             |> render_submit() =~ "non pode estar baleiro"
 
       {:ok, _, html} =
         show_live

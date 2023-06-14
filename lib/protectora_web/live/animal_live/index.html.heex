@@ -17,6 +17,27 @@
   </.modal>
 <% end %>
     <div class="content" id="animals list">
+<.form
+  class="flex flex-col sm:ml-24 sm:flex-row  mt-4 mx-8 gap-4 max-w-xs "
+  phx-submit="filter-form"
+  id="filter-form"
+  let={f}
+  for={@filters}
+  >
+
+  <div class="flex flex-col lg:flex-row mt-12 gap-4">
+    <%= text_input f, :nome, placeholder: "Nome", style: "min-width: 140px;" %>
+    <%= text_input f, :raza, placeholder: "Raza", style: "min-width: 140px;" %>
+    <%= select f, :tipo, tipos: ["", "can", "cadela", "gato", "gata", "roedor", "roedora", "outro", "outra"] %>
+    <%= select f, :tamano, tamaños: ["", "grande", "mediano", "pequeno"] %>
+
+    </div>
+<div class="flex justify-center items-end">
+<div class=" inline-flex text-white bg-teal-500 border-0 py-2 px-6 focus:outline-none hover:bg-teal-600 rounded text-lg max-w-fit">
+  <%= submit "Filtrar" %>
+  </div>
+  </div>
+</.form>
       <div class="container mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mx-12 my-12">
             <%= for animal <- @animais do %>

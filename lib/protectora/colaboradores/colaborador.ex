@@ -52,7 +52,7 @@ defmodule Protectora.Colaboradores.Colaborador do
         :email,
         :numeroConta
       ],
-      message: "non pode estar valeiro"
+      message: "non pode estar baleiro"
     )
     |> validate_format(:email, @mail_regex, message: "Debe conter o signo @ e ningún espacio")
     |> validate_format(:numeroConta, @account_regex,
@@ -111,7 +111,7 @@ defmodule Protectora.Colaboradores.Colaborador do
         :cantidadeAporte,
         :perioricidade
       ],
-      message: "non pode estar valeiro"
+      message: "non pode estar baleiro"
     )
     |> validate_format(:email, @mail_regex, message: "Debe conter o signo @ e ningún espacio")
     |> validate_format(:numeroConta, @account_regex,

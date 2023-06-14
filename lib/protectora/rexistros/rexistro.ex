@@ -5,10 +5,10 @@ defmodule Protectora.Rexistros.Rexistro do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "rexistro" do
-    field :descricion, :string
-    field :prezo, :float
-    field :titulo, :string
-    belongs_to :animal, Protectora.Animais.Animal
+    field(:descricion, :string)
+    field(:prezo, :float)
+    field(:titulo, :string)
+    belongs_to(:animal, Protectora.Animais.Animal)
 
     timestamps()
   end
@@ -18,7 +18,7 @@ defmodule Protectora.Rexistros.Rexistro do
     rexistro
     |> cast(attrs, [:titulo, :descricion, :prezo, :animal_id])
     |> validate_required([:titulo, :descricion, :prezo, :animal_id],
-      message: "non pode estar valeiro"
+      message: "non pode estar baleiro"
     )
     |> validate_number(:prezo,
       greater_than: 0,

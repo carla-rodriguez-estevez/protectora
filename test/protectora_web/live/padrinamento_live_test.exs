@@ -70,7 +70,7 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
 
       assert index_live
              |> form("#padrinamento-form", padrinamento: @invalid_attrs)
-             |> render_change() =~ "non pode estar valeiro"
+             |> render_change() =~ "non pode estar baleiro"
 
       {:ok, colaborador} =
         %{}
@@ -124,7 +124,7 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
 
       assert index_live
              |> form("#padrinamento-form", padrinamento: @invalid_attrs)
-             |> render_change() =~ "non pode estar valeiro"
+             |> render_change() =~ "non pode estar baleiro"
 
       animal = animal_fixture()
 
@@ -226,7 +226,7 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
 
       assert show_live
              |> form("#padrinamento-form", padrinamento: @invalid_attrs)
-             |> render_change() =~ "non pode estar valeiro"
+             |> render_change() =~ "non pode estar baleiro"
 
       animal = animal_fixture()
 

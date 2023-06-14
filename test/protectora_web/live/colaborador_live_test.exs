@@ -80,7 +80,7 @@ defmodule ProtectoraWeb.ColaboradorLiveTest do
 
       assert index_live
              |> form("#colaborador-form", colaborador: @invalid_attrs)
-             |> render_change() =~ "non pode estar valeiro"
+             |> render_change() =~ "non pode estar baleiro"
 
       {:ok, view, html} =
         index_live
@@ -125,7 +125,7 @@ defmodule ProtectoraWeb.ColaboradorLiveTest do
 
       assert index_live
              |> form("#colaborador-form", colaborador: @invalid_attrs)
-             |> render_change() =~ "non pode estar valeiro"
+             |> render_change() =~ "non pode estar baleiro"
 
       {:ok, _, html} =
         index_live

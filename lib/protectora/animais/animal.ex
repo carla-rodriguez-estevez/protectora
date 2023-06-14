@@ -50,7 +50,7 @@ defmodule Protectora.Animais.Animal do
         :eUrxente,
         :eEspecial
       ],
-      message: "non pode estar valeiro"
+      message: "non pode estar baleiro"
     )
     |> validate_number(:idade,
       greater_than: -1,
