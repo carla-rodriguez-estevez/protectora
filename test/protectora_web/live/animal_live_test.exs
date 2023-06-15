@@ -82,7 +82,7 @@ defmodule ProtectoraWeb.AnimalLiveTest do
 
       assert index_live
              |> form("#animal-form", animal: @invalid_attrs)
-             |> render_change() =~ "non pode estar valeiro"
+             |> render_change() =~ "non pode estar baleiro"
 
       {:ok, _, html} =
         index_live
@@ -145,7 +145,7 @@ defmodule ProtectoraWeb.AnimalLiveTest do
 
       assert show_live
              |> form("#animal-form", animal: @invalid_attrs)
-             |> render_change() =~ "non pode estar valeiro"
+             |> render_change() =~ "non pode estar baleiro"
 
       {:ok, _, html} =
         show_live
@@ -169,7 +169,7 @@ defmodule ProtectoraWeb.AnimalLiveTest do
              |> form("#email-form",
                adoption_email: %{nome: nil, telefono: nil, email: nil, nota: nil}
              )
-             |> render_submit() =~ "non pode estar valeiro"
+             |> render_submit() =~ "non pode estar baleiro"
 
       {:ok, _, html} =
         show_live

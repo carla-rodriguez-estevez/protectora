@@ -25,8 +25,41 @@ defmodule Protectora.Animais do
     Repo.all(Animal)
   end
 
-  def list_animal_paginated(params \\ []) do
-    Repo.paginate(Animal |> preload([:imaxe_animal]), params)
+  # def list_animal_paginated(params \\ []) do
+  #   Repo.paginate(Animal |> preload([:imaxe_animal]), params)
+  # end
+  def list_animal_paginated(params \\ [], filters \\ %{}) do
+    query = Animal |> preload([:imaxe_animal])
+
+    query_name =
+      if filters["nome"] do
+        from(a in query, where: ilike(a.nome, ^"%#{filters["nome"]}%"))
+      else
+        query
+      end
+
+    query_tipo =
+      if filters["tipo"] do
+        from(a in query_name, where: ilike(a.tipo, ^"%#{filters["tipo"]}%"))
+      else
+        query
+      end
+
+    query_tamano =
+      if filters["tamano"] do
+        from(a in query_tipo, where: ilike(a.tamano, ^"%#{filters["tamano"]}%"))
+      else
+        query
+      end
+
+    query_raza =
+      if filters["raza"] do
+        from(a in query_tamano, where: ilike(a.raza, ^"%#{filters["raza"]}%"))
+      else
+        query
+      end
+
+    Repo.paginate(query_raza, params)
   end
 
   @doc """

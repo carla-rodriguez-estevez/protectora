@@ -65,7 +65,7 @@ defmodule ProtectoraWeb.RexistroLiveTest do
 
       assert index_live
              |> form("#rexistro-form", rexistro: @invalid_attrs)
-             |> render_change() =~ "non pode estar valeiro"
+             |> render_change() =~ "non pode estar baleiro"
 
       {:ok, _, html} =
         index_live
@@ -104,7 +104,7 @@ defmodule ProtectoraWeb.RexistroLiveTest do
 
       assert index_live
              |> form("#rexistro-form", rexistro: @invalid_attrs)
-             |> render_change() =~ "non pode estar valeiro"
+             |> render_change() =~ "non pode estar baleiro"
 
       {:ok, _, html} =
         index_live
@@ -177,7 +177,7 @@ defmodule ProtectoraWeb.RexistroLiveTest do
 
       assert show_live
              |> form("#rexistro-form", rexistro: @invalid_attrs)
-             |> render_change() =~ "non pode estar valeiro"
+             |> render_change() =~ "non pode estar baleiro"
 
       {:ok, _, html} =
         show_live

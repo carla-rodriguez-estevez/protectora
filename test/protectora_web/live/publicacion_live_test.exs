@@ -47,7 +47,7 @@ defmodule ProtectoraWeb.PublicacionLiveTest do
 
       assert index_live
              |> form("#publicacion-form", publicacion: @invalid_attrs)
-             |> render_change() =~ "non pode estar valeiro"
+             |> render_change() =~ "non pode estar baleiro"
 
       {:ok, _, html} =
         index_live
@@ -143,7 +143,7 @@ defmodule ProtectoraWeb.PublicacionLiveTest do
 
       assert show_live
              |> form("#publicacion-form", publicacion: @invalid_attrs)
-             |> render_change() =~ "non pode estar valeiro"
+             |> render_change() =~ "non pode estar baleiro"
 
       {:ok, _, html} =
         show_live

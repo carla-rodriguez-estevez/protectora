@@ -15,7 +15,7 @@ defmodule Protectora.Animais.AdoptionEmail do
   def changeset(adoption, attrs \\ %{}) do
     adoption
     |> cast(attrs, [:nome, :telefono, :email, :nota])
-    |> validate_required([:nome, :telefono, :email], message: "non pode estar valeiro")
+    |> validate_required([:nome, :telefono, :email], message: "non pode estar baleiro")
     |> validate_number(:telefono,
       greater_than: 99_999_999,
       less_than: 999_999_999,
