@@ -15,7 +15,11 @@ defmodule ProtectoraWeb.ImaxeAnimalView do
   end
 
   def render("imaxe_animal.json", %{imaxe_animal: imaxe_animal}) do
-    file = File.read!(String.replace(upload_directory(), "/publicacions", "") <> imaxe_animal.path_imaxe)
+    file =
+      File.read!(
+        String.replace(upload_directory(), "/publicacions", "") <> imaxe_animal.path_imaxe
+      )
+
     file_base_64 = "data:image/gif;base64," <> Base.encode64(file)
 
     %{

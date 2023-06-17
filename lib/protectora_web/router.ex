@@ -75,8 +75,6 @@ defmodule ProtectoraWeb.Router do
   scope "/api", ProtectoraWeb do
     pipe_through(:api)
 
-    get("/", DefaultController, :index)
-
     # iniciar sesion
     post("/voluntario/sign_in", VoluntarioController, :sign_in)
     post("/voluntario", VoluntarioController, :create)
@@ -205,7 +203,6 @@ defmodule ProtectoraWeb.Router do
 
     live("/padrinamento/:id", PadrinamentoLive.Show, :show)
     live("/padrinamento/:id/show/edit", PadrinamentoLive.Show, :edit)
-    live("/animal/:id/padrinamento/edit", AnimalLive.Show, :edit_padrinamento)
     live("/animal/:id/rexistro/new", AnimalLive.Show, :new_rexistro)
     live("/animal/:idrexistro/rexistro/edit", AnimalLive.Show, :edit_rexistro)
 

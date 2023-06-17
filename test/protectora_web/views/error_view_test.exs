@@ -13,4 +13,22 @@ defmodule ProtectoraWeb.ErrorViewTest do
     assert render_to_string(ProtectoraWeb.ErrorView, "500.html", []) ==
              "Internal Server Error"
   end
+
+  test "renders 401 error" do
+    assert_raise ProtectoraWeb.Auth.ErrorResponse.Unauthorized, fn ->
+      raise ProtectoraWeb.Auth.ErrorResponse.Unauthorized
+    end
+  end
+
+  test "renders 403 error" do
+    assert_raise ProtectoraWeb.Auth.ErrorResponse.Forbidden, fn ->
+      raise ProtectoraWeb.Auth.ErrorResponse.Forbidden
+    end
+  end
+
+  test "renders 404 error" do
+    assert_raise ProtectoraWeb.Auth.ErrorResponse.NotFound, fn ->
+      raise ProtectoraWeb.Auth.ErrorResponse.NotFound
+    end
+  end
 end

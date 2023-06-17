@@ -22,6 +22,10 @@ config :protectora, ProtectoraWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
   server: false
 
+config :protectora,
+  publicacions_directory: System.get_env("PROTECTORA_PUBLICACIONS_DIRECTORY") || "/publicacions",
+  animais_directory: System.get_env("PROTECTORA_ANIMAIS_DIRECTORY") || "/animais"
+
 # In test we don't send emails.
 config :protectora, Protectora.Mailer, adapter: Swoosh.Adapters.Test
 

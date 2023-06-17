@@ -10,8 +10,6 @@ defmodule Protectora.Animais do
   alias Protectora.Animais.ImaxeAnimal
   alias Protectora.Padrinamentos
 
-  require Logger
-
   @doc """
   Returns the list of animal.
 

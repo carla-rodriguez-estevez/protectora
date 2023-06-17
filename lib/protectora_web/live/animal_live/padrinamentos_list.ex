@@ -10,7 +10,7 @@ defmodule ProtectoraWeb.AnimalLive.PadrinamentosList do
     ~H"""
       <div id='padrin@s'>
 
-    <%= if @live_action in [:new_padrinamento, :edit_padrinamento] do %>
+    <%= if @live_action in [:new_padrinamento] do %>
     <%= if !is_nil(@animal) do%>
     <.modal return_to={Routes.animal_show_path(@socket, :show, @animal)}>
     <.live_component
@@ -73,7 +73,6 @@ defmodule ProtectoraWeb.AnimalLive.PadrinamentosList do
 
         <td scope="row"  class="flex flex-col px-6 py-4 bg-gray-50 font-medium text-gray-900 whitespace-nowrap dark:text-white">
 
-          <span class="underline underline-offset-3 decoration-2 decoration-black-400 "><%= live_patch "Editar", to: Routes.animal_show_path(@socket, :edit_padrinamento, @animal) %></span>
           <span class="underline underline-offset-3 decoration-2 decoration-black-400 "><%= link "Eliminar", to: "#", phx_click: "delete", phx_value_id: padrinamento.id, data: [confirm: "Está seguro de realizar este borrado permanente?"] %></span>
         </td>
       </tr>

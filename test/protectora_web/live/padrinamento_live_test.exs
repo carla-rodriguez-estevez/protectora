@@ -48,7 +48,6 @@ defmodule ProtectoraWeb.PadrinamentoLiveTest do
       assert html =~ padrinamento.perioricidade
     end
 
-    # Functionallity not available
     test "saves new padrinamento", %{conn: conn, animal: animal} do
       conn =
         conn
