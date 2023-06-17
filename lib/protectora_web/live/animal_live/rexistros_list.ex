@@ -3,6 +3,8 @@ defmodule ProtectoraWeb.AnimalLive.RexistrosList do
   alias Protectora.Rexistros
   alias Protectora.Rexistros.Rexistro
 
+  require Logger
+
   @impl true
   def update(assigns, socket) do
     case assigns.live_action do
@@ -75,11 +77,11 @@ defmodule ProtectoraWeb.AnimalLive.RexistrosList do
       <%= for rexistro <- @rexistro_collection do %>
         <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700" id={"rexistro-#{rexistro.id}"}>
           <td scope="row"  class="px-6 py-4 font-medium bg-gray-50 text-gray-900 whitespace-nowrap dark:text-white"><%= rexistro.titulo %></td>
-          <td scope="row"  class="hidden md:table-cell px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white w-18 truncate long-cell"><%= rexistro.descricion %></td>
+          <td scope="row"  class="hidden md:table-cell px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white max-w-lg truncate "><%= rexistro.descricion %></td>
           <td scope="row"  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white "><%= rexistro.prezo %>€</td>
           <td scope="row"  class="hidden md:table-cell px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white underline underline-offset-3 decoration-2 decoration-black-400 "><span><%= live_redirect "Ver detalle ", to: Routes.rexistro_show_path(@socket, :show, rexistro) %></span></td>
           <td scope="row"  class="flex flex-col px-6 py-4 bg-gray-50 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-            <span class="underline underline-offset-3 decoration-2 decoration-black-400 "><%= live_patch "Editar", to:  Routes.animal_show_path(@socket, :edit_rexistro,  rexistro)  %></span>
+            <span class="underline underline-offset-3 decoration-2 decoration-black-400 "><%= live_patch "Editar", to:  Routes.animal_show_path(@socket, :edit_rexistro,  rexistro), id: "edit" %></span>
             <span class="underline underline-offset-3 decoration-2 decoration-black-400 "><%= link "Eliminar", to: "#", phx_click: "delete-rexistro", phx_value_id: rexistro.id, data: [confirm: "Está seguro de querer realizar esta acción?"] %></span>
           </td>
         </tr>

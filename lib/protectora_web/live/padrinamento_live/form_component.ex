@@ -53,19 +53,6 @@ defmodule ProtectoraWeb.PadrinamentoLive.FormComponent do
     end
   end
 
-  defp save_padrinamento(socket, :edit_padrinamento, padrinamento_params) do
-    case Padrinamentos.update_padrinamento(socket.assigns.padrinamento, padrinamento_params) do
-      {:ok, _padrinamento} ->
-        {:noreply,
-         socket
-         |> put_flash(:info, "Padriñamento actualizado correctamente")
-         |> push_redirect(to: socket.assigns.return_to)}
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign(socket, :changeset, changeset)}
-    end
-  end
-
   defp save_padrinamento(socket, :new, padrinamento_params) do
     case Padrinamentos.create_padrinamento(padrinamento_params) do
       {:ok, _padrinamento} ->

@@ -15,8 +15,11 @@ defmodule ProtectoraWeb.ImaxePublicacionView do
   end
 
   def render("imaxe_publicacion.json", %{imaxe_publicacion: imaxe_publicacion}) do
+    file =
+      File.read!(
+        String.replace(upload_directory(), "/publicacions", "") <> imaxe_publicacion.path_imaxe
+      )
 
-    file = File.read!(String.replace(upload_directory(), "/publicacions", "") <> imaxe_publicacion.path_imaxe)
     file_base_64 = "data:image/gif;base64," <> Base.encode64(file)
 
     %{

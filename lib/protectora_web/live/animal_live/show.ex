@@ -46,13 +46,6 @@ defmodule ProtectoraWeb.AnimalLive.Show do
     |> assign(:padrinamento, %Padrinamento{})
   end
 
-  defp apply_action(socket, :edit_padrinamento, _params) do
-    socket
-    |> assign(:page_title, "Editar Padriñamento")
-    |> assign(:live_action, :edit_padrinamento)
-    |> assign(:padrinamento, socket.assigns.padrinamento)
-  end
-
   defp apply_action(socket, :new_rexistro, _params) do
     socket
     |> assign(:page_title, "Novo rexistro")
@@ -64,11 +57,22 @@ defmodule ProtectoraWeb.AnimalLive.Show do
   defp apply_action(socket, :edit_rexistro, %{"idrexistro" => id}) do
     rexistro = Rexistros.get_rexistro!(id)
 
+    animal = Animais.get_animal!(rexistro.animal.id)
+
+    image =
+      if length(animal.imaxe_animal) > 0 do
+        Enum.at(animal.imaxe_animal, 0)
+      else
+        nil
+      end
+
     socket
     |> assign(:rexistro, id)
     |> assign(:page_title, "Editar Padriñamento")
     |> assign(:live_action, :edit_rexistro)
-    |> assign(:animal, Animais.get_animal!(rexistro.animal.id))
+    |> assign(:current_image, image)
+    |> assign(:index_image, 0)
+    |> assign(:animal, animal)
   end
 
   @impl true
@@ -128,7 +132,6 @@ defmodule ProtectoraWeb.AnimalLive.Show do
   defp page_title(:show), do: "Ensinar Animal"
   defp page_title(:edit), do: "Editar Animal"
   defp page_title(:new_padrinamento), do: "Novo padriñamento"
-  defp page_title(:edit_padrinamento), do: "Editar padriñamento"
   defp page_title(:new_rexistro), do: "Novo rexistro"
   defp page_title(:edit_rexistro), do: "Editar rexistro"
   defp page_title(:email), do: "Solicitar adopción"

@@ -108,6 +108,11 @@ defmodule ProtectoraWeb.AnimalControllerTest do
       conn = post(conn, Routes.animal_path(conn, :create), %{animal: @invalid_attrs, imaxes: []})
       assert json_response(conn, 422)["errors"] != %{}
     end
+
+    test "render error when the user is not authenticated", %{conn: conn} do
+      conn = post(conn, Routes.animal_path(conn, :create), %{animal: @invalid_attrs, imaxes: []})
+      assert json_response(conn, 401)["error"] == "unauthenticated"
+    end
   end
 
   describe "update animal" do
