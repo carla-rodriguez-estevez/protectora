@@ -75,8 +75,6 @@ defmodule ProtectoraWeb.Router do
   scope "/api", ProtectoraWeb do
     pipe_through(:api)
 
-    get("/", DefaultController, :index)
-
     # iniciar sesion
     post("/voluntario/sign_in", VoluntarioController, :sign_in)
     post("/voluntario", VoluntarioController, :create)
