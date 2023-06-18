@@ -28,7 +28,7 @@ defmodule ProtectoraWeb.VoluntarioController do
     end
   end
 
-  def sign_in(conn, %{"email" => email, "hash_password" => password}) do
+  def sign_in(conn, %{"email" => email, "password" => password}) do
     authorize_account(conn, email, password)
   end
 
