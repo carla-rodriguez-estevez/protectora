@@ -68,10 +68,6 @@ defmodule ProtectoraWeb.Router do
     conn |> json(%{errors: message}) |> halt()
   end
 
-  # defp handle_errors(conn, rest) do
-  #   Logger.warn(rest)
-  # end
-
   scope "/api", ProtectoraWeb do
     pipe_through(:api)
 

@@ -56,15 +56,6 @@ defmodule ProtectoraWeb.PublicacionLive.Index do
     end
   end
 
-  # defp apply_action(socket, :edit, %{"id" => id}) do
-  #   Logger.warn("Edito")
-  #   Logger.warn(id)
-
-  #   socket
-  #   |> assign(:page_title, "Edit Publicacion")
-  #   |> assign(:publicacion, Publicacions.get_publicacion!(id))
-  # end
-
   defp apply_action(socket, :new, params) do
     socket
     |> assign(:page_title, "Nova Publicación")

@@ -2,11 +2,10 @@
 > Aplicación web para a xestión dunha protectora de animais usando Phoenix.
 >
 > Traballo de Fin de Grao de Carla Rodríguez Estévez
-> 
+>
 > Universidade da Coruña, Facultade de Informática
-> 
+>
 > Mención enxeñaría do software
-
 
 ## Installing / Getting started
 
