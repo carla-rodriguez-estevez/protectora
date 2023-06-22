@@ -20,78 +20,78 @@ msgstr ""
 
 ## From Ecto.Changeset.put_change/3
 msgid "is invalid"
-msgstr ""
+msgstr "dato inválido"
 
 ## From Ecto.Changeset.validate_acceptance/3
 msgid "must be accepted"
-msgstr ""
+msgstr "debe estar aceptado"
 
 ## From Ecto.Changeset.validate_format/3
 msgid "has invalid format"
-msgstr ""
+msgstr "ten un formato inválido"
 
 ## From Ecto.Changeset.validate_subset/3
 msgid "has an invalid entry"
-msgstr ""
+msgstr "ten unha entrada incorrecta"
 
 ## From Ecto.Changeset.validate_exclusion/3
 msgid "is reserved"
-msgstr ""
+msgstr "está reservado"
 
 ## From Ecto.Changeset.validate_confirmation/3
 msgid "does not match confirmation"
-msgstr ""
+msgstr "non encaixa coa confirmación"
 
 ## From Ecto.Changeset.no_assoc_constraint/3
 msgid "is still associated with this entry"
-msgstr ""
+msgstr "segue asociado coa entrada"
 
 msgid "are still associated with this entry"
-msgstr ""
+msgstr "seguen estando asociados coa entrada"
 
 ## From Ecto.Changeset.validate_length/3
 msgid "should be %{count} character(s)"
 msgid_plural "should be %{count} character(s)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Deberían haber %{count} letra(s)"
+msgstr[1] "Deberían haber %{count} letra(s)"
 
 msgid "should have %{count} item(s)"
 msgid_plural "should have %{count} item(s)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Deberían haber %{count} elemento(s)"
+msgstr[1] "Deberían haber %{count} elemento(s)"
 
 msgid "should be at least %{count} character(s)"
 msgid_plural "should be at least %{count} character(s)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Deberían haber a lo menos %{count} letra(s)"
+msgstr[1] "Deberían haber a lo menos %{count} letra(s)"
 
 msgid "should have at least %{count} item(s)"
 msgid_plural "should have at least %{count} item(s)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Deberían haber a lo menos %{count} elemento(s)"
+msgstr[1] "Deberían haber a lo menos %{count} elemento(s)"
 
 msgid "should be at most %{count} character(s)"
 msgid_plural "should be at most %{count} character(s)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Deberían haber como moito %{count} letras(s)"
+msgstr[1] "Deberían haber como moito %{count} letras(s)"
 
 msgid "should have at most %{count} item(s)"
 msgid_plural "should have at most %{count} item(s)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Deberían haber como moito %{count} elemento(s)"
+msgstr[1] "Deberían haber como moito %{count} elemento(s)"
 
 ## From Ecto.Changeset.validate_number/3
 msgid "must be less than %{number}"
-msgstr ""
+msgstr "Deben ser menos que %{number}"
 
 msgid "must be greater than %{number}"
-msgstr ""
+msgstr "Debe ser maior que %{number}"
 
 msgid "must be less than or equal to %{number}"
-msgstr ""
+msgstr "Debe ser menor ou igual a %{number}"
 
 msgid "must be greater than or equal to %{number}"
-msgstr ""
+msgstr "Debe ser maior ou igual que %{number}"
 
 msgid "must be equal to %{number}"
-msgstr ""
+msgstr "Debe ser igual a %{number}"
